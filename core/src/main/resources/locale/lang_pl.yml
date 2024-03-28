@@ -105,9 +105,9 @@ ui:
     spawn: Spawn
     worldborder: Granica świata
   title: Pl3xMap
-  block-and-biome-lang-file: en_us.json # IDK?
+  block-and-biome-lang-file: en_us.json # webmap/public/lang/
   blockinfo:
-    label: Informacje o bloku # Or keep it BlockInfo?
+    label: BlockInfo
     value: <block><br /><biome>
   coords:
     label: Współrzędne
