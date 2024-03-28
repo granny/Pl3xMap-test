@@ -160,6 +160,8 @@ public class UpdateSettingsData extends Task {
         Map<String, Object> lang = new LinkedHashMap<>();
         lang.put("title", Lang.UI_TITLE);
         lang.put("langFile", Lang.UI_BLOCK_AND_BIOME_LANG_FILE);
+        lang.put("unknownBlock", Lang.UI_UNKNOWN_BLOCK);
+        lang.put("unknownBiome", Lang.UI_UNKNOWN_BIOME);
         lang.put("blockInfo", Map.of("label", Lang.UI_BLOCKINFO_LABEL, "value", Lang.UI_BLOCKINFO_VALUE));
         lang.put("coords", Map.of("label", Lang.UI_COORDS_LABEL, "value", Lang.UI_COORDS_VALUE));
         lang.put("layers", Map.of("label", Lang.UI_LAYERS_LABEL, "value", Lang.UI_LAYERS_VALUE));

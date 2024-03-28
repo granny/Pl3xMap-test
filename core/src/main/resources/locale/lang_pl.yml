@@ -106,6 +106,8 @@ ui:
     worldborder: Granica świata
   title: Pl3xMap
   block-and-biome-lang-file: en_us.json # webmap/public/lang/
+  unknown-block: Nieznany blok
+  unknown-biome: Nieznany biom
   blockinfo:
     label: BlockInfo
     value: <block><br /><biome>

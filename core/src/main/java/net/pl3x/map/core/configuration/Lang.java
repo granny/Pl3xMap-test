@@ -200,6 +200,10 @@ public final class Lang extends AbstractConfig {
     public static String UI_TITLE = "Pl3xMap";
     @Key("ui.block-and-biome-lang-file")
     public static String UI_BLOCK_AND_BIOME_LANG_FILE = "en_us.json";
+    @Key("ui.unknown-block")
+    public static String UI_UNKNOWN_BLOCK = "Unknown block";
+    @Key("ui.unknown-biome")
+    public static String UI_UNKNOWN_BIOME = "Unknown biome";
     @Key("ui.blockinfo.label")
     public static String UI_BLOCKINFO_LABEL = "BlockInfo";
     @Key("ui.blockinfo.value")

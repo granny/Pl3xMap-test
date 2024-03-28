@@ -1,11 +1,11 @@
 import * as L from "leaflet";
-import {Pl3xMap} from "../Pl3xMap";
-import {Block} from "../palette/Block";
-import {ControlBox} from "./ControlBox";
-import {getJSON, getLangName} from "../util/Util";
+import { Pl3xMap } from "../Pl3xMap";
+import { Block } from "../palette/Block";
+import { ControlBox } from "./ControlBox";
+import { getJSON, getLangName } from "../util/Util";
 import Pl3xMapLeafletMap from "../map/Pl3xMapLeafletMap";
-import {CoordsControl} from "./CoordsControl";
-import {BlockInfo} from "../palette/BlockInfo";
+import { CoordsControl } from "./CoordsControl";
+import { BlockInfo } from "../palette/BlockInfo";
 
 export class BlockInfoControl extends ControlBox {
     private _dom: HTMLDivElement = L.DomUtil.create('div');
@@ -44,16 +44,19 @@ export class BlockInfoControl extends ControlBox {
         const tileX: number = (x / step) & 511;
         const tileZ: number = (z / step) & 511;
 
-        let blockName: string = 'unknown';
-        let biomeName: string = 'unknown';
+        const unknownBlock: string = this._pl3xmap.settings!.lang.unknownBlock;
+        const unknownBiome: string = this._pl3xmap.settings!.lang.unknownBiome;
+
+        let blockName: string = unknownBlock;
+        let biomeName: string = unknownBiome;
         let y: number | undefined;
 
         const blockInfo: BlockInfo | undefined = this._pl3xmap.worldManager.currentWorld?.getBlockInfo(zoom, fileX, fileZ);
         if (blockInfo !== undefined) {
             const block: Block = blockInfo.getBlock(tileZ * 512 + tileX);
             if (block != null) {
-                blockName = block.block == 0 ? 'unknown' : this._blockPalette.get(block.block) ?? 'unknown';
-                biomeName = block.biome == 0 ? 'unknown' : this._pl3xmap.worldManager.currentWorld?.biomePalette.get(block.biome) ?? 'unknown';
+                blockName = block.block == 0 ? unknownBlock : this._blockPalette.get(block.block) ?? unknownBlock;
+                biomeName = block.biome == 0 ? unknownBiome : this._pl3xmap.worldManager.currentWorld?.biomePalette.get(block.biome) ?? unknownBiome;
 
                 if (block.block != 0) {
                     y = block.yPos + 1;

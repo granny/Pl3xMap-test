@@ -4,6 +4,8 @@
 export class Lang {
     private readonly _title: string;
     private readonly _langFile: string;
+    private readonly _unknownBiome: string;
+    private readonly _unknownBlock: string;
     private readonly _coords: Label;
     private readonly _blockInfo: Label;
     private readonly _layers: Label;
@@ -12,9 +14,11 @@ export class Lang {
     private readonly _players: Label;
     private readonly _worlds: Label;
 
-    constructor(title: string, langFile: string, coords: Label, blockInfo: Label, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
+    constructor(title: string, langFile: string, unknownBiome: string, unknownBlock: string, coords: Label, blockInfo: Label, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
         this._title = title;
         this._langFile = langFile;
+        this._unknownBiome = unknownBiome;
+        this._unknownBlock = unknownBlock;
         this._coords = coords;
         this._blockInfo = blockInfo;
         this._layers = layers;
@@ -30,6 +34,14 @@ export class Lang {
 
     get langFile(): string {
         return this._langFile;
+    }
+
+    get unknownBiome(): string {
+        return this._unknownBiome;
+    }
+
+    get unknownBlock(): string {
+        return this._unknownBlock;
     }
 
     get coords(): Label {
