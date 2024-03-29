@@ -105,7 +105,7 @@ ui:
     spawn: Spawn
     worldborder: Granica świata
   title: Pl3xMap
-  block-and-biome-lang-file: en_us.json # webmap/public/lang/
+  block-and-biome-lang-file: pl_pl.json # webmap/public/lang/
   unknown-block: Nieznany blok
   unknown-biome: Nieznany biom
   blockinfo:
