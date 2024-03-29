@@ -29,9 +29,9 @@ command:
       already-hidden: <grey><player> <red>jest już ukryty na mapie
       success: <grey><player> <green>jest teraz ukryty na mapie
     pause:
-      description: Przełącz stan wstrzymania renderowania
+      description: Wstrzymaj renderery
       paused: <green>Renderery są teraz wstrzymane
-      unpaused: <green>Renderery są teraz wznawiane
+      already-paused: <grey>Renderery już są wstrzymane
     radiusrender:
       description: Renderuj sekcję świata
       starting: <green>Rozpoczęcie renderowania promienia. Sprawdź <grey>/map status</grey>
@@ -61,6 +61,11 @@ command:
       finished: |-
         <green>Zakończono łączenie <count> kafelków!
         <green>Znajdziesz je tutaj: <grey>/tiles/<world>/stitched/<filename>
+    unpause:
+      description: Wznów renderery
+      unpaused: <green>Renderery są teraz wznowione
+      already-unpaused: <grey>Renderery już są wznowione
+      
     version:
       description: Uzyskaj informacje o wersji
       please-wait: <italic>Sprawdzanie wersji, proszę czekać...

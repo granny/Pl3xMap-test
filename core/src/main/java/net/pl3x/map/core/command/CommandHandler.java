@@ -43,6 +43,7 @@ import net.pl3x.map.core.command.commands.ResetMapCommand;
 import net.pl3x.map.core.command.commands.ShowCommand;
 import net.pl3x.map.core.command.commands.StatusCommand;
 import net.pl3x.map.core.command.commands.StitchCommand;
+import net.pl3x.map.core.command.commands.UnpauseCommand;
 import net.pl3x.map.core.command.commands.VersionCommand;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
@@ -112,6 +113,7 @@ public interface CommandHandler {
                 new ShowCommand(this),
                 new StatusCommand(this),
                 new StitchCommand(this),
+                new UnpauseCommand(this),
                 new VersionCommand(this)
         ).forEach(Pl3xMapCommand::register);
     }

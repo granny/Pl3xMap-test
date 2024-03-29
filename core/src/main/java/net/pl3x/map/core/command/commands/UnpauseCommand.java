@@ -33,16 +33,16 @@ import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.renderer.task.RegionProcessor;
 import org.jetbrains.annotations.NotNull;
 
-public class PauseCommand extends Pl3xMapCommand {
-    public PauseCommand(@NotNull CommandHandler handler) {
+public class UnpauseCommand extends Pl3xMapCommand {
+    public UnpauseCommand(@NotNull CommandHandler handler) {
         super(handler);
     }
 
     @Override
     public void register() {
-        getHandler().registerSubcommand(builder -> builder.literal("pause")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_PAUSE_DESCRIPTION))
-                .permission("pl3xmap.command.pause")
+        getHandler().registerSubcommand(builder -> builder.literal("unpause")
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_UNPAUSE_DESCRIPTION))
+                .permission("pl3xmap.command.unpause")
                 .handler(this::execute));
     }
 
@@ -50,12 +50,12 @@ public class PauseCommand extends Pl3xMapCommand {
         Sender sender = context.getSender();
 
         RegionProcessor processor = Pl3xMap.api().getRegionProcessor();
-
-        if (processor.isPaused()) {
-            sender.sendMessage(Lang.COMMAND_PAUSE_ALREADY_PAUSED);
+        
+        if (!processor.isPaused()) {
+            sender.sendMessage(Lang.COMMAND_UNPAUSE_ALREADY_UNPAUSED);
         } else {
-            processor.setPaused(true);
-            sender.sendMessage(Lang.COMMAND_PAUSE_PAUSED);
+            processor.setPaused(false);
+            sender.sendMessage(Lang.COMMAND_UNPAUSE_UNPAUSED);
         }
     }
 }
