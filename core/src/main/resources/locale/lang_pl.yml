@@ -109,6 +109,10 @@ ui:
   blockinfo:
     label: Informacje o bloku # Or keep it BlockInfo?
     value: <block><br /><biome>
+  contextmenu:
+    label: ContextMenu
+    copy-coords: Skopiuj współrzędne
+    center-map: Wyśrodkuj mapę w tym miejscu
   coords:
     label: Współrzędne
     value: <x>, <y>, <z>

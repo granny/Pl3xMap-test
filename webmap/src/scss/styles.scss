@@ -229,3 +229,26 @@ img.leaflet-tile {
     }
   }
 }
+
+.leaflet-control-contextmenu {
+  display: none;
+  position: absolute;
+  background-color: var(--ui-background);
+  border: var(--ui-border);
+  border-radius: var(--ui-border-radius);
+  overflow: hidden;
+  z-index: 10000; /* Ensure the menu appears over other map controls */
+}
+
+.leaflet-control-contextmenu-item {
+  padding: 5px;
+  font-size: 12px;
+  color: var(--ui-text);
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: var(--ui-background-hover);
+    color: var(--ui-text-hover);
+  }
+}

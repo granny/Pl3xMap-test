@@ -161,6 +161,11 @@ public class UpdateSettingsData extends Task {
         lang.put("title", Lang.UI_TITLE);
         lang.put("langFile", Lang.UI_BLOCK_AND_BIOME_LANG_FILE);
         lang.put("blockInfo", Map.of("label", Lang.UI_BLOCKINFO_LABEL, "value", Lang.UI_BLOCKINFO_VALUE));
+        lang.put("contextMenu", Map.of(
+                "label", Lang.UI_CONTEXTMENU_LABEL,
+                "copyCoords", Lang.UI_CONTEXTMENU_COPY_COORDS,
+                "centerMap", Lang.UI_CONTEXTMENU_CENTER_MAP
+        ));
         lang.put("coords", Map.of("label", Lang.UI_COORDS_LABEL, "value", Lang.UI_COORDS_VALUE));
         lang.put("layers", Map.of("label", Lang.UI_LAYERS_LABEL, "value", Lang.UI_LAYERS_VALUE));
         lang.put("link", Map.of("label", Lang.UI_LINK_LABEL, "value", Lang.UI_LINK_VALUE));

@@ -3,6 +3,7 @@ import {ControlManager} from "./control/ControlManager";
 import {PlayerManager} from "./player/PlayerManager";
 import {WorldManager} from "./world/WorldManager";
 import {getJSON} from "./util/Util";
+import ContextMenuControl from "./control/ContextMenuControl";
 import SidebarControl from "./control/SidebarControl";
 import Pl3xMapLeafletMap from "./map/Pl3xMapLeafletMap";
 import "./scss/styles.scss";
@@ -48,6 +49,7 @@ export class Pl3xMap {
                     this._langPalette.set(data[0], <string>data[1]);
                 });
             });
+            this.controlManager.contextMenuControl = new ContextMenuControl(this);
             this.controlManager.sidebarControl = new SidebarControl(this);
             const promise: Promise<void> = this.worldManager.init(this._settings);
             this.update();

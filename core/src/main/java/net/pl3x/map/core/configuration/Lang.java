@@ -204,6 +204,12 @@ public final class Lang extends AbstractConfig {
     public static String UI_BLOCKINFO_LABEL = "BlockInfo";
     @Key("ui.blockinfo.value")
     public static String UI_BLOCKINFO_VALUE = "<block><br /><biome>";
+    @Key("ui.contextmenu.label")
+    public static String UI_CONTEXTMENU_LABEL = "ContextMenu";
+    @Key("ui.contextmenu.copy-coords")
+    public static String UI_CONTEXTMENU_COPY_COORDS = "Copy coordinates";
+    @Key("ui.contextmenu.center-map")
+    public static String UI_CONTEXTMENU_CENTER_MAP = "Center map here";
     @Key("ui.coords.label")
     public static String UI_COORDS_LABEL = "Coordinates";
     @Key("ui.coords.value")

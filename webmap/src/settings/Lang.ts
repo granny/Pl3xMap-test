@@ -4,6 +4,7 @@
 export class Lang {
     private readonly _title: string;
     private readonly _langFile: string;
+    private readonly _contextMenu: ContextMenu;
     private readonly _coords: Label;
     private readonly _blockInfo: Label;
     private readonly _layers: Label;
@@ -12,9 +13,10 @@ export class Lang {
     private readonly _players: Label;
     private readonly _worlds: Label;
 
-    constructor(title: string, langFile: string, coords: Label, blockInfo: Label, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
+    constructor(title: string, langFile: string, contextMenu: ContextMenu, coords: Label, blockInfo: Label, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
         this._title = title;
         this._langFile = langFile;
+        this._contextMenu = contextMenu;
         this._coords = coords;
         this._blockInfo = blockInfo;
         this._layers = layers;
@@ -30,6 +32,10 @@ export class Lang {
 
     get langFile(): string {
         return this._langFile;
+    }
+
+    get contextMenu(): ContextMenu {
+        return this._contextMenu;
     }
 
     get coords(): Label {
@@ -79,5 +85,29 @@ export class Label {
 
     get value(): string {
         return this._value;
+    }
+}
+
+export class ContextMenu {
+    private readonly _label: string;
+    private readonly _copyCoords: string;
+    private readonly _centerMap: string;
+
+    constructor(label: string, copyCoords: string, centerMap: string) {
+        this._label = label;
+        this._copyCoords = copyCoords;
+        this._centerMap = centerMap;
+    }
+    
+    get label(): string {
+        return this._label;
+    }
+    
+    get copyCoords(): string {
+        return this._copyCoords;
+    }
+    
+    get centerMap(): string {
+        return this._centerMap;
     }
 }
