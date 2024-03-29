@@ -98,7 +98,7 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_PAUSE_PAUSED = "<green>Renderers are now paused";
     @Key("command.pause.already-paused")
     public static String COMMAND_PAUSE_ALREADY_PAUSED = "<grey>Renderers are already paused";
-    
+
     @Key("command.radiusrender.description")
     public static String COMMAND_RADIUSRENDER_DESCRIPTION = "Render a section of a world";
     @Key("command.radiusrender.starting")
