@@ -229,3 +229,27 @@ img.leaflet-tile {
     }
   }
 }
+
+.leaflet-tooltip {
+  background-color: var(--ui-background);
+  border: var(--ui-border);
+  color: var(--ui-text);
+  font-size: 1.2rem;
+  padding: 0.5rem;
+  border-radius: var(--ui-border-radius);
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+  font-family: var(--ui-font);
+  top: -1rem;
+  transition: opacity 0.15s ease-in-out;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -0.8rem;
+    border-width: 0.8rem;
+    border-style: solid;
+    border-color: var(--ui-background) transparent transparent transparent;
+  }
+}
