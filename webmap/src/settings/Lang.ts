@@ -6,14 +6,14 @@ export class Lang {
     private readonly _langFile: string;
     private readonly _contextMenu: ContextMenu;
     private readonly _coords: Label;
-    private readonly _blockInfo: Label;
+    private readonly _blockInfo: BlockInfo;
     private readonly _layers: Label;
     private readonly _link: Label;
     private readonly _markers: Label;
     private readonly _players: Label;
     private readonly _worlds: Label;
 
-    constructor(title: string, langFile: string, contextMenu: ContextMenu, coords: Label, blockInfo: Label, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
+    constructor(title: string, langFile: string,contextMenu: ContextMenu, coords: Label, blockInfo: BlockInfo, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
         this._title = title;
         this._langFile = langFile;
         this._contextMenu = contextMenu;
@@ -42,7 +42,7 @@ export class Lang {
         return this._coords;
     }
 
-    get blockInfo(): Label {
+    get blockInfo(): BlockInfo {
         return this._blockInfo;
     }
 
@@ -71,7 +71,7 @@ export class Lang {
  * Represents a label and value.
  */
 export class Label {
-    private readonly _label: string
+    private readonly _label: string;
     private readonly _value: string;
 
     constructor(label: string, value: string) {
@@ -88,6 +88,46 @@ export class Label {
     }
 }
 
+/**
+ * Represents 'unknown' values for BlockInfo.
+ */
+export class BlockInfoUnknown {
+    private readonly _block: string;
+    private readonly _biome: string;
+
+
+    constructor(block: string, biome: string) {
+        this._block = block;
+        this._biome = biome;
+    }
+
+    get block(): string {
+        return this._block;
+    }
+
+    get biome(): string {
+        return this._biome;
+    }
+}
+
+
+/**
+ * Represents a label and a value, with 'unknown' values.
+ */
+export class BlockInfo extends Label {
+    private readonly _unknown: BlockInfoUnknown;
+
+
+    constructor(label: string, value: string, unknown: BlockInfoUnknown) {
+        super(label, value);
+        this._unknown = unknown;
+    }
+
+    get unknown(): BlockInfoUnknown {
+        return this._unknown;
+    }
+}
+
 export class ContextMenu {
     private readonly _label: string;
     private readonly _copyCoords: string;
@@ -98,15 +138,15 @@ export class ContextMenu {
         this._copyCoords = copyCoords;
         this._centerMap = centerMap;
     }
-    
+
     get label(): string {
         return this._label;
     }
-    
+
     get copyCoords(): string {
         return this._copyCoords;
     }
-    
+
     get centerMap(): string {
         return this._centerMap;
     }
