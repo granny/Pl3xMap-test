@@ -93,11 +93,18 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_HIDE_SUCCESS = "<grey><player> <green>is now hidden from the map";
 
     @Key("command.pause.description")
-    public static String COMMAND_PAUSE_DESCRIPTION = "Toggle the pause state of renderers";
+    public static String COMMAND_PAUSE_DESCRIPTION = "Pause renderers";
     @Key("command.pause.paused")
     public static String COMMAND_PAUSE_PAUSED = "<green>Renderers are now paused";
-    @Key("command.pause.unpaused")
-    public static String COMMAND_PAUSE_UNPAUSED = "<green>Renderers are now unpaused";
+    @Key("command.pause.already-paused")
+    public static String COMMAND_PAUSE_ALREADY_PAUSED = "<grey>Renderers are already paused";
+
+    @Key("command.resume.description")
+    public static String COMMAND_RESUME_DESCRIPTION = "Resume renderers";
+    @Key("command.resume.resumed")
+    public static String COMMAND_RESUME_RESUMED = "<green>Renderers have now resumed";
+    @Key("command.resume.already-resumed")
+    public static String COMMAND_RESUME_ALREADY_RESUMED = "<grey>Renderers have already resumed";
 
     @Key("command.radiusrender.description")
     public static String COMMAND_RADIUSRENDER_DESCRIPTION = "Render a section of a world";
