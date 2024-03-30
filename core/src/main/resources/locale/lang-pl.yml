@@ -29,9 +29,13 @@ command:
       already-hidden: <grey><player> <red>jest już ukryty na mapie
       success: <grey><player> <green>jest teraz ukryty na mapie
     pause:
-      description: Przełącz stan wstrzymania renderowania
+      description: Wstrzymaj renderery
       paused: <green>Renderery są teraz wstrzymane
-      unpaused: <green>Renderery są teraz wznawiane
+      already-paused: <grey>Renderery już są wstrzymane
+    resume:
+      description: Wznów renderery
+      resumed: <green>Renderery są teraz wznowione
+      already-resumed: <grey>Renderery już są wznowione
     radiusrender:
       description: Renderuj sekcję świata
       starting: <green>Rozpoczęcie renderowania promienia. Sprawdź <grey>/map status</grey>
@@ -105,10 +109,13 @@ ui:
     spawn: Spawn
     worldborder: Granica świata
   title: Pl3xMap
-  block-and-biome-lang-file: en_us.json # IDK?
+  block-and-biome-lang-file: pl_pl.json # webmap/public/lang/
   blockinfo:
-    label: Informacje o bloku # Or keep it BlockInfo?
+    label: BlockInfo
     value: <block><br /><biome>
+    unknown:
+      block: Nieznany blok
+      biome: Nieznany biom
   coords:
     label: Współrzędne
     value: <x>, <y>, <z>
