@@ -102,9 +102,9 @@ public final class Lang extends AbstractConfig {
     @Key("command.resume.description")
     public static String COMMAND_RESUME_DESCRIPTION = "Resume renderers";
     @Key("command.resume.resumed")
-    public static String COMMAND_RESUME_RESUMED = "<green>Renderers are now resumed";
+    public static String COMMAND_RESUME_RESUMED = "<green>Renderers have now resumed";
     @Key("command.resume.already-resumed")
-    public static String COMMAND_RESUME_ALREADY_RESUMED = "<grey>Renderers are already resumed";
+    public static String COMMAND_RESUME_ALREADY_RESUMED = "<grey>Renderers have already resumed";
 
     @Key("command.radiusrender.description")
     public static String COMMAND_RADIUSRENDER_DESCRIPTION = "Render a section of a world";
@@ -148,7 +148,6 @@ public final class Lang extends AbstractConfig {
     @Key("command.stitch.finished")
     public static String COMMAND_STITCH_FINISHED = "<green>Finished stitching <count> tiles!\n<green>You can find it at <grey>/tiles/<world>/stitched/<filename>";
 
-    
     @Key("command.version.description")
     public static String COMMAND_VERSION_DESCRIPTION = "Get version information";
     @Key("command.version.please-wait")
