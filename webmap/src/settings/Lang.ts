@@ -13,7 +13,7 @@ export class Lang {
     private readonly _players: Label;
     private readonly _worlds: Label;
 
-    constructor(title: string, langFile: string,contextMenu: ContextMenu, coords: Label, blockInfo: BlockInfo, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
+    constructor(title: string, langFile: string, contextMenu: ContextMenu, coords: Label, blockInfo: BlockInfo, layers: Label, link: Label, markers: Label, players: Label, worlds: Label) {
         this._title = title;
         this._langFile = langFile;
         this._contextMenu = contextMenu;
