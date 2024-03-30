@@ -211,6 +211,10 @@ public final class Lang extends AbstractConfig {
     public static String UI_BLOCKINFO_LABEL = "BlockInfo";
     @Key("ui.blockinfo.value")
     public static String UI_BLOCKINFO_VALUE = "<block><br /><biome>";
+    @Key("ui.blockinfo.unknown.block")
+    public static String UI_BLOCKINFO_UNKNOWN_BLOCK = "Unknown block";
+    @Key("ui.blockinfo.unknown.biome")
+    public static String UI_BLOCKINFO_UNKNOWN_BIOME = "Unknown biome";
     @Key("ui.coords.label")
     public static String UI_COORDS_LABEL = "Coordinates";
     @Key("ui.coords.value")
