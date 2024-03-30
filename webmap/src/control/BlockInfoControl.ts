@@ -52,8 +52,12 @@ export class BlockInfoControl extends ControlBox {
         if (blockInfo !== undefined) {
             const block: Block = blockInfo.getBlock(tileZ * 512 + tileX);
             if (block != null) {
-                blockName = block.block == 0 ? unknownBlock : this._blockPalette.get(block.block) ?? unknownBlock;
-                biomeName = block.biome == 0 ? unknownBiome : this._pl3xmap.worldManager.currentWorld?.biomePalette.get(block.biome) ?? unknownBiome;
+                if (block.block != 0) {
+                    blockName = this._blockPalette.get(block.block) ?? blockName;
+                }
+                if (block.biome != 0) {
+                    biomeName = this._pl3xmap.worldManager.currentWorld?.biomePalette.get(block.biome) ?? biomeName;
+                }
 
                 if (block.block != 0) {
                     y = block.yPos + 1;
