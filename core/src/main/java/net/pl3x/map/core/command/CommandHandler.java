@@ -37,13 +37,13 @@ import net.pl3x.map.core.command.commands.FullRenderCommand;
 import net.pl3x.map.core.command.commands.HelpCommand;
 import net.pl3x.map.core.command.commands.HideCommand;
 import net.pl3x.map.core.command.commands.PauseCommand;
+import net.pl3x.map.core.command.commands.ResumeCommand;
 import net.pl3x.map.core.command.commands.RadiusRenderCommand;
 import net.pl3x.map.core.command.commands.ReloadCommand;
 import net.pl3x.map.core.command.commands.ResetMapCommand;
 import net.pl3x.map.core.command.commands.ShowCommand;
 import net.pl3x.map.core.command.commands.StatusCommand;
 import net.pl3x.map.core.command.commands.StitchCommand;
-import net.pl3x.map.core.command.commands.UnpauseCommand;
 import net.pl3x.map.core.command.commands.VersionCommand;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
@@ -107,13 +107,13 @@ public interface CommandHandler {
                 new HelpCommand(this),
                 new HideCommand(this),
                 new PauseCommand(this),
+                new ResumeCommand(this),
                 new RadiusRenderCommand(this),
                 new ReloadCommand(this),
                 new ResetMapCommand(this),
                 new ShowCommand(this),
                 new StatusCommand(this),
                 new StitchCommand(this),
-                new UnpauseCommand(this),
                 new VersionCommand(this)
         ).forEach(Pl3xMapCommand::register);
     }

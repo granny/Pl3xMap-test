@@ -99,6 +99,13 @@ public final class Lang extends AbstractConfig {
     @Key("command.pause.already-paused")
     public static String COMMAND_PAUSE_ALREADY_PAUSED = "<grey>Renderers are already paused";
 
+    @Key("command.resume.description")
+    public static String COMMAND_RESUME_DESCRIPTION = "Resume renderers";
+    @Key("command.resume.resumed")
+    public static String COMMAND_RESUME_RESUMED = "<green>Renderers are now resumed";
+    @Key("command.resume.already-resumed")
+    public static String COMMAND_RESUME_ALREADY_RESUMED = "<grey>Renderers are already resumed";
+
     @Key("command.radiusrender.description")
     public static String COMMAND_RADIUSRENDER_DESCRIPTION = "Render a section of a world";
     @Key("command.radiusrender.starting")
@@ -141,12 +148,6 @@ public final class Lang extends AbstractConfig {
     @Key("command.stitch.finished")
     public static String COMMAND_STITCH_FINISHED = "<green>Finished stitching <count> tiles!\n<green>You can find it at <grey>/tiles/<world>/stitched/<filename>";
 
-    @Key("command.unpause.description")
-    public static String COMMAND_UNPAUSE_DESCRIPTION = "Unpause renderers";
-    @Key("command.unpause.unpaused")
-    public static String COMMAND_UNPAUSE_UNPAUSED = "<green>Renderers are now unpaused";
-    @Key("command.unpause.already-unpaused")
-    public static String COMMAND_UNPAUSE_ALREADY_UNPAUSED = "<grey>Renderers are already unpaused";
     
     @Key("command.version.description")
     public static String COMMAND_VERSION_DESCRIPTION = "Get version information";

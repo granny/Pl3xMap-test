@@ -32,6 +32,10 @@ command:
       description: Wstrzymaj renderery
       paused: <green>Renderery są teraz wstrzymane
       already-paused: <grey>Renderery już są wstrzymane
+    resume:
+      description: Wznów renderery
+      resumed: <green>Renderery są teraz wznowione
+      already-resumed: <grey>Renderery już są wznowione
     radiusrender:
       description: Renderuj sekcję świata
       starting: <green>Rozpoczęcie renderowania promienia. Sprawdź <grey>/map status</grey>
@@ -61,11 +65,6 @@ command:
       finished: |-
         <green>Zakończono łączenie <count> kafelków!
         <green>Znajdziesz je tutaj: <grey>/tiles/<world>/stitched/<filename>
-    unpause:
-      description: Wznów renderery
-      unpaused: <green>Renderery są teraz wznowione
-      already-unpaused: <grey>Renderery już są wznowione
-      
     version:
       description: Uzyskaj informacje o wersji
       please-wait: <italic>Sprawdzanie wersji, proszę czekać...
