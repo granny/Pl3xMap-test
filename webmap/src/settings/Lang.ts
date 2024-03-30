@@ -85,7 +85,6 @@ export class Label {
 /**
  * Represents 'unknown' values for BlockInfo.
  */
-
 export class BlockInfoUnknown {
     private readonly _block: string;
     private readonly _biome: string;
@@ -109,7 +108,6 @@ export class BlockInfoUnknown {
 /**
  * Represents a label and a value, with 'unknown' values.
  */
-
 export class BlockInfo extends Label {
     private readonly _unknown: BlockInfoUnknown;
     

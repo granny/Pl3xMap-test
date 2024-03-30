@@ -44,11 +44,8 @@ export class BlockInfoControl extends ControlBox {
         const tileX: number = (x / step) & 511;
         const tileZ: number = (z / step) & 511;
 
-        const unknownBlock: string = this._pl3xmap.settings!.lang.blockInfo.unknown.block ?? 'Unknown block';
-        const unknownBiome: string = this._pl3xmap.settings!.lang.blockInfo.unknown.biome ?? 'Unknown biome';
-
-        let blockName: string = unknownBlock;
-        let biomeName: string = unknownBiome;
+        let blockName: string = this._pl3xmap.settings!.lang.blockInfo.unknown.block ?? 'Unknown block';
+        let biomeName: string = this._pl3xmap.settings!.lang.blockInfo.unknown.biome ?? 'Unknown biome';
         let y: number | undefined;
 
         const blockInfo: BlockInfo | undefined = this._pl3xmap.worldManager.currentWorld?.getBlockInfo(zoom, fileX, fileZ);
