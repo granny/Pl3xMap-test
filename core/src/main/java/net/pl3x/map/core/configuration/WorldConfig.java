@@ -126,6 +126,37 @@ public final class WorldConfig extends AbstractConfig {
     @Comment("""
             The display position for the link box""")
     public String UI_LINK = "bottomright";
+    
+    @Key("ui.context-menu.enabled")
+    @Comment("""
+            Enable the context menu.""")
+    public boolean UI_CONTEXT_MENU_ENABLED = true;
+
+    @Key("ui.context-menu.items")
+    @Comment("""
+            Items to show in the context menu. Leave empty for custom html.
+            Available items are:
+            copy-coords, copy-link, center-map""")
+    public List<@NotNull String> UI_CONTEXT_MENU_ITEMS = new ArrayList<>() {{
+        add("copy-coords");
+        add("copy-link");
+        add("center-map");
+    }};
+    
+    @Key("ui.context-menu.custom-html.enabled")
+    @Comment("""
+            Use custom html for the context menu.""")
+    public boolean UI_CONTEXT_MENU_CUSTOM_HTML_ENABLED = false;
+    
+    @Key("ui.context-menu.custom-html.html")
+    @Comment("""
+            Custom html for the context menu.""")
+    public String UI_CONTEXT_MENU_CUSTOM_HTML_HTML = "";
+    
+    @Key("ui.context-menu.custom-html.css")
+    @Comment("""
+            Custom css for the context menu.""")
+    public String UI_CONTEXT_MENU_CUSTOM_HTML_CSS = "";
 
     @Key("center.x")
     @Comment("""

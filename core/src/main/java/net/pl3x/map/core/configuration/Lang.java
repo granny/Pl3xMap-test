@@ -219,6 +219,8 @@ public final class Lang extends AbstractConfig {
     public static String UI_CONTEXTMENU_LABEL = "ContextMenu";
     @Key("ui.contextmenu.copy-coords")
     public static String UI_CONTEXTMENU_COPY_COORDS = "Copy coordinates";
+    @Key("ui.contextmenu.copy-link")
+    public static String UI_CONTEXTMENU_COPY_LINK = "Copy link to here";
     @Key("ui.contextmenu.center-map")
     public static String UI_CONTEXTMENU_CENTER_MAP = "Center map here";
     @Key("ui.coords.label")

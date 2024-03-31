@@ -49,7 +49,6 @@ export class Pl3xMap {
                     this._langPalette.set(data[0], <string>data[1]);
                 });
             });
-            this.controlManager.contextMenuControl = new ContextMenuControl(this);
             this.controlManager.sidebarControl = new SidebarControl(this);
             const promise: Promise<void> = this.worldManager.init(this._settings);
             this.update();

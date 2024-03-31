@@ -135,6 +135,7 @@ export class UI {
     private _coords: string = 'bottomcenter';
     private _blockinfo: string = 'bottomleft';
     private _attribution: boolean = true;
+    private _contextMenu: ContextMenuSettings = new ContextMenuSettings();
 
     get link(): string {
         return this._link;
@@ -167,7 +168,96 @@ export class UI {
     set attribution(value: boolean) {
         this._attribution = value;
     }
+    
+    get contextMenu(): ContextMenuSettings {
+        return this._contextMenu;
+    }
+    
+    set contextMenu(value: ContextMenuSettings) {
+        this._contextMenu = value;
+    }
 }
+
+/**
+ * Represents a world's context menu settings.
+ */
+export class ContextMenuSettings {
+    private _enabled: boolean = true;
+    private _items: ContextMenuItemType[] = [
+        ContextMenuItemType.copyCoords,
+        ContextMenuItemType.copyLink,
+        ContextMenuItemType.centerMap,
+    ];
+    private _customHtml: ContextMenuCustomHtml = new ContextMenuCustomHtml();
+    
+    get enabled(): boolean {
+        return this._enabled;
+    }
+    
+    set enabled(value: boolean) {
+        this._enabled = value;
+    }
+
+    get items(): ContextMenuItemType[] {
+        return this._items;
+    }
+
+    set items(value: ContextMenuItemType[]) {
+        this._items = value;
+    }
+    
+    get customHtml(): ContextMenuCustomHtml {
+        return this._customHtml;
+    }
+    
+    set customHtml(value: ContextMenuCustomHtml) {
+        this._customHtml = value;
+    }
+}
+
+/**
+ * Represents a world's context menu item.
+ */
+export enum ContextMenuItemType {
+    copyCoords = 'copy-coords',
+    copyLink = 'copy-link',
+    centerMap = 'center-map',
+}
+
+/**
+ * Represents a world's context menu custom HTML.
+ */
+export class ContextMenuCustomHtml {
+    private _enabled: boolean = false;
+    private _html: string = '';
+    private _css: string = '';
+    
+    get enabled(): boolean {
+        return this._enabled;
+    }
+    
+    set enabled(value: boolean) {
+        this._enabled = value;
+    }
+    
+    get html(): string {
+        return this._html;
+    }
+    
+    set html(value: string) {
+        this._html = value;
+    }
+    
+    get css(): string {
+        return this._css;
+    }
+    
+    set css(value: string) {
+        this._css = value;
+    }
+}
+    
+    
 
 /**
  * Represents a world's zoom settings.

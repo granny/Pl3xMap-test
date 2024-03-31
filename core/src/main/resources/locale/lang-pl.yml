@@ -119,6 +119,7 @@ ui:
   contextmenu:
     label: ContextMenu
     copy-coords: Skopiuj współrzędne
+    copy-link: Skopiuj link do tego miejsca
     center-map: Wyśrodkuj mapę w tym miejscu
   coords:
     label: Współrzędne

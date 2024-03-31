@@ -131,11 +131,13 @@ export class BlockInfo extends Label {
 export class ContextMenu {
     private readonly _label: string;
     private readonly _copyCoords: string;
+    private readonly _copyLink: string;
     private readonly _centerMap: string;
 
-    constructor(label: string, copyCoords: string, centerMap: string) {
+    constructor(label: string, copyCoords: string, copyLink: string, centerMap: string) {
         this._label = label;
         this._copyCoords = copyCoords;
+        this._copyLink = copyLink;
         this._centerMap = centerMap;
     }
 
@@ -145,6 +147,10 @@ export class ContextMenu {
 
     get copyCoords(): string {
         return this._copyCoords;
+    }
+    
+    get copyLink(): string {
+        return this._copyLink;
     }
 
     get centerMap(): string {
