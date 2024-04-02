@@ -117,7 +117,6 @@ export class BlockInfoUnknown {
 export class BlockInfo extends Label {
     private readonly _unknown: BlockInfoUnknown;
 
-
     constructor(label: string, value: string, unknown: BlockInfoUnknown) {
         super(label, value);
         this._unknown = unknown;
