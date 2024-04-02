@@ -124,7 +124,7 @@ public abstract class Pl3xMap {
             }
         } catch (Exception e) {
             manifest = new Manifest();
-            e.printStackTrace();
+            Logger.severe("Failed to obtain Manifest from META-INF", e);
         }
         this.manifestAttributes = manifest.getMainAttributes();
 
@@ -265,7 +265,7 @@ public abstract class Pl3xMap {
         try {
             this.metrics = new Metrics(this);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.severe("Failed to generate or load default bStats config", e);
         }
 
         Pl3xMap.api().getRegionProcessor().setPaused(false);

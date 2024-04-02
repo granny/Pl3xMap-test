@@ -129,12 +129,11 @@ public class FileUtil {
                     Logger.debug("  <green>writing</green>  " + name);
                 } catch (IOException e) {
                     Logger.debug("  <red><bold>failed</bold></red>   " + name);
-                    Logger.warn("Failed to extract file (" + name + ") from jar!");
-                    e.printStackTrace();
+                    Logger.severe("Failed to extract file (" + name + ") from jar!", e);
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.severe("Failed to extract " + sourceDir + " directory from jar", e);
         }
     }
 

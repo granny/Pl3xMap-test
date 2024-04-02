@@ -25,6 +25,7 @@ package net.pl3x.map.core.renderer.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.layer.Layer;
 import net.pl3x.map.core.markers.marker.Marker;
 import net.pl3x.map.core.util.FileUtil;
@@ -56,7 +57,7 @@ public class UpdateMarkerData extends AbstractDataTask {
                     this.lastUpdated.put(key, now);
                 }
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to process layer " + key + "for world " + world.getName(), t);
             }
         });
 

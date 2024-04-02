@@ -118,16 +118,14 @@ public class RegionDoubleChecker implements Runnable {
                         Logger.debug("Found modified region: " + file.getFileName());
                         modifiedRegions.add(Point.of(rX, rZ));
                     } catch (Throwable t) {
-                        t.printStackTrace();
+                        Logger.severe("Failed while trying to parse region file %s".formatted(file.toAbsolutePath()), t);
                     }
                 }
                 Pl3xMap.api().getRegionProcessor().addRegions(world, modifiedRegions);
             });
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to loop through region files for worlds", t);
         }
-
-        //
 
         this.running = false;
     }

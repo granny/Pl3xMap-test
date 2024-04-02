@@ -34,6 +34,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.JsonObjectWrapper;
 import net.pl3x.map.core.markers.marker.Marker;
 import net.pl3x.map.core.scheduler.Task;
@@ -52,6 +53,7 @@ public abstract class AbstractDataTask extends Task {
     protected final World world;
     protected final Map<@NotNull String, @NotNull Long> lastUpdated = new HashMap<>();
     protected final ExecutorService executor;
+    protected final String executorName;
 
     protected CompletableFuture<Void> future;
     protected boolean running;
@@ -60,12 +62,14 @@ public abstract class AbstractDataTask extends Task {
         super(delay, repeat);
         this.world = world;
         this.executor = Pl3xMap.ThreadFactory.createService(serviceName, threads);
+        this.executorName = serviceName;
     }
 
     public AbstractDataTask(int delay, boolean repeat, World world, String serviceName) {
         super(delay, repeat);
         this.world = world;
         this.executor = Pl3xMap.ThreadFactory.createService(serviceName);
+        this.executorName = serviceName;
     }
 
     @Override
@@ -78,7 +82,7 @@ public abstract class AbstractDataTask extends Task {
             try {
                 parse();
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to parse task %s for world %s".formatted(executorName, world.getName()), t);
             }
             this.running = false;
         }, this.executor);

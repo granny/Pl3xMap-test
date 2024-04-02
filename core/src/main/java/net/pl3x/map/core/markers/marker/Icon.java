@@ -32,6 +32,7 @@ import java.util.Objects;
 import javax.imageio.ImageIO;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.image.IconImage;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.JsonObjectWrapper;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.markers.Vector;
@@ -606,8 +607,7 @@ public class Icon extends Marker<@NotNull Icon> {
                 IconImage icon = new IconImage(image, ImageIO.read(path.toFile()), "png");
                 Pl3xMap.api().getIconRegistry().register(icon);
             } catch (IOException e) {
-                e.printStackTrace();
-                throw new RuntimeException(e);
+                throw new RuntimeException("Can't read file from path: %s".formatted("images/icon/" + (image = el.getAsString()) + ".png"), e);
             }
         }
         return image;

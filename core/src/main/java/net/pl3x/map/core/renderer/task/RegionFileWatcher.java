@@ -131,7 +131,7 @@ public class RegionFileWatcher implements Runnable {
 
         } catch (ClosedWatchServiceException | InterruptedException ignore) {
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.severe("Failed to create a new file watcher for directory %s".formatted(dir.toAbsolutePath()), e);
         }
 
         if (this.stopped) {

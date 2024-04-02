@@ -92,7 +92,7 @@ public class RegionScanTask implements Runnable {
 
             saveImages();
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to scan world %s at region %s".formatted(world.getName(), regionPos), t);
         }
     }
 

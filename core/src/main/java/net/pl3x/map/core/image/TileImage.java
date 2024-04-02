@@ -35,6 +35,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import net.pl3x.map.core.Keyed;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.image.io.IO;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.util.Colors;
 import net.pl3x.map.core.util.FileUtil;
@@ -107,7 +108,7 @@ public class TileImage extends Keyed {
                 // finally, save buffer to disk
                 this.io.write(filePath, buffer);
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to read/write tile at path %s".formatted(filePath), t);
             }
 
             lock.writeLock().unlock();
