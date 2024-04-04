@@ -229,30 +229,3 @@ img.leaflet-tile {
     }
   }
 }
-
-.leaflet-control-contextmenu {
-  display: none;
-  position: absolute;
-  flex-direction: column;
-  font-family: monospace;
-  top: 0;
-  left: 0;
-  text-align: left;
-  white-space: pre;
-  background-color: var(--ui-background);
-  border: var(--ui-border);
-  border-radius: var(--ui-border-radius);
-  overflow: hidden;
-  z-index: 10000; /* Ensure the menu appears over other map controls */
-}
-
-.leaflet-control-contextmenu-item {
-  padding: 5px;
-  color: var(--ui-text);
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    background-color: var(--ui-background-hover);
-    color: var(--ui-text-hover);
-  }
-}

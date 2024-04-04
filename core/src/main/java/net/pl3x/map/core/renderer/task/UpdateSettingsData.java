@@ -127,11 +127,7 @@ public class UpdateSettingsData extends Task {
             ui.put("contextMenu", Map.of(
                     "enabled", config.UI_CONTEXT_MENU_ENABLED,
                     "items", config.UI_CONTEXT_MENU_ITEMS,
-                    "customHtml", Map.of(
-                            "enabled", config.UI_CONTEXT_MENU_CUSTOM_HTML_ENABLED,
-                            "html", config.UI_CONTEXT_MENU_CUSTOM_HTML_HTML,
-                            "css", config.UI_CONTEXT_MENU_CUSTOM_HTML_CSS
-                    )
+                    "css", config.UI_CONTEXT_MENU_CSS
             ));
 
             Map<String, Object> settings = new LinkedHashMap<>();

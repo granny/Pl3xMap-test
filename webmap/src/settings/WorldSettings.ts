@@ -188,8 +188,8 @@ export class ContextMenuSettings {
         ContextMenuItemType.copyLink,
         ContextMenuItemType.centerMap,
     ];
-    private _customHtml: ContextMenuCustomHtml = new ContextMenuCustomHtml();
-    
+    private _css: string = '';
+
     get enabled(): boolean {
         return this._enabled;
     }
@@ -205,13 +205,13 @@ export class ContextMenuSettings {
     set items(value: ContextMenuItemType[]) {
         this._items = value;
     }
-    
-    get customHtml(): ContextMenuCustomHtml {
-        return this._customHtml;
+
+    get css(): string {
+        return this._css;
     }
-    
-    set customHtml(value: ContextMenuCustomHtml) {
-        this._customHtml = value;
+
+    set css(value: string) {
+        this._css = value;
     }
 }
 
@@ -223,41 +223,6 @@ export enum ContextMenuItemType {
     copyLink = 'copy-link',
     centerMap = 'center-map',
 }
-
-/**
- * Represents a world's context menu custom HTML.
- */
-export class ContextMenuCustomHtml {
-    private _enabled: boolean = false;
-    private _html: string = '';
-    private _css: string = '';
-    
-    get enabled(): boolean {
-        return this._enabled;
-    }
-    
-    set enabled(value: boolean) {
-        this._enabled = value;
-    }
-    
-    get html(): string {
-        return this._html;
-    }
-    
-    set html(value: string) {
-        this._html = value;
-    }
-    
-    get css(): string {
-        return this._css;
-    }
-    
-    set css(value: string) {
-        this._css = value;
-    }
-}
-    
-    
 
 /**
  * Represents a world's zoom settings.

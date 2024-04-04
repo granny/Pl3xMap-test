@@ -134,7 +134,7 @@ public final class WorldConfig extends AbstractConfig {
 
     @Key("ui.context-menu.items")
     @Comment("""
-            Items to show in the context menu. Leave empty for custom html.
+            Items to show in the context menu.
             Available items are:
             copy-coords, copy-link, center-map""")
     public List<@NotNull String> UI_CONTEXT_MENU_ITEMS = new ArrayList<>() {{
@@ -142,21 +142,37 @@ public final class WorldConfig extends AbstractConfig {
         add("copy-link");
         add("center-map");
     }};
-    
-    @Key("ui.context-menu.custom-html.enabled")
-    @Comment("""
-            Use custom html for the context menu.""")
-    public boolean UI_CONTEXT_MENU_CUSTOM_HTML_ENABLED = false;
-    
-    @Key("ui.context-menu.custom-html.html")
-    @Comment("""
-            Custom html for the context menu.""")
-    public String UI_CONTEXT_MENU_CUSTOM_HTML_HTML = "";
-    
-    @Key("ui.context-menu.custom-html.css")
+
+    @Key("ui.context-menu.css")
     @Comment("""
             Custom css for the context menu.""")
-    public String UI_CONTEXT_MENU_CUSTOM_HTML_CSS = "";
+    public static String UI_CONTEXT_MENU_CSS = """
+            .leaflet-control-contextmenu {
+              display: none;
+              position: absolute;
+              flex-direction: column;
+              font-family: monospace;
+              top: 0;
+              left: 0;
+              text-align: left;
+              white-space: pre;
+              background-color: var(--ui-background);
+              border: var(--ui-border);
+              border-radius: var(--ui-border-radius);
+              overflow: hidden;
+              z-index: 10000; /* Ensure the menu appears over other map controls */
+            }
+                        
+            .leaflet-control-contextmenu-item {
+              padding: 5px;
+              color: var(--ui-text);
+              transition: background-color 0.3s ease-in-out;
+                        
+              &:hover {
+                background-color: var(--ui-background-hover);
+                color: var(--ui-text-hover);
+              }
+            }""";
 
     @Key("center.x")
     @Comment("""

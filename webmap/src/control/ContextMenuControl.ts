@@ -1,17 +1,18 @@
 import * as L from "leaflet";
 import {Pl3xMap} from "../Pl3xMap";
-import {ContextMenuCustomHtml, ContextMenuItemType} from "../settings/WorldSettings";
+import {ContextMenuItemType} from "../settings/WorldSettings";
+import {insertCss, removeCss} from "../util/Util";
+import Pl3xMapLeafletMap from "../map/Pl3xMapLeafletMap";
 
 export default class ContextMenuControl extends L.Control {
     private readonly _pl3xmap: Pl3xMap;
     private _dom: HTMLDivElement = L.DomUtil.create('div');
-    private _customHtml: ContextMenuCustomHtml;
+    private _id: string = 'pl3xmap-content-menu';
 
 
     constructor(pl3xmap: Pl3xMap) {
         super();
         this._pl3xmap = pl3xmap;
-        this._customHtml = pl3xmap.worldManager.currentWorld?.settings.ui.contextMenu.customHtml ?? new ContextMenuCustomHtml();
         if (this._pl3xmap.worldManager.currentWorld?.settings.ui.contextMenu.enabled) {
             this._init();
         }
@@ -20,19 +21,22 @@ export default class ContextMenuControl extends L.Control {
     private _init(): void {
         this._pl3xmap.map.on('contextmenu', this._show, this);
         this._pl3xmap.map.on('click', this._hide, this);
-        if (this._customHtml.enabled) {
-            const style = L.DomUtil.create('style', 'leaflet-control-contextmenu-custom-style', document.head);
-            style.innerHTML = this._customHtml.css;
+
+        const css = this._pl3xmap.worldManager.currentWorld?.settings.ui.contextMenu.css;
+        if (css !== undefined) {
+            insertCss(css, this._id);
         }
     }
 
     onAdd(): HTMLDivElement {
         this._dom = L.DomUtil.create('div', 'leaflet-control leaflet-control-contextmenu');
         this._dom.dataset.label = this._pl3xmap.settings!.lang.contextMenu.label;
-        if (this._customHtml.enabled) {
-            this._dom.innerHTML = this._customHtml.html;
-        }
         return this._dom;
+    }
+
+
+    onRemove(_map: Pl3xMapLeafletMap): void {
+        removeCss(this._id);
     }
 
     private _show(event: L.LeafletMouseEvent): void {
@@ -46,18 +50,16 @@ export default class ContextMenuControl extends L.Control {
 
         this._dom.style.visibility = 'visible';
 
-        if (!this._customHtml.enabled) {
-            this._dom.innerHTML = '';
-            this._getItems(event).forEach((item) => {
-                const menuItem = L.DomUtil.create('button', 'leaflet-control-contextmenu-item', this._dom);
-                menuItem.innerHTML = item.label;
-                L.DomEvent.on(menuItem, 'click', (e) => {
-                    L.DomEvent.stopPropagation(e);
-                    item.callback();
-                    this._hide();
-                });
+        this._dom.innerHTML = '';
+        this._getItems(event).forEach((item) => {
+            const menuItem = L.DomUtil.create('button', 'leaflet-control-contextmenu-item', this._dom);
+            menuItem.innerHTML = item.label;
+            L.DomEvent.on(menuItem, 'click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                item.callback();
+                this._hide();
             });
-        }
+        });
 
         // Don't position offscreen (https://github.com/JLyne/LiveAtlas/blob/0819cdf2728b49d361f9adfda09ff08311a59337/src/components/map/MapContextMenu.vue#L123-L135)
         const x = Math.min(
