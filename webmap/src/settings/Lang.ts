@@ -95,7 +95,6 @@ export class BlockInfoUnknown {
     private readonly _block: string;
     private readonly _biome: string;
 
-
     constructor(block: string, biome: string) {
         this._block = block;
         this._biome = biome;
@@ -109,7 +108,6 @@ export class BlockInfoUnknown {
         return this._biome;
     }
 }
-
 
 /**
  * Represents a label and a value, with 'unknown' values.
@@ -147,7 +145,7 @@ export class ContextMenu {
     get copyCoords(): string {
         return this._copyCoords;
     }
-    
+
     get copyLink(): string {
         return this._copyLink;
     }
