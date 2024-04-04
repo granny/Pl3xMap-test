@@ -36,7 +36,7 @@ public class EventRegistry {
                 Logger.debug("Executing Event " + handler);
                 handler.execute(event);
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to execute Event " + handler, t);
             }
         }
     }

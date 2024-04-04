@@ -26,6 +26,7 @@ package net.pl3x.map.core.scheduler;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
+import net.pl3x.map.core.log.Logger;
 import org.jetbrains.annotations.NotNull;
 
 public class Scheduler {
@@ -60,7 +61,7 @@ public class Scheduler {
                 iter.remove();
             }
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to tick a task", t);
         }
         this.ticking = false;
     }

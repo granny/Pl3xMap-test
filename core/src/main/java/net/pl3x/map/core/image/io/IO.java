@@ -99,8 +99,7 @@ public abstract class IO {
                 buffer = reader.read(0);
                 in.flush();
             } catch (IOException e) {
-                Logger.warn("Could not read tile image: " + path);
-                e.printStackTrace();
+                Logger.warn("Could not read tile image: " + path, e);
             } finally {
                 if (reader != null) {
                     reader.dispose();
@@ -126,8 +125,7 @@ public abstract class IO {
                 writer.write(null, new IIOImage(buffer, null, null), param);
                 out.flush();
             } catch (IOException e) {
-                Logger.warn("Could not write tile image: " + tmp);
-                e.printStackTrace();
+                Logger.warn("Could not write tile image: " + tmp, e);
             } finally {
                 if (writer != null) {
                     writer.dispose();
@@ -136,8 +134,7 @@ public abstract class IO {
             try {
                 FileUtil.atomicMove(tmp, path);
             } catch (IOException e) {
-                Logger.warn("Could not write tile image: " + path);
-                e.printStackTrace();
+                Logger.warn("Could not write tile image: " + path, e);
             }
         }
     }

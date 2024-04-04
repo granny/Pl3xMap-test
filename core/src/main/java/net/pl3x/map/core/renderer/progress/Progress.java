@@ -154,7 +154,7 @@ public class Progress implements Runnable {
         try {
             runProgress();
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to run progress", t);
         }
     }
 

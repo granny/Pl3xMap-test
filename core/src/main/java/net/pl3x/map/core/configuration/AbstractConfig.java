@@ -75,8 +75,7 @@ public abstract class AbstractConfig {
                     setComment(key.value(), comment.value());
                 }
             } catch (Throwable e) {
-                Logger.warn("Failed to load " + key.value() + " from " + path.getFileName().toString());
-                e.printStackTrace();
+                Logger.warn("Failed to load " + key.value() + " from " + path.getFileName().toString(), e);
             }
         });
 

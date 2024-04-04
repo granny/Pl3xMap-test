@@ -32,6 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import net.pl3x.map.core.command.exception.PointParseException;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import org.jetbrains.annotations.NotNull;
 
@@ -77,7 +78,7 @@ public class PointParser<C> implements ArgumentParser<@NotNull C, @NotNull Point
         try {
             coordinate = input.isEmpty() ? 0 : Integer.parseInt(input);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.severe("Failed to get integer from coordinate input", e);
             return ArgumentParseResult.failure(new IntegerArgument.IntegerParseException(
                     input,
                     new IntegerArgument.IntegerParser<>(

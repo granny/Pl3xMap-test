@@ -44,6 +44,7 @@ import net.pl3x.map.core.command.argument.ZoomArgument;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.image.io.IO;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.renderer.Renderer;
 import net.pl3x.map.core.world.World;
@@ -168,7 +169,7 @@ public class StitchCommand extends Pl3xMapCommand {
                 Point point = entry.getKey();
                 g2d.drawImage(tile, (point.x() - minX) << 9, (point.z() - minZ) << 9, null);
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Could not generate tile from point %s in path %s".formatted(entry.getKey(), entry.getValue().toAbsolutePath()), t);
             }
         }
 

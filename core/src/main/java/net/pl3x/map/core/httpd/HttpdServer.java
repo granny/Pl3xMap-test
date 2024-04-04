@@ -60,7 +60,7 @@ public class HttpdServer {
                             long time = attr.lastModifiedTime().toMillis();
                             return new ETag(false, Long.toString(time));
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            Logger.severe("Failed to read basic file attributes from file %s".formatted(path.toAbsolutePath()), e);
                             return null;
                         }
                     })

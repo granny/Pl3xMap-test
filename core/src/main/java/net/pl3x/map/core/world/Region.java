@@ -34,6 +34,7 @@ import java.io.RandomAccessFile;
 import java.nio.file.Path;
 import java.util.Objects;
 import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.log.Logger;
 import net.querz.mca.CompressionType;
 import net.querz.nbt.io.NBTInputStream;
 import net.querz.nbt.io.NamedTag;
@@ -89,7 +90,7 @@ public class Region {
                 chunk = loadChunk(raf, index);
             } catch (EOFException | FileNotFoundException ignore) {
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.severe("Failed to load chunk at region [%d, %d]".formatted(chunkX, chunkZ), e);
             }
             if (chunk == null) {
                 return this.chunks[index] = new EmptyChunk(getWorld(), this);

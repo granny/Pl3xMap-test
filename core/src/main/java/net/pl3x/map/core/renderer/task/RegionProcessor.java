@@ -158,7 +158,7 @@ public class RegionProcessor {
 
             }
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Region processor failed to process tickets", t);
         }
 
         this.running = false;
@@ -216,7 +216,7 @@ public class RegionProcessor {
                 .map(pos -> CompletableFuture.runAsync(new RegionScanTask(world, pos), Pl3xMap.api().getRenderExecutor())
                         .whenComplete((result, throwable) -> {
                             if (throwable != null) {
-                                throwable.printStackTrace();
+                                Logger.severe("Failed to run region scan task for %s".formatted(world.getName(), pos), throwable);
                             }
 
                             // set region modified time
@@ -230,7 +230,7 @@ public class RegionProcessor {
                 ).toArray(CompletableFuture[]::new)
         ).whenComplete((result, throwable) -> {
             if (throwable != null) {
-                throwable.printStackTrace();
+                Logger.severe("Failed to run region scan tasks for world %s".formatted(world.getName()), throwable);
             }
 
             // stop the progress tracker

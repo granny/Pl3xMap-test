@@ -36,6 +36,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.JsonObjectWrapper;
 import net.pl3x.map.core.markers.layer.Layer;
 import net.pl3x.map.core.markers.marker.Marker;
@@ -76,7 +77,7 @@ public class UpdateMarkerData extends Task {
             try {
                 parseLayers();
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to parse Layers", t);
             }
             this.running = false;
         }, this.executor);
@@ -108,7 +109,7 @@ public class UpdateMarkerData extends Task {
                     this.lastUpdated.put(key, now);
                 }
             } catch (Throwable t) {
-                t.printStackTrace();
+                Logger.severe("Failed to process layer " + key + "for world " + world.getName(), t);
             }
         });
 

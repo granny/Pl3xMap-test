@@ -37,6 +37,7 @@ import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.configuration.PlayersLayerConfig;
 import net.pl3x.map.core.configuration.WorldConfig;
 import net.pl3x.map.core.image.io.IO;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.scheduler.Task;
 import net.pl3x.map.core.util.FileUtil;
@@ -60,7 +61,7 @@ public class UpdateSettingsData extends Task {
         try {
             parseSettings();
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to parse settings.json", t);
         }
     }
 
@@ -202,7 +203,7 @@ public class UpdateSettingsData extends Task {
             map.put("players", parsePlayers());
             map.put("worldSettings", parseWorlds());
         } catch (Throwable t) {
-            t.printStackTrace();
+            Logger.severe("Failed to parse players and worlds settings", t);
         }
 
         FileUtil.writeJson(this.gson.toJson(map), FileUtil.getTilesDir().resolve("settings.json"));
