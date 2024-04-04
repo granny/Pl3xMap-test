@@ -118,7 +118,7 @@ ui:
       biome: Nieznany biom
   contextmenu:
     label: ContextMenu
-    copy-coords: Skopiuj współrzędne
+    copy-coords: <x>, <y>, <z>
     copy-link: Skopiuj link do tego miejsca
     center-map: Wyśrodkuj mapę w tym miejscu
   coords:
