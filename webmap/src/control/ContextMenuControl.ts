@@ -40,7 +40,7 @@ export default class ContextMenuControl extends L.Control {
         if (!this._customHtml.enabled) {
             this._dom.innerHTML = '';
             this._getItems(event).forEach((item) => {
-                const menuItem = L.DomUtil.create('div', 'leaflet-control-contextmenu-item', this._dom);
+                const menuItem = L.DomUtil.create('button', 'leaflet-control-contextmenu-item', this._dom);
                 menuItem.innerHTML = item.label;
                 L.DomEvent.on(menuItem, 'click', (e) => {
                     L.DomEvent.stopPropagation(e);
