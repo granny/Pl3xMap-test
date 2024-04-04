@@ -235,6 +235,8 @@ img.leaflet-tile {
   position: absolute;
   flex-direction: column;
   font-family: monospace;
+  top: 0;
+  left: 0;
   text-align: left;
   white-space: pre;
   background-color: var(--ui-background);

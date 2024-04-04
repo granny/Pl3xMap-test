@@ -36,7 +36,16 @@ export default class ContextMenuControl extends L.Control {
     }
 
     private _show(event: L.LeafletMouseEvent): void {
-        L.DomEvent.stopPropagation(event);
+        // Ignore right-clicks on controls (https://github.com/JLyne/LiveAtlas/blob/0819cdf2728b49d361f9adfda09ff08311a59337/src/components/map/MapContextMenu.vue#L188-L194)
+        if(event.originalEvent.target && (event.originalEvent.target as HTMLElement).closest('.leaflet-control')) {
+            return;
+        }
+
+        event.originalEvent.stopImmediatePropagation();
+        event.originalEvent.preventDefault();
+
+        this._dom.style.visibility = 'visible';
+
         if (!this._customHtml.enabled) {
             this._dom.innerHTML = '';
             this._getItems(event).forEach((item) => {
@@ -49,13 +58,24 @@ export default class ContextMenuControl extends L.Control {
                 });
             });
         }
+
+        // Don't position offscreen (https://github.com/JLyne/LiveAtlas/blob/0819cdf2728b49d361f9adfda09ff08311a59337/src/components/map/MapContextMenu.vue#L123-L135)
+        const x = Math.min(
+                window.innerWidth - this._dom.offsetWidth - 10,
+                event.originalEvent.clientX
+            ),
+            y = Math.min(
+                window.innerHeight - this._dom.offsetHeight - 10,
+                event.originalEvent.clientY
+            );
+
         this._dom.style.display = 'flex';
-        this._dom.style.left = event.containerPoint.x + 'px';
-        this._dom.style.top = event.containerPoint.y + 'px';
+        this._dom.style.transform = `translate(${x}px, ${y}px)`;
     }
 
     private _hide(): void {
-        this._dom.style.display = 'none';
+        this._dom.style.visibility = 'hidden';
+        this._dom.style.left = '-1000';
     }
 
     private _getItems(e: L.LeafletMouseEvent): Map<string, { label: string, callback: () => void }> {
@@ -82,8 +102,7 @@ export default class ContextMenuControl extends L.Control {
                         callback: () => navigator.clipboard.writeText(
                             window.location.href +
                             this._pl3xmap.controlManager.linkControl?.getUrlFromCoords(
-                                x,
-                                z,
+                                x, z,
                                 this._pl3xmap.map.getCurrentZoom(),
                                 world
                             )
