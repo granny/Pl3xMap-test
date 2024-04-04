@@ -233,6 +233,10 @@ img.leaflet-tile {
 .leaflet-control-contextmenu {
   display: none;
   position: absolute;
+  flex-direction: column;
+  font-family: monospace;
+  text-align: left;
+  white-space: pre;
   background-color: var(--ui-background);
   border: var(--ui-border);
   border-radius: var(--ui-border-radius);
@@ -242,7 +246,6 @@ img.leaflet-tile {
 
 .leaflet-control-contextmenu-item {
   padding: 5px;
-  font-size: 12px;
   color: var(--ui-text);
   transition: background-color 0.3s ease-in-out;
 

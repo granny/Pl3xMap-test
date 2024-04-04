@@ -49,7 +49,7 @@ export default class ContextMenuControl extends L.Control {
                 });
             });
         }
-        this._dom.style.display = 'block';
+        this._dom.style.display = 'flex';
         this._dom.style.left = event.containerPoint.x + 'px';
         this._dom.style.top = event.containerPoint.y + 'px';
     }
