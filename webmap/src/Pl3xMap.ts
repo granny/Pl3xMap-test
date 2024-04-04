@@ -3,7 +3,6 @@ import {ControlManager} from "./control/ControlManager";
 import {PlayerManager} from "./player/PlayerManager";
 import {WorldManager} from "./world/WorldManager";
 import {getJSON} from "./util/Util";
-import ContextMenuControl from "./control/ContextMenuControl";
 import SidebarControl from "./control/SidebarControl";
 import Pl3xMapLeafletMap from "./map/Pl3xMapLeafletMap";
 import "./scss/styles.scss";
