@@ -35,7 +35,7 @@ export default class ContextMenuControl extends L.Control {
     }
 
 
-    onRemove(_map: Pl3xMapLeafletMap): void {
+    onRemove(): void {
         removeCss(this._id);
     }
 
