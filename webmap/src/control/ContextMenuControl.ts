@@ -2,7 +2,6 @@ import * as L from "leaflet";
 import {Pl3xMap} from "../Pl3xMap";
 import {ContextMenuItemType} from "../settings/WorldSettings";
 import {insertCss, removeCss} from "../util/Util";
-import Pl3xMapLeafletMap from "../map/Pl3xMapLeafletMap";
 
 export default class ContextMenuControl extends L.Control {
     private readonly _pl3xmap: Pl3xMap;
