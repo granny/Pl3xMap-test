@@ -67,9 +67,12 @@ public class CustomLayer extends WorldLayer {
     public static @NotNull CustomLayer fromJson(@NotNull World world, @NotNull JsonObject obj) {
         JsonElement el;
         CustomLayer layer = new CustomLayer(obj.get("key").getAsString(), world, () -> obj.get("label").getAsString());
-        if ((el = obj.get("updateInterval")) != null && !(el instanceof JsonNull)) layer.setUpdateInterval(el.getAsInt());
-        if ((el = obj.get("showControls")) != null && !(el instanceof JsonNull)) layer.setShowControls(el.getAsBoolean());
-        if ((el = obj.get("defaultHidden")) != null && !(el instanceof JsonNull)) layer.setDefaultHidden(el.getAsBoolean());
+        if ((el = obj.get("updateInterval")) != null && !(el instanceof JsonNull))
+            layer.setUpdateInterval(el.getAsInt());
+        if ((el = obj.get("showControls")) != null && !(el instanceof JsonNull))
+            layer.setShowControls(el.getAsBoolean());
+        if ((el = obj.get("defaultHidden")) != null && !(el instanceof JsonNull))
+            layer.setDefaultHidden(el.getAsBoolean());
         if ((el = obj.get("priority")) != null && !(el instanceof JsonNull)) layer.setPriority(el.getAsInt());
         if ((el = obj.get("zIndex")) != null && !(el instanceof JsonNull)) layer.setZIndex(el.getAsInt());
         if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) layer.setPane(el.getAsString());

@@ -67,6 +67,21 @@ public class Stroke extends Option<@NotNull Stroke> {
         setColor(color);
     }
 
+    public static @NotNull Stroke fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Stroke stroke = new Stroke();
+        if ((el = obj.get("enabled")) != null && !(el instanceof JsonNull)) stroke.setEnabled(el.getAsBoolean());
+        if ((el = obj.get("weight")) != null && !(el instanceof JsonNull)) stroke.setWeight(el.getAsInt());
+        if ((el = obj.get("color")) != null && !(el instanceof JsonNull)) stroke.setColor(el.getAsInt());
+        if ((el = obj.get("lineCap")) != null && !(el instanceof JsonNull))
+            stroke.setLineCapShape(LineCapShape.values()[el.getAsInt()]);
+        if ((el = obj.get("lineJoin")) != null && !(el instanceof JsonNull))
+            stroke.setLineJoinShape(LineJoinShape.values()[el.getAsInt()]);
+        if ((el = obj.get("dashArray")) != null && !(el instanceof JsonNull)) stroke.setDashPattern(el.getAsString());
+        if ((el = obj.get("dashOffset")) != null && !(el instanceof JsonNull)) stroke.setDashOffset(el.getAsString());
+        return stroke;
+    }
+
     /**
      * Whether to draw stroke along the path.
      * <p>
@@ -269,19 +284,6 @@ public class Stroke extends Option<@NotNull Stroke> {
         wrapper.addProperty("dashArray", getDashPattern());
         wrapper.addProperty("dashOffset", getDashOffset());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Stroke fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Stroke stroke = new Stroke();
-        if ((el = obj.get("enabled")) != null && !(el instanceof JsonNull)) stroke.setEnabled(el.getAsBoolean());
-        if ((el = obj.get("weight")) != null && !(el instanceof JsonNull)) stroke.setWeight(el.getAsInt());
-        if ((el = obj.get("color")) != null && !(el instanceof JsonNull)) stroke.setColor(el.getAsInt());
-        if ((el = obj.get("lineCap")) != null && !(el instanceof JsonNull)) stroke.setLineCapShape(LineCapShape.values()[el.getAsInt()]);
-        if ((el = obj.get("lineJoin")) != null && !(el instanceof JsonNull)) stroke.setLineJoinShape(LineJoinShape.values()[el.getAsInt()]);
-        if ((el = obj.get("dashArray")) != null && !(el instanceof JsonNull)) stroke.setDashPattern(el.getAsString());
-        if ((el = obj.get("dashOffset")) != null && !(el instanceof JsonNull)) stroke.setDashOffset(el.getAsString());
-        return stroke;
     }
 
     @Override

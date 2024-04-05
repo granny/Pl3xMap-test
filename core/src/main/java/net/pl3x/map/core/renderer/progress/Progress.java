@@ -57,6 +57,19 @@ public class Progress implements Runnable {
         start(1000L);
     }
 
+    public static @NotNull String formatMilliseconds(long time) {
+        int hrs = (int) TimeUnit.MILLISECONDS.toHours(time);
+        int min = (int) TimeUnit.MILLISECONDS.toMinutes(time) % 60;
+        int sec = (int) TimeUnit.MILLISECONDS.toSeconds(time) % 60;
+        if (hrs > 0) {
+            return String.format("%dh %dm %ds", hrs, min, sec);
+        } else if (min > 0) {
+            return String.format("%dm %ds", min, sec);
+        } else {
+            return String.format("%ds", sec);
+        }
+    }
+
     public void start(long delay) {
         this.future = CompletableFuture.runAsync(() -> {
             // wait...
@@ -173,19 +186,6 @@ public class Progress implements Runnable {
             this.eta = formatMilliseconds(timeLeft);
         } else {
             this.eta = Lang.PROGRESS_ETA_UNKNOWN;
-        }
-    }
-
-    public static @NotNull String formatMilliseconds(long time) {
-        int hrs = (int) TimeUnit.MILLISECONDS.toHours(time);
-        int min = (int) TimeUnit.MILLISECONDS.toMinutes(time) % 60;
-        int sec = (int) TimeUnit.MILLISECONDS.toSeconds(time) % 60;
-        if (hrs > 0) {
-            return String.format("%dh %dm %ds", hrs, min, sec);
-        } else if (min > 0) {
-            return String.format("%dm %ds", min, sec);
-        } else {
-            return String.format("%ds", sec);
         }
     }
 }

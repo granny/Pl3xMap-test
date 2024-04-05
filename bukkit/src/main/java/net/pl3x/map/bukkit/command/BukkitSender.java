@@ -34,15 +34,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class BukkitSender extends Sender {
+    public BukkitSender(@NotNull CommandSender sender) {
+        super(sender);
+    }
+
     public static @NotNull Sender create(@NotNull CommandSender sender) {
         if (sender instanceof org.bukkit.entity.Player) {
             return new Player(sender);
         }
         return new BukkitSender(sender);
-    }
-
-    public BukkitSender(@NotNull CommandSender sender) {
-        super(sender);
     }
 
     @Override

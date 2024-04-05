@@ -50,7 +50,7 @@ public class ResumeCommand extends Pl3xMapCommand {
         Sender sender = context.getSender();
 
         RegionProcessor processor = Pl3xMap.api().getRegionProcessor();
-        
+
         if (!processor.isPaused()) {
             sender.sendMessage(Lang.COMMAND_RESUME_ALREADY_RESUMED);
         } else {

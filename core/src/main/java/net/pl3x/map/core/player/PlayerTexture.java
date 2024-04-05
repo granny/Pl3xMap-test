@@ -23,7 +23,7 @@
  */
 package net.pl3x.map.core.player;
 
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -67,40 +67,6 @@ public class PlayerTexture extends Thread {
             url = STEVE_SKIN;
         }
         this.url = url;
-    }
-
-    @Override
-    public void run() {
-        if (this.url == null) {
-            return;
-        }
-
-        InputStream inputStream = null;
-        try {
-            inputStream = this.url.openStream();
-        } catch (IOException e) {
-            Logger.warn("Failed to get texture of %s from %s: %s".formatted(this.uuid, this.url, e.getCause()), e);
-            return;
-        }
-
-        try {
-            BufferedImage textureSource = ImageIO.read(inputStream);
-
-            BufferedImage head2D = get2DHead(textureSource);
-            ImageIO.write(head2D, "png", SKINS_2D_DIR.resolve(this.uuid + ".png").toFile());
-
-            BufferedImage head3D;
-            try {
-                head3D = get3DHead(textureSource);
-            } catch (NoClassDefFoundError e) {
-                // happens in headless environments (missing awt's GraphicsEnvironment)
-                // just draw a 2d head and put it in the 3d directory for now
-                head3D = head2D;
-            }
-            ImageIO.write(head3D, "png", SKINS_3D_DIR.resolve(this.uuid + ".png").toFile());
-        } catch (Throwable t) {
-            Logger.warn("Failed to process player texture with uuid of %s".formatted(this.uuid), t);
-        }
     }
 
     private static @NotNull BufferedImage get2DHead(@NotNull BufferedImage source) {
@@ -199,5 +165,39 @@ public class PlayerTexture extends Thread {
 
     private static @NotNull BufferedImage transform(@NotNull BufferedImage src, @NotNull AffineTransform at) {
         return new AffineTransformOp(at, AffineTransformOp.TYPE_BICUBIC).filter(src, null);
+    }
+
+    @Override
+    public void run() {
+        if (this.url == null) {
+            return;
+        }
+
+        InputStream inputStream = null;
+        try {
+            inputStream = this.url.openStream();
+        } catch (IOException e) {
+            Logger.warn("Failed to get texture of %s from %s: %s".formatted(this.uuid, this.url, e.getCause()), e);
+            return;
+        }
+
+        try {
+            BufferedImage textureSource = ImageIO.read(inputStream);
+
+            BufferedImage head2D = get2DHead(textureSource);
+            ImageIO.write(head2D, "png", SKINS_2D_DIR.resolve(this.uuid + ".png").toFile());
+
+            BufferedImage head3D;
+            try {
+                head3D = get3DHead(textureSource);
+            } catch (NoClassDefFoundError e) {
+                // happens in headless environments (missing awt's GraphicsEnvironment)
+                // just draw a 2d head and put it in the 3d directory for now
+                head3D = head2D;
+            }
+            ImageIO.write(head3D, "png", SKINS_3D_DIR.resolve(this.uuid + ".png").toFile());
+        } catch (Throwable t) {
+            Logger.warn("Failed to process player texture with uuid of %s".formatted(this.uuid), t);
+        }
     }
 }

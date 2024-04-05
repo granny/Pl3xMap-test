@@ -99,6 +99,17 @@ public class Rectangle extends Marker<@NotNull Rectangle> {
         return new Rectangle(key, point1, point2);
     }
 
+    public static @NotNull Rectangle fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Rectangle rectangle = Rectangle.of(
+                obj.get("key").getAsString(),
+                Point.fromJson((JsonObject) obj.get("point1")),
+                Point.fromJson((JsonObject) obj.get("point2"))
+        );
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) rectangle.setPane(el.getAsString());
+        return rectangle;
+    }
+
     /**
      * Get the first {@link Point} of this rectangle.
      *
@@ -147,17 +158,6 @@ public class Rectangle extends Marker<@NotNull Rectangle> {
         wrapper.addProperty("point2", getPoint2());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Rectangle fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Rectangle rectangle = Rectangle.of(
-                obj.get("key").getAsString(),
-                Point.fromJson((JsonObject) obj.get("point1")),
-                Point.fromJson((JsonObject) obj.get("point2"))
-        );
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) rectangle.setPane(el.getAsString());
-        return rectangle;
     }
 
     @Override

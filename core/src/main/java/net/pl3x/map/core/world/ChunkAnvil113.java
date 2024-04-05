@@ -38,13 +38,10 @@ import net.querz.nbt.tag.Tag;
 import org.jetbrains.annotations.NotNull;
 
 public class ChunkAnvil113 extends Chunk {
-    private Section[] sections = new Section[0];
-
-    private int[] biomes;
-
-    protected long[] worldSurfaceHeights = new long[0];
-
     private final boolean full;
+    protected long[] worldSurfaceHeights = new long[0];
+    private Section[] sections = new Section[0];
+    private int[] biomes;
 
     protected ChunkAnvil113(@NotNull World world, @NotNull Region region, @NotNull CompoundTag chunkTag, int index) {
         super(world, region, chunkTag, index);
@@ -139,10 +136,10 @@ public class ChunkAnvil113 extends Chunk {
 
     protected static class Section {
         private final int sectionY;
+        private final int bitsPerBlock;
         private byte[] blockLight;
         private long[] blocks;
         private BlockState[] palette = new BlockState[0];
-        private final int bitsPerBlock;
 
         public Section(@NotNull CompoundTag sectionData) {
             this.sectionY = sectionData.getByte("Y");

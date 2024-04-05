@@ -13,23 +13,91 @@ import {fireCustomEvent, getBytes, getJSON, getLangName} from "../util/Util";
 export class World {
     private readonly _pl3xmap: Pl3xMap;
     private readonly _settings: WorldSettings;
-
-    private _currentRenderer?: Renderer;
-    private _currentRendererLayer?: DoubleTileLayer;
-
     private _rendererLayers: Map<Renderer, DoubleTileLayer> = new Map();
-    private _markerLayers: MarkerLayer[] = [];
-
-    private _biomePalette: Map<number, string> = new Map();
-    private _blockInfo: Map<number, Map<string, BlockInfo>> = new Map();
-
     private _loaded: boolean = false;
-
     private _timer: NodeJS.Timeout | undefined;
 
     constructor(pl3xmap: Pl3xMap, worldManager: WorldManager, settings: WorldSettings) {
         this._pl3xmap = pl3xmap;
         this._settings = settings;
+    }
+
+    private _currentRenderer?: Renderer;
+
+    get currentRenderer(): Renderer | undefined {
+        return this._currentRenderer;
+    }
+
+    private _currentRendererLayer?: DoubleTileLayer;
+
+    get currentRendererLayer(): DoubleTileLayer | undefined {
+        return this._currentRendererLayer;
+    }
+
+    private _markerLayers: MarkerLayer[] = [];
+
+    get markerLayers(): MarkerLayer[] {
+        return this._markerLayers;
+    }
+
+    private _biomePalette: Map<number, string> = new Map();
+
+    get biomePalette(): Map<number, string> {
+        return this._biomePalette;
+    }
+
+    private _blockInfo: Map<number, Map<string, BlockInfo>> = new Map();
+
+    get blockInfo(): Map<number, Map<string, BlockInfo>> {
+        return this._blockInfo;
+    }
+
+    get settings(): WorldSettings {
+        return this._settings;
+    }
+
+    get name(): string {
+        return this.settings.name;
+    }
+
+    get displayName(): string {
+        return this.settings.displayName;
+    }
+
+    get type(): string {
+        return this.settings.type;
+    }
+
+    get order(): number {
+        return this.settings.order;
+    }
+
+    get renderers(): Renderer[] {
+        return this.settings.renderers;
+    }
+
+    get spawn(): Spawn {
+        return this.settings.spawn;
+    }
+
+    get center(): Center {
+        return this.settings.center;
+    }
+
+    get zoom(): Zoom {
+        return this.settings.zoom;
+    }
+
+    get background(): string {
+        switch (this.type) {
+            case "nether":
+                return "url('images/sky/nether.png')";
+            case "the_end":
+                return "url('images/sky/the_end.png')";
+            case "normal":
+            default:
+                return "url('images/sky/overworld.png')";
+        }
     }
 
     public load(): Promise<World> {
@@ -128,14 +196,6 @@ export class World {
         return this._rendererLayers.get(renderer);
     }
 
-    get currentRendererLayer(): DoubleTileLayer | undefined {
-        return this._currentRendererLayer;
-    }
-
-    get currentRenderer(): Renderer | undefined {
-        return this._currentRenderer;
-    }
-
     public setRenderer(renderer: Renderer | string): void {
         clearTimeout(this._timer);
 
@@ -159,66 +219,6 @@ export class World {
 
     public resetRenderer(renderer?: Renderer | string): void {
         this.setRenderer(renderer ?? this.settings.renderers[0]);
-    }
-
-    get settings(): WorldSettings {
-        return this._settings;
-    }
-
-    get name(): string {
-        return this.settings.name;
-    }
-
-    get displayName(): string {
-        return this.settings.displayName;
-    }
-
-    get type(): string {
-        return this.settings.type;
-    }
-
-    get order(): number {
-        return this.settings.order;
-    }
-
-    get renderers(): Renderer[] {
-        return this.settings.renderers;
-    }
-
-    get spawn(): Spawn {
-        return this.settings.spawn;
-    }
-
-    get center(): Center {
-        return this.settings.center;
-    }
-
-    get zoom(): Zoom {
-        return this.settings.zoom;
-    }
-
-    get markerLayers(): MarkerLayer[] {
-        return this._markerLayers;
-    }
-
-    get blockInfo(): Map<number, Map<string, BlockInfo>> {
-        return this._blockInfo;
-    }
-
-    get biomePalette(): Map<number, string> {
-        return this._biomePalette;
-    }
-
-    get background(): string {
-        switch (this.type) {
-            case "nether":
-                return "url('images/sky/nether.png')";
-            case "the_end":
-                return "url('images/sky/the_end.png')";
-            case "normal":
-            default:
-                return "url('images/sky/overworld.png')";
-        }
     }
 
     private tick(): void {

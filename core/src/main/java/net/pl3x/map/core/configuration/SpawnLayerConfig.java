@@ -27,11 +27,11 @@ import net.pl3x.map.core.Pl3xMap;
 
 @SuppressWarnings("CanBeFinal")
 public final class SpawnLayerConfig extends AbstractConfig {
+    private static final SpawnLayerConfig CONFIG = new SpawnLayerConfig();
     @Key("settings.enabled")
     @Comment("""
             Show spawn icon on the map.""")
     public static boolean ENABLED = true;
-
     @Key("settings.layer.update-interval")
     @Comment("""
             How often (in seconds) to update the marker.
@@ -55,14 +55,11 @@ public final class SpawnLayerConfig extends AbstractConfig {
             Z-Index order spawn layer shows up in the map.
             (higher values are drawn on top of lower values)""")
     public static int Z_INDEX = 500;
-
     @Key("settings.icon")
     @Comment("""
             The spawn icon.
             Icon must be in the web/images/icon/ directory.""")
     public static String ICON = "spawn";
-
-    private static final SpawnLayerConfig CONFIG = new SpawnLayerConfig();
 
     public static void reload() {
         CONFIG.reload(Pl3xMap.api().getMainDir().resolve("layers/spawn.yml"), SpawnLayerConfig.class);

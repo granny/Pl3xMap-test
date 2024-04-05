@@ -244,6 +244,23 @@ public class Metrics {
             }
         }
 
+        /**
+         * Gzips the given string.
+         *
+         * @param str The string to gzip.
+         * @return The gzipped string.
+         */
+        private static byte[] compress(@Nullable String str) throws IOException {
+            if (str == null) {
+                return null;
+            }
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
+                gzip.write(str.getBytes(StandardCharsets.UTF_8));
+            }
+            return outputStream.toByteArray();
+        }
+
         public void addCustomChart(@NotNull CustomChart chart) {
             this.customCharts.add(chart);
         }
@@ -333,23 +350,6 @@ public class Metrics {
             if (this.logResponseStatusText) {
                 this.infoLogger.accept("Sent data to bStats and received response: " + builder);
             }
-        }
-
-        /**
-         * Gzips the given string.
-         *
-         * @param str The string to gzip.
-         * @return The gzipped string.
-         */
-        private static byte[] compress(@Nullable String str) throws IOException {
-            if (str == null) {
-                return null;
-            }
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            try (GZIPOutputStream gzip = new GZIPOutputStream(outputStream)) {
-                gzip.write(str.getBytes(StandardCharsets.UTF_8));
-            }
-            return outputStream.toByteArray();
         }
     }
 
@@ -506,6 +506,35 @@ public class Metrics {
         }
 
         /**
+         * Escapes the given string like stated in <a href="https://www.ietf.org/rfc/rfc4627.txt">rfc4627</a>.
+         *
+         * <p>This method escapes only the necessary characters '"', '\'. and '\u0000' - '\u001F'.
+         * Compact escapes are not used (e.g., '\n' is escaped as "\u000a" and not as "\n").
+         *
+         * @param value The value to escape.
+         * @return The escaped value.
+         */
+        @SuppressWarnings("UnnecessaryUnicodeEscape")
+        private static @NotNull String escape(@NotNull String value) {
+            final StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < value.length(); i++) {
+                char c = value.charAt(i);
+                if (c == '"') {
+                    builder.append("\\\"");
+                } else if (c == '\\') {
+                    builder.append("\\\\");
+                } else if (c <= '\u000F') {
+                    builder.append("\\u000").append(Integer.toHexString(c));
+                } else if (c <= '\u001F') {
+                    builder.append("\\u00").append(Integer.toHexString(c));
+                } else {
+                    builder.append(c);
+                }
+            }
+            return builder.toString();
+        }
+
+        /**
          * Appends a string field to the JSON.
          *
          * @param key   The key of the field.
@@ -597,35 +626,6 @@ public class Metrics {
             JsonObject object = new JsonObject(this.builder.append("}").toString());
             this.builder = null;
             return object;
-        }
-
-        /**
-         * Escapes the given string like stated in <a href="https://www.ietf.org/rfc/rfc4627.txt">rfc4627</a>.
-         *
-         * <p>This method escapes only the necessary characters '"', '\'. and '\u0000' - '\u001F'.
-         * Compact escapes are not used (e.g., '\n' is escaped as "\u000a" and not as "\n").
-         *
-         * @param value The value to escape.
-         * @return The escaped value.
-         */
-        @SuppressWarnings("UnnecessaryUnicodeEscape")
-        private static @NotNull String escape(@NotNull String value) {
-            final StringBuilder builder = new StringBuilder();
-            for (int i = 0; i < value.length(); i++) {
-                char c = value.charAt(i);
-                if (c == '"') {
-                    builder.append("\\\"");
-                } else if (c == '\\') {
-                    builder.append("\\\\");
-                } else if (c <= '\u000F') {
-                    builder.append("\\u000").append(Integer.toHexString(c));
-                } else if (c <= '\u001F') {
-                    builder.append("\\u00").append(Integer.toHexString(c));
-                } else {
-                    builder.append(c);
-                }
-            }
-            return builder.toString();
         }
 
         /**

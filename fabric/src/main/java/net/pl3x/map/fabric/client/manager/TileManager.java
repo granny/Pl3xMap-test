@@ -100,16 +100,15 @@ public class TileManager {
     }
 
     private static class Loader extends CacheLoader<@NotNull Long, @NotNull BufferedImage> {
-        private static @NotNull LoadingCache<@NotNull Long, @NotNull BufferedImage> create(@NotNull Pl3xMapFabricClient mod, @NotNull String world) {
-            return CacheBuilder.newBuilder().maximumSize(100).build(new Loader(mod, world));
-        }
-
         private final Pl3xMapFabricClient mod;
         private final String world;
-
         private Loader(@NotNull Pl3xMapFabricClient mod, @NotNull String world) {
             this.mod = mod;
             this.world = world;
+        }
+
+        private static @NotNull LoadingCache<@NotNull Long, @NotNull BufferedImage> create(@NotNull Pl3xMapFabricClient mod, @NotNull String world) {
+            return CacheBuilder.newBuilder().maximumSize(100).build(new Loader(mod, world));
         }
 
         @Override

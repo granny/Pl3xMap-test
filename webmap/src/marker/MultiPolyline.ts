@@ -34,12 +34,6 @@ export class MultiPolyline extends Marker {
         super(data.key, L.polyline(MultiPolyline.createLines(data), options));
     }
 
-    public update(raw: unknown[]): void {
-        const data: MultiPolylineOptions = raw as unknown as MultiPolylineOptions;
-        const polyline: L.Polyline = this.marker as L.Polyline;
-        polyline.setLatLngs(MultiPolyline.createLines(data));
-    }
-
     private static createLines(data: MultiPolylineOptions): L.LatLng[][] {
         const lines: any[] = [];
         data.polylines.forEach((polylines: Polyline): void => {
@@ -50,5 +44,11 @@ export class MultiPolyline extends Marker {
             lines.push(line);
         });
         return lines;
+    }
+
+    public update(raw: unknown[]): void {
+        const data: MultiPolylineOptions = raw as unknown as MultiPolylineOptions;
+        const polyline: L.Polyline = this.marker as L.Polyline;
+        polyline.setLatLngs(MultiPolyline.createLines(data));
     }
 }

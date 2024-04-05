@@ -44,11 +44,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class TileImage extends Keyed {
-    private static final Map<@NotNull Path, @NotNull ReadWriteLock> FILE_LOCKS = new ConcurrentHashMap<>();
-
     public static final String DIR_PATH = "%d/%s/";
     public static final String FILE_PATH = "%d_%d.%s";
-
+    private static final Map<@NotNull Path, @NotNull ReadWriteLock> FILE_LOCKS = new ConcurrentHashMap<>();
     private final World world;
     private final Point region;
 

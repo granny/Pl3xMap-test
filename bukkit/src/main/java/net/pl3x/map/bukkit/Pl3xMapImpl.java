@@ -48,7 +48,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConf
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.log.Logger;
-import net.pl3x.map.core.registry.BiomeRegistry;
 import net.pl3x.map.core.registry.BlockRegistry;
 import net.pl3x.map.core.world.World;
 import org.bukkit.Bukkit;

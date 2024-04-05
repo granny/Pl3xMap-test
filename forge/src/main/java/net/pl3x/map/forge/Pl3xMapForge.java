@@ -76,15 +76,11 @@ public class Pl3xMapForge extends Pl3xMap {
 
     @SuppressWarnings("deprecation")
     private final RandomSource randomSource = RandomSource.createThreadSafe();
-
+    private final ForgeNetwork network;
     private MinecraftServer server;
     private IModInfo modInfo;
-
     private ForgeServerAudiences adventure;
-
     private int tick;
-
-    private final ForgeNetwork network;
 
     @SuppressWarnings("InstantiationOfUtilityClass")
     public Pl3xMapForge() {

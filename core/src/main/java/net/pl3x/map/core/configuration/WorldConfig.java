@@ -37,11 +37,11 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("CanBeFinal")
 public final class WorldConfig extends AbstractConfig {
+    private final World world;
     @Key("enabled")
     @Comment("""
             Enables this world to be rendered on the map.""")
     public boolean ENABLED = true;
-
     @Key("render.renderers")
     @Comment("""
             Renderers to use. Each renderer will render a different
@@ -50,35 +50,30 @@ public final class WorldConfig extends AbstractConfig {
     public Map<@NotNull String, @NotNull String> RENDER_RENDERERS = new LinkedHashMap<>() {{
         put("vintage_story", "overworld_basic");
     }};
-
     @Key("render.biome-blend")
     @Comment("""
             Enables blending of biome grass/foliage/water colors similar to
             the client's biome blending option.
             Values are clamped to 0-7""")
     public int RENDER_BIOME_BLEND = 3;
-
     @Key("render.skylight")
     @Comment("""
             World skylight value. This is used for the day/night cycle
             map (not yet implemented) .Values are clamped to 0-15
             with 0 being darkest and 15 being full bright.""")
     public int RENDER_SKYLIGHT = 15;
-
     @Key("render.translucent-fluids")
     @Comment("""
             Enable translucent fluids.
             This will make the fluids look fancier and translucent,
             so you can see the blocks below in shallow fluids.""")
     public boolean RENDER_TRANSLUCENT_FLUIDS = true;
-
     @Key("render.translucent-glass")
     @Comment("""
             Enable translucent glass.
             This will make the glass look fancier and translucent,
             so you can see the blocks below.""")
     public boolean RENDER_TRANSLUCENT_GLASS = true;
-
     @Key("render.heightmap-type")
     @Comment("""
             Type of heightmap to render.
@@ -95,51 +90,41 @@ public final class WorldConfig extends AbstractConfig {
             EVEN_ODD_OLD_SCHOOL mix of EVEN_ODD and OLD_SCHOOL.
             EVEN_ODD_VANILLA mix of EVEN_ODD and VANILLA.""")
     public String RENDER_HEIGHTMAP_TYPE = "MODERN";
-
     @Key("ui.display-name")
     @Comment("""
             The display name of the world in the world list.
             Use <world> to use the official world name.""")
     public String DISPLAY_NAME = "<world>";
-
     @Key("ui.order")
     @Comment("""
             The order of the world in the world list""")
     public int ORDER = 0;
-
     @Key("ui.attribution")
     @Comment("""
             Shows the footer attributes""")
     public boolean UI_ATTRIBUTION = true;
-
     @Key("ui.blockinfo")
     @Comment("""
             The display position for the blockinfo box""")
     public String UI_BLOCKINFO = "bottomleft";
-
     @Key("ui.coords")
     @Comment("""
             The display position for the coordinates box""")
     public String UI_COORDS = "bottomcenter";
-
     @Key("ui.link")
     @Comment("""
             The display position for the link box""")
     public String UI_LINK = "bottomright";
-
     @Key("center.x")
     @Comment("""
             The x coordinate for the map to load at.
             A value of -1 will default to world spawn.""")
     public int CENTER_X = -1;
-
     @Key("center.z")
     @Comment("""
             The z coordinate for the map to load at.
             A value of -1 will default to world spawn.""")
     public int CENTER_Z = -1;
-
-
     @Key("zoom.default")
     @Comment("""
             The default zoom when loading the map in browser.
@@ -158,13 +143,10 @@ public final class WorldConfig extends AbstractConfig {
             tile images so you can zoom in further without
             the extra cost of rendering more tiles.""")
     public int ZOOM_MAX_IN = 2;
-
     @Key("render.visible-areas")
     @Comment("""
             Visible areas of the world.""")
     public List<Area> VISIBLE_AREAS = new ArrayList<>(); // defaults added in ctor
-
-    private final World world;
 
     public WorldConfig(@NotNull World world) {
         this.world = world;

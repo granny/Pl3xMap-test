@@ -54,8 +54,8 @@ final class ForgeExecutor<C> implements Command<CommandSourceStack> {
     private static final Component NEWLINE = Component.literal("\n");
     private static final String MESSAGE_INTERNAL_ERROR = "An internal error occurred while attempting to perform this command.";
     private static final String MESSAGE_NO_PERMS =
-        "I'm sorry, but you do not have permission to perform this command. "
-            + "Please contact the server administrators if you believe that this is in error.";
+            "I'm sorry, but you do not have permission to perform this command. "
+                    + "Please contact the server administrators if you believe that this is in error.";
     private static final String MESSAGE_UNKNOWN_COMMAND = "Unknown command. Type \"/help\" for help.";
 
     private final ForgeCommandManager<C> manager;
@@ -63,15 +63,15 @@ final class ForgeExecutor<C> implements Command<CommandSourceStack> {
     private final BiConsumer<CommandSourceStack, Component> sendError;
 
     ForgeExecutor(
-        final ForgeCommandManager<C> manager
+            final ForgeCommandManager<C> manager
     ) {
         this(manager, CommandSourceStack::getTextName, CommandSourceStack::sendFailure);
     }
 
     ForgeExecutor(
-        final ForgeCommandManager<C> manager,
-        final Function<CommandSourceStack, String> getName,
-        final BiConsumer<CommandSourceStack, Component> sendError
+            final ForgeCommandManager<C> manager,
+            final Function<CommandSourceStack, String> getName,
+            final BiConsumer<CommandSourceStack, Component> sendError
     ) {
         this.manager = manager;
         this.getName = getName;
@@ -99,79 +99,79 @@ final class ForgeExecutor<C> implements Command<CommandSourceStack> {
     private void handleThrowable(final CommandSourceStack source, final C sender, final Throwable throwable) {
         if (throwable instanceof InvalidSyntaxException) {
             this.manager.handleException(
-                sender,
-                InvalidSyntaxException.class,
-                (InvalidSyntaxException) throwable,
-                (c, e) -> this.sendError.accept(
-                    source,
-                    Component.literal("Invalid Command Syntax. Correct command syntax is: ")
-                        .append(Component.literal(String.format("/%s", e.getCorrectSyntax()))
-                            .withStyle(style -> style.withColor(ChatFormatting.GRAY)))
-                )
+                    sender,
+                    InvalidSyntaxException.class,
+                    (InvalidSyntaxException) throwable,
+                    (c, e) -> this.sendError.accept(
+                            source,
+                            Component.literal("Invalid Command Syntax. Correct command syntax is: ")
+                                    .append(Component.literal(String.format("/%s", e.getCorrectSyntax()))
+                                            .withStyle(style -> style.withColor(ChatFormatting.GRAY)))
+                    )
             );
         } else if (throwable instanceof InvalidCommandSenderException) {
             this.manager.handleException(
-                sender,
-                InvalidCommandSenderException.class,
-                (InvalidCommandSenderException) throwable,
-                (c, e) -> this.sendError.accept(source, Component.literal(throwable.getMessage()))
+                    sender,
+                    InvalidCommandSenderException.class,
+                    (InvalidCommandSenderException) throwable,
+                    (c, e) -> this.sendError.accept(source, Component.literal(throwable.getMessage()))
             );
         } else if (throwable instanceof NoPermissionException) {
             this.manager.handleException(
-                sender,
-                NoPermissionException.class,
-                (NoPermissionException) throwable,
-                (c, e) -> this.sendError.accept(source, Component.literal(MESSAGE_NO_PERMS))
+                    sender,
+                    NoPermissionException.class,
+                    (NoPermissionException) throwable,
+                    (c, e) -> this.sendError.accept(source, Component.literal(MESSAGE_NO_PERMS))
             );
         } else if (throwable instanceof NoSuchCommandException) {
             this.manager.handleException(
-                sender,
-                NoSuchCommandException.class,
-                (NoSuchCommandException) throwable,
-                (c, e) -> this.sendError.accept(source, Component.literal(MESSAGE_UNKNOWN_COMMAND))
+                    sender,
+                    NoSuchCommandException.class,
+                    (NoSuchCommandException) throwable,
+                    (c, e) -> this.sendError.accept(source, Component.literal(MESSAGE_UNKNOWN_COMMAND))
             );
         } else if (throwable instanceof ArgumentParseException) {
             this.manager.handleException(
-                sender,
-                ArgumentParseException.class,
-                (ArgumentParseException) throwable,
-                (c, e) -> {
-                    if (throwable.getCause() instanceof CommandSyntaxException) {
-                        this.sendError.accept(source, Component.literal("Invalid Command Argument: ")
-                            .append(Component.literal("")
-                                .append(ComponentUtils
-                                    .fromMessage(((CommandSyntaxException) throwable.getCause()).getRawMessage()))
-                                .withStyle(ChatFormatting.GRAY)));
-                    } else {
-                        this.sendError.accept(source, Component.literal("Invalid Command Argument: ")
-                            .append(Component.literal(throwable.getCause().getMessage())
-                                .withStyle(ChatFormatting.GRAY)));
+                    sender,
+                    ArgumentParseException.class,
+                    (ArgumentParseException) throwable,
+                    (c, e) -> {
+                        if (throwable.getCause() instanceof CommandSyntaxException) {
+                            this.sendError.accept(source, Component.literal("Invalid Command Argument: ")
+                                    .append(Component.literal("")
+                                            .append(ComponentUtils
+                                                    .fromMessage(((CommandSyntaxException) throwable.getCause()).getRawMessage()))
+                                            .withStyle(ChatFormatting.GRAY)));
+                        } else {
+                            this.sendError.accept(source, Component.literal("Invalid Command Argument: ")
+                                    .append(Component.literal(throwable.getCause().getMessage())
+                                            .withStyle(ChatFormatting.GRAY)));
+                        }
                     }
-                }
             );
         } else if (throwable instanceof CommandExecutionException) {
             this.manager.handleException(
-                sender,
-                CommandExecutionException.class,
-                (CommandExecutionException) throwable,
-                (c, e) -> {
-                    this.sendError.accept(source, this.decorateHoverStacktrace(
-                        Component.literal(MESSAGE_INTERNAL_ERROR),
-                        throwable.getCause(),
-                        sender
-                    ));
-                    LOGGER.warn(
-                        "Error occurred while executing command for user {}:",
-                        this.getName.apply(source),
-                        throwable
-                    );
-                }
+                    sender,
+                    CommandExecutionException.class,
+                    (CommandExecutionException) throwable,
+                    (c, e) -> {
+                        this.sendError.accept(source, this.decorateHoverStacktrace(
+                                Component.literal(MESSAGE_INTERNAL_ERROR),
+                                throwable.getCause(),
+                                sender
+                        ));
+                        LOGGER.warn(
+                                "Error occurred while executing command for user {}:",
+                                this.getName.apply(source),
+                                throwable
+                        );
+                    }
             );
         } else {
             this.sendError.accept(source, this.decorateHoverStacktrace(
-                Component.literal(MESSAGE_INTERNAL_ERROR),
-                throwable,
-                sender
+                    Component.literal(MESSAGE_INTERNAL_ERROR),
+                    throwable,
+                    sender
             ));
             LOGGER.warn("Error occurred while executing command for user {}:", this.getName.apply(source), throwable);
         }
@@ -186,16 +186,16 @@ final class ForgeExecutor<C> implements Command<CommandSourceStack> {
         cause.printStackTrace(new PrintWriter(writer));
         final String stackTrace = writer.toString().replace("\t", "    ");
         return input.withStyle(style -> style
-            .withHoverEvent(new HoverEvent(
-                HoverEvent.Action.SHOW_TEXT,
-                Component.literal(stackTrace)
-                    .append(NEWLINE)
-                    .append(Component.literal("    Click to copy")
-                        .withStyle(s2 -> s2.withColor(ChatFormatting.GRAY).withItalic(true)))
-            ))
-            .withClickEvent(new ClickEvent(
-                ClickEvent.Action.COPY_TO_CLIPBOARD,
-                stackTrace
-            )));
+                .withHoverEvent(new HoverEvent(
+                        HoverEvent.Action.SHOW_TEXT,
+                        Component.literal(stackTrace)
+                                .append(NEWLINE)
+                                .append(Component.literal("    Click to copy")
+                                        .withStyle(s2 -> s2.withColor(ChatFormatting.GRAY).withItalic(true)))
+                ))
+                .withClickEvent(new ClickEvent(
+                        ClickEvent.Action.COPY_TO_CLIPBOARD,
+                        stackTrace
+                )));
     }
 }

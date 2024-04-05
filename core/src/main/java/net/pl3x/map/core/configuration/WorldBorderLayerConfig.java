@@ -28,11 +28,11 @@ import net.pl3x.map.core.markers.option.Stroke;
 
 @SuppressWarnings("CanBeFinal")
 public final class WorldBorderLayerConfig extends AbstractConfig {
+    private static final WorldBorderLayerConfig CONFIG = new WorldBorderLayerConfig();
     @Key("settings.enabled")
     @Comment("""
             Shows vanilla world border on the map.""")
     public static boolean ENABLED = true;
-
     @Key("settings.layer.update-interval")
     @Comment("""
             How often (in seconds) to update the marker.
@@ -56,7 +56,6 @@ public final class WorldBorderLayerConfig extends AbstractConfig {
             Z-Index order vanilla world border layer shows up in the map.
             (higher values are drawn on top of lower values)""")
     public static int Z_INDEX = 500;
-
     @Key("settings.style.stroke.color")
     @Comment("""
             Stroke color (#AARRGGBB)""")
@@ -85,8 +84,6 @@ public final class WorldBorderLayerConfig extends AbstractConfig {
             The shape to be used at the corners of paths when they are stroked.""")
     // https://developer.mozilla.org/docs/Web/SVG/Attribute/stroke-linejoin
     public static Stroke.LineJoinShape STROKE_LINE_JOIN_SHAPE = null;
-
-    private static final WorldBorderLayerConfig CONFIG = new WorldBorderLayerConfig();
 
     public static void reload() {
         CONFIG.reload(Pl3xMap.api().getMainDir().resolve("layers/worldborder.yml"), WorldBorderLayerConfig.class);

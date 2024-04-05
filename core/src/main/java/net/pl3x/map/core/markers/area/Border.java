@@ -35,6 +35,10 @@ public class Border implements Area {
         this.world = world;
     }
 
+    public static @NotNull Border deserialize(World world, @SuppressWarnings("unused") Map<String, Object> map) {
+        return new Border(world);
+    }
+
     public int getMinX() {
         return (int) this.world.getBorderMinX();
     }
@@ -71,10 +75,6 @@ public class Border implements Area {
         Map<String, Object> map = new LinkedHashMap<>();
         map.put("type", "world-border");
         return map;
-    }
-
-    public static @NotNull Border deserialize(World world, @SuppressWarnings("unused") Map<String, Object> map) {
-        return new Border(world);
     }
 
     @Override

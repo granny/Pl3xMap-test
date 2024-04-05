@@ -41,6 +41,10 @@ public final class ContextualArgumentTypeProvider<V> implements Supplier<Argumen
     private final Function<CommandBuildContext, ArgumentType<V>> provider;
     private volatile ArgumentType<V> provided;
 
+    ContextualArgumentTypeProvider(final Function<CommandBuildContext, ArgumentType<V>> provider) {
+        this.provider = provider;
+    }
+
     /**
      * Temporarily expose a command build context to providers called from this thread.
      *
@@ -50,10 +54,10 @@ public final class ContextualArgumentTypeProvider<V> implements Supplier<Argumen
      * @param action         an action to perform while the context is exposed
      */
     public static void withBuildContext(
-        final ForgeCommandManager<?> commandManager,
-        final CommandBuildContext ctx,
-        final boolean resetExisting,
-        final Runnable action
+            final ForgeCommandManager<?> commandManager,
+            final CommandBuildContext ctx,
+            final boolean resetExisting,
+            final Runnable action
     ) {
         final ThreadLocalContext context = new ThreadLocalContext(commandManager, ctx);
         CONTEXT.set(context);
@@ -73,19 +77,6 @@ public final class ContextualArgumentTypeProvider<V> implements Supplier<Argumen
         }
     }
 
-    private record ThreadLocalContext(
-        ForgeCommandManager<?> commandManager,
-        CommandBuildContext commandBuildContext
-    ) {
-        private Set<ContextualArgumentTypeProvider<?>> instances() {
-            return INSTANCES.computeIfAbsent(this.commandManager, $ -> Collections.newSetFromMap(new WeakHashMap<>()));
-        }
-    }
-
-    ContextualArgumentTypeProvider(final Function<CommandBuildContext, ArgumentType<V>> provider) {
-        this.provider = provider;
-    }
-
     @Override
     public ArgumentType<V> get() {
         final ThreadLocalContext ctx = CONTEXT.get();
@@ -102,7 +93,7 @@ public final class ContextualArgumentTypeProvider<V> implements Supplier<Argumen
                 if (this.provided == null) {
                     if (ctx == null) {
                         throw new IllegalStateException(
-                            "No build context was available while trying to compute an argument type");
+                                "No build context was available while trying to compute an argument type");
                     }
                     provided = this.provider.apply(ctx.commandBuildContext);
                     this.provided = provided;
@@ -110,5 +101,14 @@ public final class ContextualArgumentTypeProvider<V> implements Supplier<Argumen
             }
         }
         return provided;
+    }
+
+    private record ThreadLocalContext(
+            ForgeCommandManager<?> commandManager,
+            CommandBuildContext commandBuildContext
+    ) {
+        private Set<ContextualArgumentTypeProvider<?>> instances() {
+            return INSTANCES.computeIfAbsent(this.commandManager, $ -> Collections.newSetFromMap(new WeakHashMap<>()));
+        }
     }
 }

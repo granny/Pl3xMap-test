@@ -75,6 +75,20 @@ public class Options implements JsonSerializable {
         return option == null || option.isDefault() ? null : option;
     }
 
+    public static @NotNull Options fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Options options = new Options();
+        if ((el = obj.get("stroke")) != null && !(el instanceof JsonNull))
+            options.setStroke(Stroke.fromJson((JsonObject) el));
+        if ((el = obj.get("fill")) != null && !(el instanceof JsonNull))
+            options.setFill(Fill.fromJson((JsonObject) el));
+        if ((el = obj.get("tooltip")) != null && !(el instanceof JsonNull))
+            options.setTooltip(Tooltip.fromJson((JsonObject) el));
+        if ((el = obj.get("popup")) != null && !(el instanceof JsonNull))
+            options.setPopup(Popup.fromJson((JsonObject) el));
+        return options;
+    }
+
     /**
      * Get stroke rules.
      *
@@ -177,16 +191,6 @@ public class Options implements JsonSerializable {
         wrapper.addProperty("tooltip", getTooltip());
         wrapper.addProperty("popup", getPopup());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Options fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Options options = new Options();
-        if ((el = obj.get("stroke")) != null && !(el instanceof JsonNull)) options.setStroke(Stroke.fromJson((JsonObject) el));
-        if ((el = obj.get("fill")) != null && !(el instanceof JsonNull)) options.setFill(Fill.fromJson((JsonObject) el));
-        if ((el = obj.get("tooltip")) != null && !(el instanceof JsonNull)) options.setTooltip(Tooltip.fromJson((JsonObject) el));
-        if ((el = obj.get("popup")) != null && !(el instanceof JsonNull)) options.setPopup(Popup.fromJson((JsonObject) el));
-        return options;
     }
 
     @Override

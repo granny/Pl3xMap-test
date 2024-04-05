@@ -441,6 +441,26 @@ public abstract class Marker<T extends Marker<@NotNull T>> extends Keyed impleme
         return Rectangle.of(key, point1, point2);
     }
 
+    public static @NotNull Marker<?> fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        String type = obj.get("type").getAsString();
+        JsonObject data = obj.get("data").getAsJsonObject();
+        Marker<?> marker = switch (type) {
+            case "circ" -> Circle.fromJson(data);
+            case "elli" -> Ellipse.fromJson(data);
+            case "icon" -> Icon.fromJson(data);
+            case "multipoly" -> MultiPolygon.fromJson(data);
+            case "multiline" -> MultiPolyline.fromJson(data);
+            case "poly" -> Polygon.fromJson(data);
+            case "line" -> Polyline.fromJson(data);
+            case "rect" -> Rectangle.fromJson(data);
+            default -> throw new IllegalStateException("Marker type not found: " + type);
+        };
+        if ((el = obj.get("options")) != null && !(el instanceof JsonNull))
+            marker.setOptions(Options.fromJson((JsonObject) el));
+        return marker;
+    }
+
     /**
      * Get the type identifier of this marker.
      * <p>
@@ -514,24 +534,5 @@ public abstract class Marker<T extends Marker<@NotNull T>> extends Keyed impleme
      */
     public @NotNull T setOptions(Options.@Nullable Builder builder) {
         return setOptions(builder == null ? null : builder.build());
-    }
-
-    public static @NotNull Marker<?> fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        String type = obj.get("type").getAsString();
-        JsonObject data = obj.get("data").getAsJsonObject();
-        Marker<?> marker = switch (type) {
-            case "circ" -> Circle.fromJson(data);
-            case "elli" -> Ellipse.fromJson(data);
-            case "icon" -> Icon.fromJson(data);
-            case "multipoly" -> MultiPolygon.fromJson(data);
-            case "multiline" -> MultiPolyline.fromJson(data);
-            case "poly" -> Polygon.fromJson(data);
-            case "line" -> Polyline.fromJson(data);
-            case "rect" -> Rectangle.fromJson(data);
-            default -> throw new IllegalStateException("Marker type not found: " + type);
-        };
-        if ((el = obj.get("options")) != null && !(el instanceof JsonNull)) marker.setOptions(Options.fromJson((JsonObject) el));
-        return marker;
     }
 }

@@ -37,15 +37,15 @@ public record Point(int x, int z) implements JsonSerializable {
         return of((int) Math.floor(x), (int) Math.floor(z));
     }
 
+    public static @NotNull Point fromJson(@NotNull JsonObject obj) {
+        return Point.of(obj.get("x").getAsInt(), obj.get("z").getAsInt());
+    }
+
     @Override
     public @NotNull JsonObject toJson() {
         JsonObjectWrapper wrapper = new JsonObjectWrapper();
         wrapper.addProperty("x", x());
         wrapper.addProperty("z", z());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Point fromJson(@NotNull JsonObject obj) {
-        return Point.of(obj.get("x").getAsInt(), obj.get("z").getAsInt());
     }
 }

@@ -63,7 +63,8 @@ public class RendererRegistry extends Registry<Renderer.@NotNull Builder> {
     public @NotNull Renderer createRenderer(@NotNull RegionScanTask task, Renderer.@NotNull Builder builder) {
         try {
             return builder.getClazz().getConstructor(RegionScanTask.class, Renderer.Builder.class).newInstance(task, builder);
-        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
+        } catch (NoSuchMethodException | InvocationTargetException | InstantiationException |
+                 IllegalAccessException e) {
             throw new RuntimeException(e);
         }
     }

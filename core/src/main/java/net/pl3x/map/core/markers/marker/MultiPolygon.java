@@ -113,6 +113,19 @@ public class MultiPolygon extends Marker<@NotNull MultiPolygon> {
         return new MultiPolygon(key, polygons);
     }
 
+    public static @NotNull MultiPolygon fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        MultiPolygon multiPolygon = MultiPolygon.of(obj.get("key").getAsString());
+        if ((el = obj.get("polygons")) != null && !(el instanceof JsonNull)) {
+            JsonArray arr = el.getAsJsonArray();
+            for (int i = 0; i < arr.size(); i++) {
+                multiPolygon.addPolygon(Polygon.fromJson((JsonObject) arr.get(i)));
+            }
+        }
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) multiPolygon.setPane(el.getAsString());
+        return multiPolygon;
+    }
+
     /**
      * Get the list of polygons in this multi-polygon.
      *
@@ -215,19 +228,6 @@ public class MultiPolygon extends Marker<@NotNull MultiPolygon> {
         wrapper.addProperty("polygons", getPolygons());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull MultiPolygon fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        MultiPolygon multiPolygon = MultiPolygon.of(obj.get("key").getAsString());
-        if ((el = obj.get("polygons")) != null && !(el instanceof JsonNull)) {
-            JsonArray arr = el.getAsJsonArray();
-            for (int i = 0; i < arr.size(); i++) {
-                multiPolygon.addPolygon(Polygon.fromJson((JsonObject) arr.get(i)));
-            }
-        }
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) multiPolygon.setPane(el.getAsString());
-        return multiPolygon;
     }
 
     @Override

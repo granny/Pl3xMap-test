@@ -33,16 +33,15 @@ import org.jetbrains.annotations.NotNull;
 
 @SuppressWarnings("CanBeFinal")
 public final class Lang extends AbstractConfig {
+    private static final Lang CONFIG = new Lang();
     @Key("prefix.command")
     public static String PREFIX_COMMAND = "<grey>[<gradient:#C028FF:#5B00FF>Pl3xMap</gradient>]</grey> ";
     @Key("command.base")
     public static String COMMAND_BASE = "View the map at '<grey><click:open_url:'<web-address>'><web-address></click></grey>'";
-
     @Key("command.event.click-for-help")
     public static String CLICK_FOR_HELP = "Click for help";
     @Key("command.event.click-to-confirm")
     public static String CLICK_TO_CONFIRM = "Click to confirm";
-
     @Key("httpd.started.success")
     public static String HTTPD_STARTED = "<green>Internal webserver running on <yellow><bind></yellow>:<yellow><port></yellow>";
     @Key("httpd.started.error")
@@ -53,10 +52,8 @@ public final class Lang extends AbstractConfig {
     public static String HTTPD_STOP_ERROR = "<red>An error occurred with the internal webserver";
     @Key("httpd.disabled")
     public static String HTTPD_DISABLED = "<green>Internal webserver is disabled";
-
     @Key("progress.eta.unknown")
     public static String PROGRESS_ETA_UNKNOWN = "Unknown";
-
     @Key("command.argument.optional-player")
     public static String COMMAND_ARGUMENT_OPTIONAL_PLAYER_DESCRIPTION = "Defaults to the executing player if unspecified (console must specify a player)";
     @Key("command.argument.optional-center")
@@ -67,55 +64,46 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_ARGUMENT_REQUIRED_RENDERER_DESCRIPTION = "Renderer is required";
     @Key("command.argument.required-world")
     public static String COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION = "World is required";
-
     @Key("command.confirm.description")
     public static String COMMAND_CONFIRM_DESCRIPTION = "Confirm a pending command";
     @Key("command.confirm.not-rendering")
     public static String COMMAND_CONFIRM_CONFIRMATION_REQUIRED_MESSAGE = "<red>Confirmation required. Confirm using <grey>/map confirm";
     @Key("command.confirm.success")
     public static String COMMAND_CONFIRM_NO_PENDING_MESSAGE = "<red>You don't have any pending confirmations";
-
     @Key("command.fullrender.description")
     public static String COMMAND_FULLRENDER_DESCRIPTION = "Fully render a world";
     @Key("command.fullrender.starting")
     public static String COMMAND_FULLRENDER_STARTING = "<green>Full render starting. Check <grey>/map status</grey> for more info";
-
     @Key("command.help.description")
     public static String COMMAND_HELP_DESCRIPTION = "Get help for Pl3xmap commands";
     @Key("command.help.argument.query")
     public static String COMMAND_HELP_ARGUMENT_QUERY_DESCRIPTION = "Help Query";
-
     @Key("command.hide.description")
     public static String COMMAND_HIDE_DESCRIPTION = "Hide a player from the map";
     @Key("command.hide.already-hidden")
     public static String COMMAND_HIDE_ALREADY_HIDDEN = "<grey><player> <red>is already hidden from the map";
     @Key("command.hide.success")
     public static String COMMAND_HIDE_SUCCESS = "<grey><player> <green>is now hidden from the map";
-
     @Key("command.pause.description")
     public static String COMMAND_PAUSE_DESCRIPTION = "Pause renderers";
     @Key("command.pause.paused")
     public static String COMMAND_PAUSE_PAUSED = "<green>Renderers are now paused";
     @Key("command.pause.already-paused")
     public static String COMMAND_PAUSE_ALREADY_PAUSED = "<grey>Renderers are already paused";
-
     @Key("command.resume.description")
     public static String COMMAND_RESUME_DESCRIPTION = "Resume renderers";
     @Key("command.resume.resumed")
     public static String COMMAND_RESUME_RESUMED = "<green>Renderers have now resumed";
     @Key("command.resume.already-resumed")
     public static String COMMAND_RESUME_ALREADY_RESUMED = "<grey>Renderers have already resumed";
-
     @Key("command.radiusrender.description")
     public static String COMMAND_RADIUSRENDER_DESCRIPTION = "Render a section of a world";
     @Key("command.radiusrender.starting")
     public static String COMMAND_RADIUSRENDER_STARTING = "<green>Radius render starting. Check <grey>/map status</grey> for more info";
-
     @Key("command.reload.description")
     public static String COMMAND_RELOAD_DESCRIPTION = "Reloads the plugin";
     @Key("command.reload.success")
     public static String COMMAND_RELOAD_SUCCESS = "<green>Pl3xMap <grey>v<version></grey> reloaded";
-
     @Key("command.resetmap.description")
     public static String COMMAND_RESETMAP_DESCRIPTION = "Cancel active render of a world";
     @Key("command.resetmap.begin")
@@ -124,17 +112,14 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_RESETMAP_SUCCESS = "<green>Successfully reset map for <grey><world>";
     @Key("command.resetmap.failed")
     public static String COMMAND_RESETMAP_FAILED = "<red>Could not reset map for <grey><world>";
-
     @Key("command.show.description")
     public static String COMMAND_SHOW_DESCRIPTION = "Show a player on the map";
     @Key("command.show.not-hidden")
     public static String COMMAND_SHOW_NOT_HIDDEN = "<grey><player> <red>is not hidden from the map";
     @Key("command.show.success")
     public static String COMMAND_SHOW_SUCCESS = "<grey><player> <green>is no longer hidden from the map";
-
     @Key("command.status.description")
     public static String COMMAND_STATUS_DESCRIPTION = "View the render status";
-
     @Key("command.stitch.description")
     public static String COMMAND_STITCH_DESCRIPTION = "Stitches tiles into one image";
     @Key("command.stitch.missing-directory")
@@ -147,7 +132,6 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_STITCH_STARTING = "<green>Started stitching <count> tiles..\n<green><italic>(min: <min-x>,<min-z> max: <max-x>,<max-z> size: <size-x>,<size-z>)";
     @Key("command.stitch.finished")
     public static String COMMAND_STITCH_FINISHED = "<green>Finished stitching <count> tiles!\n<green>You can find it at <grey>/tiles/<world>/stitched/<filename>";
-
     @Key("command.version.description")
     public static String COMMAND_VERSION_DESCRIPTION = "Get version information";
     @Key("command.version.please-wait")
@@ -176,7 +160,6 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_VERSION_DOWNLOAD = "<yellow><italic>Download new build at: <gold><link>";
     @Key("command.version.time-traveler")
     public static String COMMAND_VERSION_TIME_TRAVELER = "<yellow><italic>Are you a time traveler?";
-
     @Key("error.must-specify-player")
     public static String ERROR_MUST_SPECIFY_PLAYER = "<red>You must specify the player";
     @Key("error.no-such-player")
@@ -195,14 +178,12 @@ public final class Lang extends AbstractConfig {
     public static String ERROR_NOT_VALID_ZOOM_LEVEL = "<red>Not a valid zoom level";
     @Key("error.point-invalid-format")
     public static String ERROR_POINT_INVALID_FORMAT = "'<point>' is not a valid location. Required format is '<x> <z>'";
-
     @Key("ui.layer.players")
     public static String UI_LAYER_PLAYERS = "Players";
     @Key("ui.layer.spawn")
     public static String UI_LAYER_SPAWN = "Spawn";
     @Key("ui.layer.worldborder")
     public static String UI_LAYER_WORLDBORDER = "World Border";
-
     @Key("ui.title")
     public static String UI_TITLE = "Pl3xMap";
     @Key("ui.block-and-biome-lang-file")
@@ -239,8 +220,6 @@ public final class Lang extends AbstractConfig {
     public static String UI_LAYERS_LABEL = "Layers";
     @Key("ui.layers.value")
     public static String UI_LAYERS_VALUE = "No layers have been configured";
-
-    private static final Lang CONFIG = new Lang();
 
     public static void reload() {
         Path localeDir = Pl3xMap.api().getMainDir().resolve("locale");

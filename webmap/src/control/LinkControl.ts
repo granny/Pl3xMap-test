@@ -9,10 +9,6 @@ import {World} from "../world/World";
 export class LinkControl extends ControlBox {
     private readonly _dom: HTMLAnchorElement;
 
-    private onEvent = (): void => {
-        this.update();
-    }
-
     constructor(pl3xmap: Pl3xMap, position: string) {
         super(pl3xmap, position);
         this._dom = L.DomUtil.create('a', 'leaflet-control leaflet-control-button leaflet-control-link');
@@ -48,5 +44,9 @@ export class LinkControl extends ControlBox {
             url += `world=${world.name}&renderer=${world.currentRenderer?.label ?? 'basic'}`;
         }
         return `${url}&zoom=${zoom}&x=${x}&z=${z}`;
+    }
+
+    private onEvent = (): void => {
+        this.update();
     }
 }

@@ -40,8 +40,8 @@ final class ForgeCommandPreprocessor<C> implements CommandPreprocessor<C> {
     @Override
     public void accept(final CommandPreprocessingContext<C> context) {
         context.getCommandContext().store(
-            ForgeCommandContextKeys.NATIVE_COMMAND_SOURCE,
-            this.manager.backwardsCommandSourceMapper().apply(context.getCommandContext().getSender())
+                ForgeCommandContextKeys.NATIVE_COMMAND_SOURCE,
+                this.manager.backwardsCommandSourceMapper().apply(context.getCommandContext().getSender())
         );
     }
 }

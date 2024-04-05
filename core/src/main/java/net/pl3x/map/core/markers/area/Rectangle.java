@@ -42,6 +42,15 @@ public class Rectangle implements Area {
         this.maxZ = Math.max(z1, z2);
     }
 
+    public static @NotNull Rectangle deserialize(Map<String, Object> map) {
+        return new Rectangle(
+                (int) map.get("min-x"),
+                (int) map.get("min-z"),
+                (int) map.get("max-x"),
+                (int) map.get("max-z")
+        );
+    }
+
     public int getMinX() {
         return this.minX;
     }
@@ -82,15 +91,6 @@ public class Rectangle implements Area {
         map.put("max-x", getMaxX());
         map.put("max-z", getMaxZ());
         return map;
-    }
-
-    public static @NotNull Rectangle deserialize(Map<String, Object> map) {
-        return new Rectangle(
-                (int) map.get("min-x"),
-                (int) map.get("min-z"),
-                (int) map.get("max-x"),
-                (int) map.get("max-z")
-        );
     }
 
     @Override

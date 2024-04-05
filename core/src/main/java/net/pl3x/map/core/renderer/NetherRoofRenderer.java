@@ -25,7 +25,6 @@ package net.pl3x.map.core.renderer;
 
 import net.pl3x.map.core.renderer.task.RegionScanTask;
 import net.pl3x.map.core.world.Chunk;
-import net.pl3x.map.core.world.Region;
 import org.jetbrains.annotations.NotNull;
 
 public class NetherRoofRenderer extends VanillaRenderer {

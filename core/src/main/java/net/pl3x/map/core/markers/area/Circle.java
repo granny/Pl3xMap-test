@@ -44,6 +44,14 @@ public class Circle implements Area {
         this.radius = radius;
     }
 
+    public static @NotNull Circle deserialize(Map<String, Object> map) {
+        return new Circle(
+                (int) map.get("center-x"),
+                (int) map.get("center-z"),
+                (int) map.get("radius")
+        );
+    }
+
     public int getCenterX() {
         return this.centerX;
     }
@@ -82,14 +90,6 @@ public class Circle implements Area {
         map.put("center-z", getCenterZ());
         map.put("radius", getRadius());
         return map;
-    }
-
-    public static @NotNull Circle deserialize(Map<String, Object> map) {
-        return new Circle(
-                (int) map.get("center-x"),
-                (int) map.get("center-z"),
-                (int) map.get("radius")
-        );
     }
 
     @Override

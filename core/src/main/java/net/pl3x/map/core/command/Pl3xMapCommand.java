@@ -39,6 +39,17 @@ public abstract class Pl3xMapCommand {
     }
 
     /**
+     * Create a command description.
+     *
+     * @param description  description of command
+     * @param placeholders placeholders
+     * @return rich description
+     */
+    protected static @NotNull RichDescription description(@NotNull String description, @NotNull TagResolver.@NotNull Single... placeholders) {
+        return RichDescription.of(Lang.parse(description, placeholders));
+    }
+
+    /**
      * Get the command handler.
      *
      * @return command handler
@@ -51,15 +62,4 @@ public abstract class Pl3xMapCommand {
      * Register subcommand.
      */
     public abstract void register();
-
-    /**
-     * Create a command description.
-     *
-     * @param description  description of command
-     * @param placeholders placeholders
-     * @return rich description
-     */
-    protected static @NotNull RichDescription description(@NotNull String description, @NotNull TagResolver.@NotNull Single... placeholders) {
-        return RichDescription.of(Lang.parse(description, placeholders));
-    }
 }

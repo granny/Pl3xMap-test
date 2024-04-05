@@ -57,38 +57,6 @@ abstract class ForgeCommandRegistrationHandler<C> implements CommandRegistration
 
     private @MonotonicNonNull ForgeCommandManager<C> commandManager;
 
-    void initialize(final ForgeCommandManager<C> manager) {
-        this.commandManager = manager;
-    }
-
-    ForgeCommandManager<C> commandManager() {
-        return this.commandManager;
-    }
-
-    @SuppressWarnings("unchecked")
-    protected final void registerCommand(final Command<C> command, final CommandDispatcher<CommandSourceStack> dispatcher) {
-        final RootCommandNode<CommandSourceStack> rootNode = dispatcher.getRoot();
-        final StaticArgument<C> first = ((StaticArgument<C>) command.getArguments().get(0));
-        final CommandNode<CommandSourceStack> baseNode = this.commandManager()
-            .brigadierManager()
-            .createLiteralCommandNode(
-                first.getName(),
-                command,
-                (src, perm) -> this.commandManager().hasPermission(
-                    this.commandManager().commandSourceMapper().apply(src),
-                    perm
-                ),
-                true,
-                new ForgeExecutor<>(this.commandManager())
-            );
-
-        rootNode.addChild(baseNode);
-
-        for (final String alias : first.getAlternativeAliases()) {
-            rootNode.addChild(buildRedirect(alias, baseNode));
-        }
-    }
-
     /**
      * Returns a literal node that redirects its execution to
      * the given destination node.
@@ -103,25 +71,57 @@ abstract class ForgeCommandRegistrationHandler<C> implements CommandRegistration
      * @return the built node
      */
     private static <S> LiteralCommandNode<S> buildRedirect(
-        final @NonNull String alias,
-        final @NonNull CommandNode<S> destination
+            final @NonNull String alias,
+            final @NonNull CommandNode<S> destination
     ) {
         // Redirects only work for nodes with children, but break the top argument-less command.
         // Manually adding the root command after setting the redirect doesn't fix it.
         // (See https://github.com/Mojang/brigadier/issues/46) Manually clone the node instead.
         final LiteralArgumentBuilder<S> builder = LiteralArgumentBuilder
-            .<S>literal(alias)
-            .requires(destination.getRequirement())
-            .forward(
-                destination.getRedirect(),
-                destination.getRedirectModifier(),
-                destination.isFork()
-            )
-            .executes(destination.getCommand());
+                .<S>literal(alias)
+                .requires(destination.getRequirement())
+                .forward(
+                        destination.getRedirect(),
+                        destination.getRedirectModifier(),
+                        destination.isFork()
+                )
+                .executes(destination.getCommand());
         for (final CommandNode<S> child : destination.getChildren()) {
             builder.then(child);
         }
         return builder.build();
+    }
+
+    void initialize(final ForgeCommandManager<C> manager) {
+        this.commandManager = manager;
+    }
+
+    ForgeCommandManager<C> commandManager() {
+        return this.commandManager;
+    }
+
+    @SuppressWarnings("unchecked")
+    protected final void registerCommand(final Command<C> command, final CommandDispatcher<CommandSourceStack> dispatcher) {
+        final RootCommandNode<CommandSourceStack> rootNode = dispatcher.getRoot();
+        final StaticArgument<C> first = ((StaticArgument<C>) command.getArguments().get(0));
+        final CommandNode<CommandSourceStack> baseNode = this.commandManager()
+                .brigadierManager()
+                .createLiteralCommandNode(
+                        first.getName(),
+                        command,
+                        (src, perm) -> this.commandManager().hasPermission(
+                                this.commandManager().commandSourceMapper().apply(src),
+                                perm
+                        ),
+                        true,
+                        new ForgeExecutor<>(this.commandManager())
+                );
+
+        rootNode.addChild(baseNode);
+
+        for (final String alias : first.getAlternativeAliases()) {
+            rootNode.addChild(buildRedirect(alias, baseNode));
+        }
     }
 
     static class Client<C> extends ForgeCommandRegistrationHandler<C> {
@@ -150,10 +150,10 @@ abstract class ForgeCommandRegistrationHandler<C> implements CommandRegistration
                     throw new IllegalStateException("Expected an active dispatcher!");
                 }
                 ContextualArgumentTypeProvider.withBuildContext(
-                    this.commandManager(),
-                    CommandBuildContext.simple(connection.registryAccess(), connection.enabledFeatures()),
-                    false,
-                    () -> this.registerCommand((Command<C>) command, dispatcher)
+                        this.commandManager(),
+                        CommandBuildContext.simple(connection.registryAccess(), connection.enabledFeatures()),
+                        false,
+                        () -> this.registerCommand((Command<C>) command, dispatcher)
                 );
             }
             return true;
@@ -162,14 +162,14 @@ abstract class ForgeCommandRegistrationHandler<C> implements CommandRegistration
         public void registerCommands(final RegisterClientCommandsEvent event) {
             this.registerEventFired = true;
             ContextualArgumentTypeProvider.withBuildContext(
-                this.commandManager(),
-                event.getBuildContext(),
-                true,
-                () -> {
-                    for (final Command<C> command : this.registeredCommands) {
-                        this.registerCommand(command, event.getDispatcher());
+                    this.commandManager(),
+                    event.getBuildContext(),
+                    true,
+                    () -> {
+                        for (final Command<C> command : this.registeredCommands) {
+                            this.registerCommand(command, event.getDispatcher());
+                        }
                     }
-                }
             );
         }
     }
@@ -193,24 +193,24 @@ abstract class ForgeCommandRegistrationHandler<C> implements CommandRegistration
         private void registerAllCommands(final RegisterCommandsEvent event) {
             this.commandManager().registrationCalled();
             ContextualArgumentTypeProvider.withBuildContext(
-                this.commandManager(),
-                event.getBuildContext(),
-                true,
-                () -> {
-                    for (final Command<C> command : this.registeredCommands) {
-                        /* Only register commands in the declared environment */
-                        final Commands.CommandSelection env = command.getCommandMeta().getOrDefault(
-                            ForgeServerCommandManager.META_REGISTRATION_ENVIRONMENT,
-                            Commands.CommandSelection.ALL
-                        );
+                    this.commandManager(),
+                    event.getBuildContext(),
+                    true,
+                    () -> {
+                        for (final Command<C> command : this.registeredCommands) {
+                            /* Only register commands in the declared environment */
+                            final Commands.CommandSelection env = command.getCommandMeta().getOrDefault(
+                                    ForgeServerCommandManager.META_REGISTRATION_ENVIRONMENT,
+                                    Commands.CommandSelection.ALL
+                            );
 
-                        if ((env == Commands.CommandSelection.INTEGRATED && !event.getCommandSelection().includeIntegrated)
-                            || (env == Commands.CommandSelection.DEDICATED && !event.getCommandSelection().includeDedicated)) {
-                            continue;
+                            if ((env == Commands.CommandSelection.INTEGRATED && !event.getCommandSelection().includeIntegrated)
+                                    || (env == Commands.CommandSelection.DEDICATED && !event.getCommandSelection().includeDedicated)) {
+                                continue;
+                            }
+                            this.registerCommand(command, event.getDispatcher());
                         }
-                        this.registerCommand(command, event.getDispatcher());
                     }
-                }
             );
         }
     }

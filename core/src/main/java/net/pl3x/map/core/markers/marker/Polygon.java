@@ -117,6 +117,19 @@ public class Polygon extends Marker<@NotNull Polygon> {
         return new Polygon(key, polylines);
     }
 
+    public static @NotNull Polygon fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Polygon polygon = Polygon.of(obj.get("key").getAsString());
+        if ((el = obj.get("polylines")) != null && !(el instanceof JsonNull)) {
+            JsonArray arr = el.getAsJsonArray();
+            for (int i = 0; i < arr.size(); i++) {
+                polygon.addPolyline(Polyline.fromJson((JsonObject) arr.get(i)));
+            }
+        }
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) polygon.setPane(el.getAsString());
+        return polygon;
+    }
+
     /**
      * Get the list of polylines in this polygon.
      *
@@ -219,19 +232,6 @@ public class Polygon extends Marker<@NotNull Polygon> {
         wrapper.addProperty("polylines", getPolylines());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Polygon fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Polygon polygon = Polygon.of(obj.get("key").getAsString());
-        if ((el = obj.get("polylines")) != null && !(el instanceof JsonNull)) {
-            JsonArray arr = el.getAsJsonArray();
-            for (int i = 0; i < arr.size(); i++) {
-                polygon.addPolyline(Polyline.fromJson((JsonObject) arr.get(i)));
-            }
-        }
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) polygon.setPane(el.getAsString());
-        return polygon;
     }
 
     @Override

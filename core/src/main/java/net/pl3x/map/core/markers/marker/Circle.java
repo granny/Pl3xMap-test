@@ -97,6 +97,17 @@ public class Circle extends Marker<@NotNull Circle> {
         return new Circle(key, center, radius);
     }
 
+    public static @NotNull Circle fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Circle circle = Circle.of(
+                obj.get("key").getAsString(),
+                Point.fromJson((JsonObject) obj.get("center")),
+                obj.get("radius").getAsInt()
+        );
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) circle.setPane(el.getAsString());
+        return circle;
+    }
+
     /**
      * Get the center {@link Point} of this circle.
      *
@@ -145,17 +156,6 @@ public class Circle extends Marker<@NotNull Circle> {
         wrapper.addProperty("radius", getRadius());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Circle fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Circle circle = Circle.of(
-                obj.get("key").getAsString(),
-                Point.fromJson((JsonObject) obj.get("center")),
-                obj.get("radius").getAsInt()
-        );
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) circle.setPane(el.getAsString());
-        return circle;
     }
 
     @Override

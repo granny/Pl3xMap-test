@@ -36,17 +36,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class Chunk {
+    protected final BlockData[] data = new BlockData[256];
     private final World world;
     private final Region region;
-
     private final int xPos;
     private final int yPos;
     private final int zPos;
-
     private final long inhabitedTime;
-
-    protected final BlockData[] data = new BlockData[256];
-
     protected boolean populated;
 
     protected Chunk(@NotNull World world, @NotNull Region region) {
@@ -69,6 +65,18 @@ public abstract class Chunk {
         this.zPos = pos(tag.get("zPos"), () -> (region.getZ() << 5) + (index << 5));
 
         this.inhabitedTime = tag.getLong("InhabitedTime");
+    }
+
+    public static @NotNull Chunk create(@NotNull World world, @NotNull Region region, @NotNull CompoundTag tag, int index) {
+        // https://minecraft.wiki/w/Data_version#List_of_data_versions
+        int version = tag.getInt("DataVersion");
+        Chunk chunk;
+        if (version < 1519) chunk = new EmptyChunk(world, region); // wtf, older than 1.13
+        else if (version < 2200) chunk = new ChunkAnvil113(world, region, tag, index); // 1.13 - 1.14
+        else if (version < 2500) chunk = new ChunkAnvil115(world, region, tag, index); // 1.15
+        else if (version < 2844) chunk = new ChunkAnvil116(world, region, tag, index); // 1.16 - 1.18 (21w42a)
+        else chunk = new ChunkAnvil118(world, region, tag, index); // 1.18+ (21w43a+)
+        return chunk.isFull() ? chunk : new EmptyChunk(world, region);
     }
 
     private int pos(Tag<?> tag, Supplier<Integer> failsafe) {
@@ -197,18 +205,6 @@ public abstract class Chunk {
         return this.data[((z & 0xF) << 4) + (x & 0xF)];
     }
 
-    public static @NotNull Chunk create(@NotNull World world, @NotNull Region region, @NotNull CompoundTag tag, int index) {
-        // https://minecraft.wiki/w/Data_version#List_of_data_versions
-        int version = tag.getInt("DataVersion");
-        Chunk chunk;
-        if (version < 1519) chunk = new EmptyChunk(world, region); // wtf, older than 1.13
-        else if (version < 2200) chunk = new ChunkAnvil113(world, region, tag, index); // 1.13 - 1.14
-        else if (version < 2500) chunk = new ChunkAnvil115(world, region, tag, index); // 1.15
-        else if (version < 2844) chunk = new ChunkAnvil116(world, region, tag, index); // 1.16 - 1.18 (21w42a)
-        else chunk = new ChunkAnvil118(world, region, tag, index); // 1.18+ (21w43a+)
-        return chunk.isFull() ? chunk : new EmptyChunk(world, region);
-    }
-
     @Override
     public boolean equals(@Nullable Object o) {
         if (this == o) {
@@ -243,13 +239,12 @@ public abstract class Chunk {
     }
 
     public static class BlockData {
+        protected final LinkedList<Integer> glass = new LinkedList<>();
         protected int blockY;
         protected int fluidY = 0;
         protected BlockState blockstate;
         protected BlockState fluidstate = null;
         protected Biome biome;
-
-        protected final LinkedList<Integer> glass = new LinkedList<>();
 
         public int getBlockY() {
             return this.blockY;

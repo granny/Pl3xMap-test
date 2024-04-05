@@ -22,7 +22,16 @@ interface MarkerData {
 }
 
 export class MarkerLayer extends L.LayerGroup {
-    private static readonly TYPES: { rect: (type: Type) => Rectangle; line: (type: Type) => Polyline; multiline: (type: Type) => MultiPolyline; icon: (type: Type) => Icon; poly: (type: Type) => Polygon; circ: (type: Type) => Circle; multipoly: (type: Type) => MultiPolygon; elli: (type: Type) => Ellipse } = {
+    private static readonly TYPES: {
+        rect: (type: Type) => Rectangle;
+        line: (type: Type) => Polyline;
+        multiline: (type: Type) => MultiPolyline;
+        icon: (type: Type) => Icon;
+        poly: (type: Type) => Polygon;
+        circ: (type: Type) => Circle;
+        multipoly: (type: Type) => MultiPolygon;
+        elli: (type: Type) => Ellipse
+    } = {
         "circ": (type: Type) => new Circle(type),
         "elli": (type: Type) => new Ellipse(type),
         "icon": (type: Type) => new Icon(type),

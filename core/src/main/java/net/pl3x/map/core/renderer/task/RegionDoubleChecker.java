@@ -23,17 +23,17 @@
  */
 package net.pl3x.map.core.renderer.task;
 
+import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.log.Logger;
+import net.pl3x.map.core.markers.Point;
+import net.pl3x.map.core.util.Mathf;
+import org.jetbrains.annotations.NotNull;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
-import net.pl3x.map.core.Pl3xMap;
-import net.pl3x.map.core.log.Logger;
-import net.pl3x.map.core.markers.Point;
-import net.pl3x.map.core.util.Mathf;
-import org.jetbrains.annotations.NotNull;
 
 public class RegionDoubleChecker implements Runnable {
     private final Executor executor;

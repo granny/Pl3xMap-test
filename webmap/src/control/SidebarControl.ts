@@ -6,15 +6,15 @@ import PlayersTab from "../sidebar/PlayersTab";
 import WorldsTab from "../sidebar/WorldsTab";
 
 export interface SidebarTab {
+    onAdd?: (map: Pl3xMapLeafletMap) => void;
+    onActivate?: () => void;
+    onDeactivate?: () => void;
+
     get button(): HTMLElement;
 
     get content(): HTMLElement;
 
     get id(): string;
-
-    onAdd?: (map: Pl3xMapLeafletMap) => void;
-    onActivate?: () => void;
-    onDeactivate?: () => void;
 }
 
 export default class SidebarControl extends L.Control {

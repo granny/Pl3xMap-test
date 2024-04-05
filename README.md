@@ -32,9 +32,11 @@ for Minecraft servers using the vanilla Minecraft rendering style.</b></big>
 * Player markers showing yaw rotation, health, and armor.
 * [Addons and integrations](https://github.com/granny/Pl3xMap/wiki/pl3xmap-integrations) for many popular plugins.
 * Multiple render types including built-in basic, night, biomes, inhabited, and flowermap.
-* Easy to [set up](https://github.com/granny/Pl3xMap/wiki/Installation) and [configure](https://github.com/granny/Pl3xMap/wiki/Configuration).
+* Easy to [set up](https://github.com/granny/Pl3xMap/wiki/Installation)
+  and [configure](https://github.com/granny/Pl3xMap/wiki/Configuration).
 * Up-to-date Leaflet front-end for a better browser experience.
-* [Robust API](https://github.com/granny/Pl3xMap/wiki/Pl3xMap-API) to create your own addons and/or integrations with ease.
+* [Robust API](https://github.com/granny/Pl3xMap/wiki/Pl3xMap-API) to create your own addons and/or integrations with
+  ease.
 
 ## Supported Platforms
 
@@ -43,6 +45,7 @@ for Minecraft servers using the vanilla Minecraft rendering style.</b></big>
 * [Paper](https://papermc.io/)
 * [Purpur](https://purpurmc.org/)
 * [Fabric](https://fabricmc.net/) (requires [Fabric API](https://modrinth.com/mod/fabric-api))
+
 <!-- * [Forge](https://minecraftforge.net/) -->
 
 ## Downloads
@@ -60,12 +63,15 @@ https://map.roanv.nl/
 ## Support the Developers
 
 granny on:
+
 * [GitHub Sponsors](https://github.com/sponsors/granny)
 
 BillyGalbreath on:
+
 * [Ko-Fi](https://ko-fi.com/billygalbreath)
 
 JLyne on:
+
 * [Ko-Fi](https://ko-fi.com/jlyne)
 
 ## bStats

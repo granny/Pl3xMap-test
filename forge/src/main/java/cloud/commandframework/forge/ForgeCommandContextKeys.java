@@ -30,11 +30,11 @@ import net.minecraft.commands.CommandSourceStack;
 
 public final class ForgeCommandContextKeys {
 
+    public static final CloudKey<CommandSourceStack> NATIVE_COMMAND_SOURCE = SimpleCloudKey.of(
+            "cloud:forge_command_source",
+            TypeToken.get(CommandSourceStack.class)
+    );
+
     private ForgeCommandContextKeys() {
     }
-
-    public static final CloudKey<CommandSourceStack> NATIVE_COMMAND_SOURCE = SimpleCloudKey.of(
-        "cloud:forge_command_source",
-        TypeToken.get(CommandSourceStack.class)
-    );
 }

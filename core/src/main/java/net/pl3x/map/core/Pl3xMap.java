@@ -61,7 +61,6 @@ import net.pl3x.map.core.renderer.task.RegionProcessor;
 import net.pl3x.map.core.renderer.task.UpdateSettingsData;
 import net.pl3x.map.core.scheduler.Scheduler;
 import net.pl3x.map.core.util.Mathf;
-
 import net.pl3x.map.core.world.Biome;
 import net.pl3x.map.core.world.Block;
 import net.pl3x.map.core.world.Blocks;
@@ -70,18 +69,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class Pl3xMap {
-    public static @NotNull Pl3xMap api() {
-        return Provider.api();
-    }
-
     private final boolean isBukkit;
-
     private final Attributes manifestAttributes;
     private final HttpdServer httpdServer;
     private final RegionProcessor regionProcessor;
     private final RegionDoubleChecker regionDoubleChecker;
     private final Scheduler scheduler;
-
     private final BlockRegistry blockRegistry;
     private final EventRegistry eventRegistry;
     private final HeightmapRegistry heightmapRegistry;
@@ -89,13 +82,10 @@ public abstract class Pl3xMap {
     private final PlayerRegistry playerRegistry;
     private final RendererRegistry rendererRegistry;
     private final WorldRegistry worldRegistry;
-
     private ExecutorService renderExecutor;
-
     private String commit;
     private Metrics metrics;
     private boolean enabled;
-
     public Pl3xMap(boolean isBukkit) {
         this.isBukkit = isBukkit;
 
@@ -144,6 +134,10 @@ public abstract class Pl3xMap {
         this.playerRegistry = new PlayerRegistry();
         this.rendererRegistry = new RendererRegistry();
         this.worldRegistry = new WorldRegistry();
+    }
+
+    public static @NotNull Pl3xMap api() {
+        return Provider.api();
     }
 
     public boolean isEnabled() {

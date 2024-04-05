@@ -50,19 +50,6 @@ import org.jetbrains.annotations.NotNull;
 public final class ForgeClientCommandManager<C> extends ForgeCommandManager<C> {
 
     /**
-     * Create a command manager using native source types.
-     *
-     * @param execCoordinator Execution coordinator instance.
-     * @return a new command manager
-     * @see #ForgeClientCommandManager(Function, Function, Function) for a more thorough explanation
-     */
-    public static ForgeClientCommandManager<CommandSourceStack> createNative(
-        final Function<CommandTree<CommandSourceStack>, CommandExecutionCoordinator<CommandSourceStack>> execCoordinator
-    ) {
-        return new ForgeClientCommandManager<>(execCoordinator, Function.identity(), Function.identity());
-    }
-
-    /**
      * Create a new command manager instance.
      *
      * @param commandExecutionCoordinator  Execution coordinator instance. The coordinator is in charge of executing incoming
@@ -77,44 +64,40 @@ public final class ForgeClientCommandManager<C> extends ForgeCommandManager<C> {
      * @param backwardsCommandSourceMapper Function that maps the command sender type to {@link CommandSourceStack}
      */
     public ForgeClientCommandManager(
-        final Function<CommandTree<C>, CommandExecutionCoordinator<C>> commandExecutionCoordinator,
-        final Function<CommandSourceStack, C> commandSourceMapper,
-        final Function<C, CommandSourceStack> backwardsCommandSourceMapper
+            final Function<CommandTree<C>, CommandExecutionCoordinator<C>> commandExecutionCoordinator,
+            final Function<CommandSourceStack, C> commandSourceMapper,
+            final Function<C, CommandSourceStack> backwardsCommandSourceMapper
     ) {
         super(
-            commandExecutionCoordinator,
-            commandSourceMapper,
-            backwardsCommandSourceMapper,
-            new ForgeCommandRegistrationHandler.Client<>(),
-            () -> new ClientCommandSourceStack(
-                CommandSource.NULL,
-                Vec3.ZERO,
-                Vec2.ZERO,
-                4,
-                "",
-                Component.empty(),
-                null
-            )
+                commandExecutionCoordinator,
+                commandSourceMapper,
+                backwardsCommandSourceMapper,
+                new ForgeCommandRegistrationHandler.Client<>(),
+                () -> new ClientCommandSourceStack(
+                        CommandSource.NULL,
+                        Vec3.ZERO,
+                        Vec2.ZERO,
+                        4,
+                        "",
+                        Component.empty(),
+                        null
+                )
         );
 
         this.registerParsers();
     }
 
-    private void registerParsers() {
-    }
-
     /**
-     * Check if a sender has a certain permission.
+     * Create a command manager using native source types.
      *
-     * <p>The implementation for client commands always returns true.</p>
-     *
-     * @param sender     Command sender
-     * @param permission Permission node
-     * @return whether the sender has the specified permission
+     * @param execCoordinator Execution coordinator instance.
+     * @return a new command manager
+     * @see #ForgeClientCommandManager(Function, Function, Function) for a more thorough explanation
      */
-    @Override
-    public boolean hasPermission(final @NotNull C sender, final @NotNull String permission) {
-        return true;
+    public static ForgeClientCommandManager<CommandSourceStack> createNative(
+            final Function<CommandTree<CommandSourceStack>, CommandExecutionCoordinator<CommandSourceStack>> execCoordinator
+    ) {
+        return new ForgeClientCommandManager<>(execCoordinator, Function.identity(), Function.identity());
     }
 
     /**
@@ -165,7 +148,7 @@ public final class ForgeClientCommandManager<C> extends ForgeCommandManager<C> {
                 return allowOnMultiplayer;
             }
             return Minecraft.getInstance().getSingleplayerServer().getPlayerList().isAllowCheatsForAllPlayers()
-                || Minecraft.getInstance().getSingleplayerServer().getWorldData().getAllowCommands();
+                    || Minecraft.getInstance().getSingleplayerServer().getWorldData().getAllowCommands();
         };
     }
 
@@ -197,7 +180,24 @@ public final class ForgeClientCommandManager<C> extends ForgeCommandManager<C> {
                 return allowOnMultiplayer;
             }
             return !Minecraft.getInstance().getSingleplayerServer().getPlayerList().isAllowCheatsForAllPlayers()
-                && !Minecraft.getInstance().getSingleplayerServer().getWorldData().getAllowCommands();
+                    && !Minecraft.getInstance().getSingleplayerServer().getWorldData().getAllowCommands();
         };
+    }
+
+    private void registerParsers() {
+    }
+
+    /**
+     * Check if a sender has a certain permission.
+     *
+     * <p>The implementation for client commands always returns true.</p>
+     *
+     * @param sender     Command sender
+     * @param permission Permission node
+     * @return whether the sender has the specified permission
+     */
+    @Override
+    public boolean hasPermission(final @NotNull C sender, final @NotNull String permission) {
+        return true;
     }
 }

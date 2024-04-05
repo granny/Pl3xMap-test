@@ -44,47 +44,47 @@ import org.jetbrains.annotations.NotNull;
 public final class ForgeServerCommandManager<C> extends ForgeCommandManager<C> {
 
     public static final CommandMeta.Key<Commands.CommandSelection> META_REGISTRATION_ENVIRONMENT = CommandMeta.Key.of(
-        Commands.CommandSelection.class,
-        "cloud:registration-environment"
+            Commands.CommandSelection.class,
+            "cloud:registration-environment"
     );
 
     private final Cache<String, PermissionNode<Boolean>> permissionNodeCache = CacheBuilder.newBuilder().maximumSize(100).build();
 
-    public static ForgeServerCommandManager<CommandSourceStack> createNative(
-        final Function<CommandTree<CommandSourceStack>,
-            CommandExecutionCoordinator<CommandSourceStack>> execCoordinator
-    ) {
-        return new ForgeServerCommandManager<>(execCoordinator, Function.identity(), Function.identity());
-    }
-
     public ForgeServerCommandManager(
-        final Function<CommandTree<C>,
-            CommandExecutionCoordinator<C>> commandExecutionCoordinator,
-        final Function<CommandSourceStack, C> commandSourceMapper,
-        final Function<C, CommandSourceStack> backwardsCommandSourceMapper
+            final Function<CommandTree<C>,
+                    CommandExecutionCoordinator<C>> commandExecutionCoordinator,
+            final Function<CommandSourceStack, C> commandSourceMapper,
+            final Function<C, CommandSourceStack> backwardsCommandSourceMapper
     ) {
         super(
-            commandExecutionCoordinator,
-            commandSourceMapper,
-            backwardsCommandSourceMapper,
-            new ForgeCommandRegistrationHandler.Server<>(),
-            () -> new CommandSourceStack(
-                CommandSource.NULL,
-                Vec3.ZERO,
-                Vec2.ZERO,
-                null,
-                4,
-                "",
-                Component.empty(),
-                null,
-                null
-            )
+                commandExecutionCoordinator,
+                commandSourceMapper,
+                backwardsCommandSourceMapper,
+                new ForgeCommandRegistrationHandler.Server<>(),
+                () -> new CommandSourceStack(
+                        CommandSource.NULL,
+                        Vec3.ZERO,
+                        Vec2.ZERO,
+                        null,
+                        4,
+                        "",
+                        Component.empty(),
+                        null,
+                        null
+                )
         );
 
         if (CloudForgeEntrypoint.hasServerAlreadyStarted()) {
             throw new IllegalStateException("ForgeServerCommandManager was created too late! Because command registration "
-                + "occurs before the server instance is created, commands should be registered in mod initializers.");
+                    + "occurs before the server instance is created, commands should be registered in mod initializers.");
         }
+    }
+
+    public static ForgeServerCommandManager<CommandSourceStack> createNative(
+            final Function<CommandTree<CommandSourceStack>,
+                    CommandExecutionCoordinator<CommandSourceStack>> execCoordinator
+    ) {
+        return new ForgeServerCommandManager<>(execCoordinator, Function.identity(), Function.identity());
     }
 
     @SuppressWarnings("unchecked")
@@ -95,9 +95,9 @@ public final class ForgeServerCommandManager<C> extends ForgeCommandManager<C> {
             final PermissionNode<Boolean> node;
             try {
                 node = this.permissionNodeCache.get(permission, () -> (PermissionNode<Boolean>) PermissionAPI.getRegisteredNodes().stream()
-                    .filter(n -> n.getNodeName().equals(permission) && n.getType() == PermissionTypes.BOOLEAN)
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalStateException("Could not find registered node for permission " + permission)));
+                        .filter(n -> n.getNodeName().equals(permission) && n.getType() == PermissionTypes.BOOLEAN)
+                        .findFirst()
+                        .orElseThrow(() -> new IllegalStateException("Could not find registered node for permission " + permission)));
             } catch (final ExecutionException e) {
                 throw new RuntimeException("Exception location permission node", e);
             }

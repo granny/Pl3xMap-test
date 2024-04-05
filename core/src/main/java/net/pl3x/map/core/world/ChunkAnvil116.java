@@ -41,15 +41,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChunkAnvil116 extends Chunk {
-    private int sectionMin = Integer.MAX_VALUE;
-
-    private Section[] sections = new Section[0];
-
-    private int[] biomes;
-
-    protected long[] worldSurfaceHeights = new long[0];
-
     private final boolean full;
+    protected long[] worldSurfaceHeights = new long[0];
+    private int sectionMin = Integer.MAX_VALUE;
+    private Section[] sections = new Section[0];
+    private int[] biomes;
 
     protected ChunkAnvil116(@NotNull World world, @NotNull Region region, @NotNull CompoundTag chunkTag, int index) {
         super(world, region, chunkTag, index);
@@ -159,10 +155,10 @@ public class ChunkAnvil116 extends Chunk {
 
     protected static class Section {
         private final int sectionY;
+        private final int bitsPerBlock;
         private byte[] blockLight;
         private long[] blocks;
         private BlockState[] palette = new BlockState[0];
-        private final int bitsPerBlock;
 
         public Section(@NotNull CompoundTag sectionData) {
             this.sectionY = sectionData.getByte("Y");

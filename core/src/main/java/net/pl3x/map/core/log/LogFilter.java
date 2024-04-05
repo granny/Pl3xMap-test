@@ -33,9 +33,8 @@ import org.apache.logging.log4j.core.Logger;
 import org.apache.logging.log4j.message.Message;
 
 public class LogFilter implements Filter {
-    private final List<String> filters = new ArrayList<>();
-
     public static boolean HIDE_UNDERTOW_LOGS = false;
+    private final List<String> filters = new ArrayList<>();
 
     public LogFilter() {
         this.filters.add("io.undertow");

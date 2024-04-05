@@ -40,6 +40,14 @@ export default class WorldsTab extends BaseTab {
         this.initEvents();
     }
 
+    onActivate(): void {
+        if (this._worlds.size) {
+            (this._list.querySelector('input:checked') as HTMLElement)!.focus()
+        } else {
+            this._skeleton.focus();
+        }
+    }
+
     private initEvents(): void {
         addEventListener('worldadded', (e: CustomEvent<World>) => this.createListItem(e.detail));
         addEventListener('worldremoved', (e: CustomEvent<World>) => this.removeListItem(e.detail)); //TODO: Refreshless config updates?
@@ -106,14 +114,6 @@ export default class WorldsTab extends BaseTab {
 
         if (!this._worlds.size) {
             this._skeleton.hidden = false;
-        }
-    }
-
-    onActivate(): void {
-        if (this._worlds.size) {
-            (this._list.querySelector('input:checked') as HTMLElement)!.focus()
-        } else {
-            this._skeleton.focus();
         }
     }
 }

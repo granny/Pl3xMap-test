@@ -51,12 +51,12 @@ public final class Block extends Keyed {
 
         this.bools = (byte) (
                 (flat ? 1 << 6 : 0) |
-                (air ? 1 << 5 : 0) |
-                (foliage ? 1 << 4 : 0) |
-                (grass ? 1 << 3 : 0) |
-                (water ? 1 << 2 : 0) |
-                (glass ? 1 << 1 : 0) |
-                (water || "minecraft:lava".equals(id) ? 1 : 0)
+                        (air ? 1 << 5 : 0) |
+                        (foliage ? 1 << 4 : 0) |
+                        (grass ? 1 << 3 : 0) |
+                        (water ? 1 << 2 : 0) |
+                        (glass ? 1 << 1 : 0) |
+                        (water || "minecraft:lava".equals(id) ? 1 : 0)
         );
 
         this.defaultState = new BlockState(this);

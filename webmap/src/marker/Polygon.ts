@@ -34,12 +34,6 @@ export class Polygon extends Marker {
         super(data.key, L.polygon(Polygon.createPoly(data), options));
     }
 
-    public update(raw: unknown[]): void {
-        const data: PolygonOptions = raw as unknown as PolygonOptions;
-        const polygon: L.Polygon = this.marker as L.Polygon;
-        polygon.setLatLngs(Polygon.createPoly(data));
-    }
-
     private static createPoly(data: PolygonOptions): L.LatLng[][] {
         const poly: any[] = [];
         data.polylines.forEach((polyline: Polyline): void => {
@@ -50,5 +44,11 @@ export class Polygon extends Marker {
             poly.push(line);
         });
         return poly;
+    }
+
+    public update(raw: unknown[]): void {
+        const data: PolygonOptions = raw as unknown as PolygonOptions;
+        const polygon: L.Polygon = this.marker as L.Polygon;
+        polygon.setLatLngs(Polygon.createPoly(data));
     }
 }

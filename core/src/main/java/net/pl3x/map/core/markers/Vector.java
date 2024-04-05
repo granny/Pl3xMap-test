@@ -35,15 +35,15 @@ public record Vector(double x, double z) implements JsonSerializable {
         return new Vector(x, z);
     }
 
+    public static @NotNull Vector fromJson(@NotNull JsonObject obj) {
+        return Vector.of(obj.get("x").getAsDouble(), obj.get("z").getAsDouble());
+    }
+
     @Override
     public @NotNull JsonObject toJson() {
         JsonObjectWrapper wrapper = new JsonObjectWrapper();
         wrapper.addProperty("x", x());
         wrapper.addProperty("z", z());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Vector fromJson(@NotNull JsonObject obj) {
-        return Vector.of(obj.get("x").getAsDouble(), obj.get("z").getAsDouble());
     }
 }

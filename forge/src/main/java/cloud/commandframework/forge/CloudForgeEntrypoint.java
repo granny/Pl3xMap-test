@@ -69,10 +69,10 @@ public final class CloudForgeEntrypoint {
 
     private static void registerPermissions(final PermissionGatherEvent.Nodes event) {
         event.addNodes(new PermissionNode<>(
-            "cloud",
-            "hover-stacktrace",
-            PermissionTypes.BOOLEAN,
-            CloudForgeEntrypoint::defaultPermissionHandler
+                "cloud",
+                "hover-stacktrace",
+                PermissionTypes.BOOLEAN,
+                CloudForgeEntrypoint::defaultPermissionHandler
         ));
         for (final ForgeCommandManager<?> manager : ForgeServerCommandManager.INSTANCES) {
             registerPermissionsForManager(event, manager);
@@ -83,22 +83,22 @@ public final class CloudForgeEntrypoint {
         final Set<String> permissions = new HashSet<>();
         collectPermissions(permissions, manager.commandTree().getRootNodes());
         permissions.stream()
-            .filter(permissionString -> event.getNodes().stream().noneMatch(node -> node.getNodeName().equals(permissionString)))
-            .map(permissionString -> {
-                final int i = permissionString.indexOf(".");
-                return new PermissionNode<>(
-                    permissionString.substring(0, i),
-                    permissionString.substring(i + 1),
-                    PermissionTypes.BOOLEAN,
-                    CloudForgeEntrypoint::defaultPermissionHandler
-                );
-            })
-            .forEach(event::addNodes);
+                .filter(permissionString -> event.getNodes().stream().noneMatch(node -> node.getNodeName().equals(permissionString)))
+                .map(permissionString -> {
+                    final int i = permissionString.indexOf(".");
+                    return new PermissionNode<>(
+                            permissionString.substring(0, i),
+                            permissionString.substring(i + 1),
+                            PermissionTypes.BOOLEAN,
+                            CloudForgeEntrypoint::defaultPermissionHandler
+                    );
+                })
+                .forEach(event::addNodes);
     }
 
     private static <C> void collectPermissions(
-        final Set<String> permissions,
-        final Collection<CommandTree.Node<CommandArgument<C, ?>>> nodes
+            final Set<String> permissions,
+            final Collection<CommandTree.Node<CommandArgument<C, ?>>> nodes
     ) {
         for (final CommandTree.Node<CommandArgument<C, ?>> node : nodes) {
             final @Nullable Command<C> owningCommand = node.getValue().getOwningCommand();
@@ -132,18 +132,18 @@ public final class CloudForgeEntrypoint {
         final ForgeClientCommandManager<CommandSourceStack> manager = ForgeClientCommandManager.createNative(CommandExecutionCoordinator.simpleCoordinator());
         manager.brigadierManager().setNativeNumberSuggestions(false);
         manager.command(manager.commandBuilder("cloud_client")
-            .literal("forge")
-            .argument(StringArgument.greedy("string"))
-            .handler(ctx -> ctx.getSender().sendSystemMessage(Component.literal(ctx.get("string")))));
+                .literal("forge")
+                .argument(StringArgument.greedy("string"))
+                .handler(ctx -> ctx.getSender().sendSystemMessage(Component.literal(ctx.get("string")))));
     }
 
     private static void testServerManager() {
         final ForgeServerCommandManager<CommandSourceStack> manager = ForgeServerCommandManager.createNative(CommandExecutionCoordinator.simpleCoordinator());
         manager.brigadierManager().setNativeNumberSuggestions(false);
         manager.command(manager.commandBuilder("cloud")
-            .literal("forge")
-            .argument(StringArgument.greedy("string"))
-            .permission("cloud.hello")
-            .handler(ctx -> ctx.getSender().sendSystemMessage(Component.literal(ctx.get("string")))));
+                .literal("forge")
+                .argument(StringArgument.greedy("string"))
+                .permission("cloud.hello")
+                .handler(ctx -> ctx.getSender().sendSystemMessage(Component.literal(ctx.get("string")))));
     }
 }

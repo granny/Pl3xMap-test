@@ -49,22 +49,20 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
     private final Scheduler scheduler;
     private final TileManager tileManager;
     private final ExecutorService executor = Pl3xMap.ThreadFactory.createService("Pl3xMap-Update");
-
-    public static Pl3xMapFabricClient getInstance() {
-        return instance;
-    }
-
     private KeyMapping keyBinding;
     private boolean isEnabled;
     private boolean isOnServer;
     private String serverUrl;
     private int tick;
-
     public Pl3xMapFabricClient() {
         instance = this;
         this.networkManager = new NetworkManager(this);
         this.scheduler = new Scheduler();
         this.tileManager = new TileManager(this);
+    }
+
+    public static Pl3xMapFabricClient getInstance() {
+        return instance;
     }
 
     @Override

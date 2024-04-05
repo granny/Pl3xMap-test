@@ -48,12 +48,11 @@ import org.jetbrains.annotations.Nullable;
 public class HiddenCapability {
     private static final ResourceLocation KEY = new ResourceLocation("pl3xmap", "hidden");
     private static final Capability<@NotNull HiddenCapability> CAPABILITY = CapabilityManager.get(new HiddenCapability.Token());
+    private boolean hidden;
 
     public static @NotNull LazyOptional<@NotNull HiddenCapability> get(@NotNull ServerPlayer player) {
         return player.getCapability(CAPABILITY);
     }
-
-    private boolean hidden;
 
     public boolean isHidden() {
         return this.hidden;
@@ -94,9 +93,8 @@ public class HiddenCapability {
     }
 
     public static class Provider implements ICapabilityProvider, INBTSerializable<ByteTag> {
-        private final LazyOptional<@NotNull HiddenCapability> supplier = LazyOptional.of(this::getOrCreate);
-
         private HiddenCapability capability;
+        private final LazyOptional<@NotNull HiddenCapability> supplier = LazyOptional.of(this::getOrCreate);
 
         private @NotNull HiddenCapability getOrCreate() {
             if (this.capability == null) {

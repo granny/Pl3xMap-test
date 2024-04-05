@@ -1,11 +1,11 @@
 import * as L from "leaflet";
-import { Pl3xMap } from "../Pl3xMap";
-import { Block } from "../palette/Block";
-import { ControlBox } from "./ControlBox";
-import { getJSON, getLangName } from "../util/Util";
+import {Pl3xMap} from "../Pl3xMap";
+import {Block} from "../palette/Block";
+import {ControlBox} from "./ControlBox";
+import {getJSON, getLangName} from "../util/Util";
 import Pl3xMapLeafletMap from "../map/Pl3xMapLeafletMap";
-import { CoordsControl } from "./CoordsControl";
-import { BlockInfo } from "../palette/BlockInfo";
+import {CoordsControl} from "./CoordsControl";
+import {BlockInfo} from "../palette/BlockInfo";
 
 export class BlockInfoControl extends ControlBox {
     private _dom: HTMLDivElement = L.DomUtil.create('div');

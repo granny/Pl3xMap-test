@@ -44,7 +44,7 @@ import org.jetbrains.annotations.NotNull;
 
 @DefaultQualifier(NonNull.class)
 public abstract class ForgeCommandManager<C>
-    extends CommandManager<C> implements BrigadierManagerHolder<C> {
+        extends CommandManager<C> implements BrigadierManagerHolder<C> {
     static final Set<ForgeCommandManager<?>> INSTANCES = Collections.synchronizedSet(Collections.newSetFromMap(new WeakHashMap<>()));
 
     private final Function<CommandSourceStack, C> commandSourceMapper;
@@ -52,25 +52,25 @@ public abstract class ForgeCommandManager<C>
     private final CloudBrigadierManager<C, CommandSourceStack> brigadierManager;
 
     protected ForgeCommandManager(
-        final Function<CommandTree<C>, CommandExecutionCoordinator<C>> commandExecutionCoordinator,
-        final Function<CommandSourceStack, C> commandSourceMapper,
-        final Function<C, CommandSourceStack> backwardsCommandSourceMapper,
-        final ForgeCommandRegistrationHandler<C> registrationHandler,
-        final Supplier<CommandSourceStack> dummyCommandSourceProvider
+            final Function<CommandTree<C>, CommandExecutionCoordinator<C>> commandExecutionCoordinator,
+            final Function<CommandSourceStack, C> commandSourceMapper,
+            final Function<C, CommandSourceStack> backwardsCommandSourceMapper,
+            final ForgeCommandRegistrationHandler<C> registrationHandler,
+            final Supplier<CommandSourceStack> dummyCommandSourceProvider
     ) {
         super(commandExecutionCoordinator, registrationHandler);
         INSTANCES.add(this);
         this.commandSourceMapper = commandSourceMapper;
         this.backwardsCommandSourceMapper = backwardsCommandSourceMapper;
         this.brigadierManager = new CloudBrigadierManager<>(this, () -> new CommandContext<>(
-            this.commandSourceMapper.apply(dummyCommandSourceProvider.get()),
-            this
+                this.commandSourceMapper.apply(dummyCommandSourceProvider.get()),
+                this
         ));
         this.brigadierManager.backwardsBrigadierSenderMapper(this.backwardsCommandSourceMapper);
         this.brigadierManager.brigadierSenderMapper(this.commandSourceMapper);
         this.registerCommandPreProcessor(new ForgeCommandPreprocessor<>(this));
         this.commandSuggestionProcessor(new FilteringCommandSuggestionProcessor<>(
-            FilteringCommandSuggestionProcessor.Filter.<C>startsWith(true).andTrimBeforeLastSpace()
+                FilteringCommandSuggestionProcessor.Filter.<C>startsWith(true).andTrimBeforeLastSpace()
         ));
         registrationHandler.initialize(this);
     }

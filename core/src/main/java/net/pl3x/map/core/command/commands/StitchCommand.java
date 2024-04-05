@@ -25,7 +25,7 @@ package net.pl3x.map.core.command.commands;
 
 import cloud.commandframework.context.CommandContext;
 import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
-import java.awt.Graphics2D;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,71 +54,6 @@ import org.jetbrains.annotations.Nullable;
 public class StitchCommand extends Pl3xMapCommand {
     public StitchCommand(@NotNull CommandHandler handler) {
         super(handler);
-    }
-
-    @Override
-    public void register() {
-        getHandler().registerSubcommand(builder -> builder.literal("stitch")
-                .argument(WorldArgument.of("world"), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
-                .argument(RendererArgument.of("renderer"), description(Lang.COMMAND_ARGUMENT_REQUIRED_RENDERER_DESCRIPTION))
-                .argument(ZoomArgument.optional("zoom"), description(Lang.COMMAND_ARGUMENT_OPTIONAL_ZOOM_DESCRIPTION))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_STITCH_DESCRIPTION))
-                .permission("pl3xmap.command.stitch")
-                .handler(this::execute));
-    }
-
-    private void execute(@NotNull CommandContext<@NotNull Sender> context) {
-        CompletableFuture.runAsync(() -> executeAsync(context));
-    }
-
-    private void executeAsync(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
-        World world = context.get("world");
-        Renderer.Builder renderer = context.get("renderer");
-        int zoom = context.getOrDefault("zoom", 0);
-
-        Path dir = world.getTilesDirectory().resolve(String.valueOf(zoom)).resolve(renderer.getKey());
-        if (!Files.exists(dir)) {
-            sender.sendMessage(Lang.COMMAND_STITCH_MISSING_DIRECTORY);
-            return;
-        }
-
-        Map<Point, Path> pngFiles = getTiles(dir, sender);
-        if (pngFiles == null) return;
-
-        int minX = Integer.MAX_VALUE;
-        int minZ = Integer.MAX_VALUE;
-        int maxX = Integer.MIN_VALUE;
-        int maxZ = Integer.MIN_VALUE;
-
-        for (Point point : pngFiles.keySet()) {
-            if (point.x() < minX) minX = point.x();
-            if (point.x() > maxX) maxX = point.x();
-            if (point.z() < minZ) minZ = point.z();
-            if (point.z() > maxZ) maxZ = point.z();
-        }
-
-        int sizeX = maxX - minX;
-        int sizeZ = maxZ - minZ;
-
-        sender.sendMessage(Lang.COMMAND_STITCH_STARTING,
-                Placeholder.unparsed("count", String.valueOf(pngFiles.size())),
-                Placeholder.unparsed("min-x", String.valueOf(minX)),
-                Placeholder.unparsed("min-z", String.valueOf(minZ)),
-                Placeholder.unparsed("max-x", String.valueOf(maxX)),
-                Placeholder.unparsed("max-z", String.valueOf(maxZ)),
-                Placeholder.unparsed("size-x", String.valueOf(sizeX)),
-                Placeholder.unparsed("size-z", String.valueOf(sizeZ))
-        );
-
-        String filename = stitchImage(sizeX, sizeZ, pngFiles, minX, minZ, world, renderer, zoom);
-
-        sender.sendMessage(Lang.COMMAND_STITCH_FINISHED,
-                Placeholder.unparsed("count", String.valueOf(pngFiles.size())),
-                Placeholder.unparsed("world", world.getName()),
-                Placeholder.unparsed("renderer", renderer.getKey()),
-                Placeholder.unparsed("filename", filename)
-        );
     }
 
     @Nullable
@@ -185,5 +120,70 @@ public class StitchCommand extends Pl3xMapCommand {
         String filename = renderer.getKey() + "_" + zoom + "." + io.getKey();
         io.write(dir.resolve(filename), stitched);
         return filename;
+    }
+
+    @Override
+    public void register() {
+        getHandler().registerSubcommand(builder -> builder.literal("stitch")
+                .argument(WorldArgument.of("world"), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
+                .argument(RendererArgument.of("renderer"), description(Lang.COMMAND_ARGUMENT_REQUIRED_RENDERER_DESCRIPTION))
+                .argument(ZoomArgument.optional("zoom"), description(Lang.COMMAND_ARGUMENT_OPTIONAL_ZOOM_DESCRIPTION))
+                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_STITCH_DESCRIPTION))
+                .permission("pl3xmap.command.stitch")
+                .handler(this::execute));
+    }
+
+    private void execute(@NotNull CommandContext<@NotNull Sender> context) {
+        CompletableFuture.runAsync(() -> executeAsync(context));
+    }
+
+    private void executeAsync(@NotNull CommandContext<@NotNull Sender> context) {
+        Sender sender = context.getSender();
+        World world = context.get("world");
+        Renderer.Builder renderer = context.get("renderer");
+        int zoom = context.getOrDefault("zoom", 0);
+
+        Path dir = world.getTilesDirectory().resolve(String.valueOf(zoom)).resolve(renderer.getKey());
+        if (!Files.exists(dir)) {
+            sender.sendMessage(Lang.COMMAND_STITCH_MISSING_DIRECTORY);
+            return;
+        }
+
+        Map<Point, Path> pngFiles = getTiles(dir, sender);
+        if (pngFiles == null) return;
+
+        int minX = Integer.MAX_VALUE;
+        int minZ = Integer.MAX_VALUE;
+        int maxX = Integer.MIN_VALUE;
+        int maxZ = Integer.MIN_VALUE;
+
+        for (Point point : pngFiles.keySet()) {
+            if (point.x() < minX) minX = point.x();
+            if (point.x() > maxX) maxX = point.x();
+            if (point.z() < minZ) minZ = point.z();
+            if (point.z() > maxZ) maxZ = point.z();
+        }
+
+        int sizeX = maxX - minX;
+        int sizeZ = maxZ - minZ;
+
+        sender.sendMessage(Lang.COMMAND_STITCH_STARTING,
+                Placeholder.unparsed("count", String.valueOf(pngFiles.size())),
+                Placeholder.unparsed("min-x", String.valueOf(minX)),
+                Placeholder.unparsed("min-z", String.valueOf(minZ)),
+                Placeholder.unparsed("max-x", String.valueOf(maxX)),
+                Placeholder.unparsed("max-z", String.valueOf(maxZ)),
+                Placeholder.unparsed("size-x", String.valueOf(sizeX)),
+                Placeholder.unparsed("size-z", String.valueOf(sizeZ))
+        );
+
+        String filename = stitchImage(sizeX, sizeZ, pngFiles, minX, minZ, world, renderer, zoom);
+
+        sender.sendMessage(Lang.COMMAND_STITCH_FINISHED,
+                Placeholder.unparsed("count", String.valueOf(pngFiles.size())),
+                Placeholder.unparsed("world", world.getName()),
+                Placeholder.unparsed("renderer", renderer.getKey()),
+                Placeholder.unparsed("filename", filename)
+        );
     }
 }

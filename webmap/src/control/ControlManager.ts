@@ -7,14 +7,11 @@ import SidebarControl from "./SidebarControl";
 export class ControlManager {
     private readonly _pl3xmap: Pl3xMap;
 
-    private _sidebarControl?: SidebarControl
-    private _blockInfoControl?: BlockInfoControl;
-    private _coordsControl?: CoordsControl;
-    private _linkControl?: LinkControl;
-
     constructor(pl3xmap: Pl3xMap) {
         this._pl3xmap = pl3xmap;
     }
+
+    private _sidebarControl?: SidebarControl
 
     get sidebarControl(): SidebarControl | undefined {
         return this._sidebarControl;
@@ -26,6 +23,8 @@ export class ControlManager {
         this._sidebarControl?.addTo(this._pl3xmap.map);
     }
 
+    private _blockInfoControl?: BlockInfoControl;
+
     get blockInfoControl(): BlockInfoControl | undefined {
         return this._blockInfoControl;
     }
@@ -36,6 +35,8 @@ export class ControlManager {
         this._blockInfoControl?.addTo(this._pl3xmap.map);
     }
 
+    private _coordsControl?: CoordsControl;
+
     get coordsControl(): CoordsControl | undefined {
         return this._coordsControl;
     }
@@ -45,6 +46,8 @@ export class ControlManager {
         this._coordsControl = control;
         this._coordsControl?.addTo(this._pl3xmap.map);
     }
+
+    private _linkControl?: LinkControl;
 
     get linkControl(): LinkControl | undefined {
         return this._linkControl;

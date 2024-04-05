@@ -10,11 +10,25 @@ import {LatLng} from "leaflet";
 export class PlayerManager {
     private readonly _pl3xmap: Pl3xMap;
 
-    private _players: Map<string, Player> = new Map();
-    private _follow?: Player;
-
     constructor(pl3xmap: Pl3xMap) {
         this._pl3xmap = pl3xmap;
+    }
+
+    private _players: Map<string, Player> = new Map();
+
+    get players(): Map<string, Player> {
+        return this._players;
+    }
+
+    private _follow?: Player;
+
+    get follow(): Player | undefined {
+        return this._follow;
+    }
+
+    set follow(player: Player | undefined) {
+        this._follow = player;
+        fireCustomEvent("followplayer", player);
     }
 
     public update(settings: Settings): void {
@@ -82,18 +96,5 @@ export class PlayerManager {
                 map.setView(position, map.getZoom());
             });
         }
-    }
-
-    get players(): Map<string, Player> {
-        return this._players;
-    }
-
-    get follow(): Player | undefined {
-        return this._follow;
-    }
-
-    set follow(player: Player | undefined) {
-        this._follow = player;
-        fireCustomEvent("followplayer", player);
     }
 }

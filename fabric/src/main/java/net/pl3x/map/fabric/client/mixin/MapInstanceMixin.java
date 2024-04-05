@@ -43,6 +43,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(MapRenderer.MapInstance.class)
 public abstract class MapInstanceMixin implements MapInstance {
+    private final BufferedImage image = new BufferedImage(128, 128, BufferedImage.TYPE_INT_ARGB);
     @Final
     @Shadow
     DynamicTexture texture;
@@ -50,9 +51,6 @@ public abstract class MapInstanceMixin implements MapInstance {
     MapItemSavedData data;
     @Shadow
     boolean requiresUpload;
-
-    private final BufferedImage image = new BufferedImage(128, 128, BufferedImage.TYPE_INT_ARGB);
-
     private Pl3xMapFabricClient mod;
 
     private int id;

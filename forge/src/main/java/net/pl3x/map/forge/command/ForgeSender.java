@@ -36,15 +36,15 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ForgeSender extends Sender {
+    public ForgeSender(@NotNull CommandSourceStack sender) {
+        super(sender);
+    }
+
     public static @NotNull Sender create(@NotNull CommandSourceStack stack) {
         if (stack.source instanceof ServerPlayer) {
             return new Player(stack);
         }
         return new ForgeSender(stack);
-    }
-
-    public ForgeSender(@NotNull CommandSourceStack sender) {
-        super(sender);
     }
 
     @Override

@@ -2,7 +2,7 @@ modLoader = "javafml"
 loaderVersion = "${forgeLoaderVersion}"
 license = "MIT"
 showAsResourcePack = false
-properties = {}
+properties = { }
 issueTrackerURL = "${issues}"
 [[mods]]
 modId = "pl3xmap"
@@ -12,9 +12,9 @@ description = "${description}"
 logoFile = "pl3xmap.png"
 logoBlur = false
 #updateJSONURL = ""
-modproperties = {}
+modproperties = { }
 #credits = ""
-authors = ${authors}
+authors = ${ authors }
 displayURL = "${website}"
 displayTest = "IGNORE_SERVER_VERSION"
 [[dependencies.pl3xmap]]

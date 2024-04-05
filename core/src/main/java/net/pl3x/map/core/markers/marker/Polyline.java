@@ -144,6 +144,19 @@ public class Polyline extends Marker<@NotNull Polyline> {
         return new Polyline(key, points);
     }
 
+    public static @NotNull Polyline fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Polyline polyline = Polyline.of(obj.get("key").getAsString());
+        if ((el = obj.get("points")) != null && !(el instanceof JsonNull)) {
+            JsonArray arr = el.getAsJsonArray();
+            for (int i = 0; i < arr.size(); i++) {
+                polyline.addPoint(Point.fromJson((JsonObject) arr.get(i)));
+            }
+        }
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) polyline.setPane(el.getAsString());
+        return polyline;
+    }
+
     /**
      * Get the list of points in this polyline.
      *
@@ -272,19 +285,6 @@ public class Polyline extends Marker<@NotNull Polyline> {
         wrapper.addProperty("points", getPoints());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Polyline fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Polyline polyline = Polyline.of(obj.get("key").getAsString());
-        if ((el = obj.get("points")) != null && !(el instanceof JsonNull)) {
-            JsonArray arr = el.getAsJsonArray();
-            for (int i = 0; i < arr.size(); i++) {
-                polyline.addPoint(Point.fromJson((JsonObject) arr.get(i)));
-            }
-        }
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) polyline.setPane(el.getAsString());
-        return polyline;
     }
 
     @Override

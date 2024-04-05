@@ -49,7 +49,7 @@ jobs:
               if (data?.message != undefined) {
                 return core.setFailed(`Failed to update configuration variable NEXT_BUILD_NUMBER with new value of '${process.env.BUILD_INITIAL_VALUE}' for reason ${data.message}`);
               }
-              
+            
               return core.exportVariable("NEXT_BUILD_NUMBER", process.env.BUILD_INITIAL_VALUE);
             } else if (process.env.NEXT_BUILD_NUMBER.split('.').length > 1 || Number.isNaN(Number.parseInt(process.env.NEXT_BUILD_NUMBER))) {
               return core.setFailed(`NEXT_BUILD_NUMBER variable has invalid value "${process.env.NEXT_BUILD_NUMBER}", failing build.`);

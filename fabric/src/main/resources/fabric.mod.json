@@ -1,55 +1,55 @@
 {
-  "schemaVersion": 1,
-  "id": "pl3xmap",
-  "version": "${version}",
-  "name": "${name}",
-  "description": "${description}",
-  "authors": [
+  "schemaVersion" : 1,
+  "id" : "pl3xmap",
+  "version" : "${version}",
+  "name" : "${name}",
+  "description" : "${description}",
+  "authors" : [
     "granny",
     "BillyGalbreath",
     "JLyne"
   ],
-  "contact": {
-    "homepage": "${website}",
-    "sources": "${sources}",
-    "issues": "${issues}"
+  "contact" : {
+    "homepage" : "${website}",
+    "sources" : "${sources}",
+    "issues" : "${issues}"
   },
-  "license": "MIT",
-  "icon": "pl3xmap.png",
-  "environment": "*",
-  "entrypoints": {
-    "client": [
+  "license" : "MIT",
+  "icon" : "pl3xmap.png",
+  "environment" : "*",
+  "entrypoints" : {
+    "client" : [
       "${group}.client.Pl3xMapFabricClient"
     ],
-    "server": [
+    "server" : [
       "${group}.server.Pl3xMapFabricServer"
     ]
   },
-  "mixins": [
+  "mixins" : [
     {
-      "config": "pl3xmap.client.mixins.json",
-      "environment": "client"
+      "config" : "pl3xmap.client.mixins.json",
+      "environment" : "client"
     },
     {
-      "config": "pl3xmap.server.mixins.json",
-      "environment": "server"
+      "config" : "pl3xmap.server.mixins.json",
+      "environment" : "server"
     }
   ],
-  "accessWidener": "pl3xmap.accesswidener",
-  "depends": {
-    "fabricloader": ">=${fabricLoaderVersion}",
-    "fabric": ">=${fabricApiVersion}",
-    "minecraft": "~${minecraftVersion}",
-    "java": ">=17"
+  "accessWidener" : "pl3xmap.accesswidener",
+  "depends" : {
+    "fabricloader" : ">=${fabricLoaderVersion}",
+    "fabric" : ">=${fabricApiVersion}",
+    "minecraft" : "~${minecraftVersion}",
+    "java" : ">=17"
   },
-  "recommends": {
-    "better-fabric-console": "*"
+  "recommends" : {
+    "better-fabric-console" : "*"
   },
-  "custom": {
-    "modmenu": {
-      "links": {
-        "modmenu.discord": "https://granny.dev/discord",
-        "modrinth.download.link": "https://modrinth.com/mod/pl3xmap/"
+  "custom" : {
+    "modmenu" : {
+      "links" : {
+        "modmenu.discord" : "https://granny.dev/discord",
+        "modrinth.download.link" : "https://modrinth.com/mod/pl3xmap/"
       }
     }
   }

@@ -33,17 +33,17 @@ export class Polyline extends Marker {
         super(data.key, L.polyline(Polyline.createLine(data), options));
     }
 
-    public update(raw: unknown[]): void {
-        const data: PolylineOptions = raw as unknown as PolylineOptions;
-        const polyline: L.Polyline = this.marker as L.Polyline;
-        polyline.setLatLngs(Polyline.createLine(data));
-    }
-
     private static createLine(data: PolylineOptions): L.LatLng[] {
         const line: any[] = [];
         data.points.forEach((point: Point): void => {
             line.push(toCenteredLatLng(point))
         });
         return line;
+    }
+
+    public update(raw: unknown[]): void {
+        const data: PolylineOptions = raw as unknown as PolylineOptions;
+        const polyline: L.Polyline = this.marker as L.Polyline;
+        polyline.setLatLngs(Polyline.createLine(data));
     }
 }

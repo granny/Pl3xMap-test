@@ -175,7 +175,7 @@ export const handleKeyboardEvent = (e: KeyboardEvent, elements: HTMLElement[]): 
     }
 }
 
-export function getLangName(prefix: string, name: string) : string {
+export function getLangName(prefix: string, name: string): string {
     if (name.indexOf(':') !== -1) {
         const split = name.split(":");
         const a = prefix + '.' + split[0] + '.' + name.split(split[0] + ":")[1];

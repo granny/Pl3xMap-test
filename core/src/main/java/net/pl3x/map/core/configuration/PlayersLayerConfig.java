@@ -27,21 +27,19 @@ import net.pl3x.map.core.Pl3xMap;
 
 @SuppressWarnings("CanBeFinal")
 public final class PlayersLayerConfig extends AbstractConfig {
+    private static final PlayersLayerConfig CONFIG = new PlayersLayerConfig();
     @Key("settings.enabled")
     @Comment("""
             Show online players on the map and sidebar.""")
     public static boolean ENABLED = true;
-
     @Key("settings.hide.invisible")
     @Comment("""
             Should invisible players be hidden from the map.""")
     public static boolean HIDE_INVISIBLE = true;
-
     @Key("settings.hide.spectators")
     @Comment("""
             Should spectators be hidden from the map.""")
     public static boolean HIDE_SPECTATORS = true;
-
     @Key("settings.layer.update-interval")
     @Comment("""
             How often (in seconds) to update the marker.
@@ -65,13 +63,11 @@ public final class PlayersLayerConfig extends AbstractConfig {
             Z-Index order players layer shows up in the map.
             (higher values are drawn on top of lower values)""")
     public static int Z_INDEX = 999;
-
     @Key("settings.icon")
     @Comment("""
             The player icon.
             Icon must be in the web/images/icon/ directory.""")
     public static String ICON = "players";
-
     @Key("settings.tooltip")
     @Comment("""
             Tooltip for player markers.
@@ -85,14 +81,12 @@ public final class PlayersLayerConfig extends AbstractConfig {
                 <img src='images/clear.png' class='armor' style='background-position:0 calc(-<armor>px * 9);' alt='Armor <armor>' />
               </li>
             </ul>""";
-
     @Key("settings.pane")
     @Comment("""
             The custom pane layer for the player tracker.
             This is used to make custom css styled tooltips.
             (see css setting below)""")
     public static String PANE = "nameplates";
-
     @Key("settings.css")
     @Comment("""
             Custom css for players marker layer.
@@ -145,8 +139,6 @@ public final class PlayersLayerConfig extends AbstractConfig {
             div.leaflet-marker-pane img {
               transition: all 0.25s;
             }""";
-
-    private static final PlayersLayerConfig CONFIG = new PlayersLayerConfig();
 
     public static void reload() {
         CONFIG.reload(Pl3xMap.api().getMainDir().resolve("layers/players.yml"), PlayersLayerConfig.class);

@@ -62,6 +62,21 @@ public class Tooltip extends Option<@NotNull Tooltip> {
         setContent(string);
     }
 
+    public static @NotNull Tooltip fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Tooltip tooltip = new Tooltip();
+        if ((el = obj.get("content")) != null && !(el instanceof JsonNull)) tooltip.setContent(el.getAsString());
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) tooltip.setPane(el.getAsString());
+        if ((el = obj.get("offset")) != null && !(el instanceof JsonNull))
+            tooltip.setOffset(Point.fromJson((JsonObject) el));
+        if ((el = obj.get("direction")) != null && !(el instanceof JsonNull))
+            tooltip.setDirection(Direction.values()[el.getAsInt()]);
+        if ((el = obj.get("permanent")) != null && !(el instanceof JsonNull)) tooltip.setPermanent(el.getAsBoolean());
+        if ((el = obj.get("sticky")) != null && !(el instanceof JsonNull)) tooltip.setSticky(el.getAsBoolean());
+        if ((el = obj.get("opacity")) != null && !(el instanceof JsonNull)) tooltip.setOpacity(el.getAsDouble());
+        return tooltip;
+    }
+
     /**
      * Get the content of this tooltip rule.
      * <p>
@@ -260,19 +275,6 @@ public class Tooltip extends Option<@NotNull Tooltip> {
         wrapper.addProperty("sticky", isSticky());
         wrapper.addProperty("opacity", getOpacity());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Tooltip fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Tooltip tooltip = new Tooltip();
-        if ((el = obj.get("content")) != null && !(el instanceof JsonNull)) tooltip.setContent(el.getAsString());
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) tooltip.setPane(el.getAsString());
-        if ((el = obj.get("offset")) != null && !(el instanceof JsonNull)) tooltip.setOffset(Point.fromJson((JsonObject) el));
-        if ((el = obj.get("direction")) != null && !(el instanceof JsonNull)) tooltip.setDirection(Direction.values()[el.getAsInt()]);
-        if ((el = obj.get("permanent")) != null && !(el instanceof JsonNull)) tooltip.setPermanent(el.getAsBoolean());
-        if ((el = obj.get("sticky")) != null && !(el instanceof JsonNull)) tooltip.setSticky(el.getAsBoolean());
-        if ((el = obj.get("opacity")) != null && !(el instanceof JsonNull)) tooltip.setOpacity(el.getAsDouble());
-        return tooltip;
     }
 
     @Override

@@ -40,13 +40,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class ChunkAnvil118 extends Chunk {
-    private int sectionMin = Integer.MAX_VALUE;
-
-    private Section[] sections = new Section[0];
-
-    protected long[] worldSurfaceHeights = new long[0];
-
     private final boolean full;
+    protected long[] worldSurfaceHeights = new long[0];
+    private int sectionMin = Integer.MAX_VALUE;
+    private Section[] sections = new Section[0];
 
     protected ChunkAnvil118(@NotNull World world, @NotNull Region region, @NotNull CompoundTag chunkTag, int index) {
         super(world, region, chunkTag, index);
@@ -77,6 +74,10 @@ public class ChunkAnvil118 extends Chunk {
                 this.sections[section.sectionY - this.sectionMin] = section;
             }
         }
+    }
+
+    private static PackedIntArrayAccess heightmap(int worldHeight, long[] data) {
+        return new PackedIntArrayAccess(MCAMath.ceilLog2(worldHeight + 1), data);
     }
 
     @Override
@@ -123,19 +124,15 @@ public class ChunkAnvil118 extends Chunk {
         return y < 0 || y >= this.sections.length ? null : this.sections[y];
     }
 
-    private static PackedIntArrayAccess heightmap(int worldHeight, long[] data) {
-        return new PackedIntArrayAccess(MCAMath.ceilLog2(worldHeight + 1), data);
-    }
-
     protected static class Section {
         private final int sectionY;
+        private final int bitsPerBlock;
+        private final int bitsPerBiome;
         private byte[] blockLight;
         private long[] blocks;
         private long[] biomes = new long[0];
         private BlockState[] blockPalette = new BlockState[0];
         private Biome[] biomePalette = new Biome[0];
-        private final int bitsPerBlock;
-        private final int bitsPerBiome;
 
         public Section(@NotNull World world, @NotNull CompoundTag sectionData) {
             this.sectionY = sectionData.getByte("Y");

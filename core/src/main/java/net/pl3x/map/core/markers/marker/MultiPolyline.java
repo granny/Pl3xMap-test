@@ -113,6 +113,19 @@ public class MultiPolyline extends Marker<@NotNull MultiPolyline> {
         return new MultiPolyline(key, polylines);
     }
 
+    public static @NotNull MultiPolyline fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        MultiPolyline multiPolyline = MultiPolyline.of(obj.get("key").getAsString());
+        if ((el = obj.get("polylines")) != null && !(el instanceof JsonNull)) {
+            JsonArray arr = el.getAsJsonArray();
+            for (int i = 0; i < arr.size(); i++) {
+                multiPolyline.addPolyline(Polyline.fromJson((JsonObject) arr.get(i)));
+            }
+        }
+        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) multiPolyline.setPane(el.getAsString());
+        return multiPolyline;
+    }
+
     /**
      * Get the list of polylines in this multi-polyline.
      *
@@ -215,19 +228,6 @@ public class MultiPolyline extends Marker<@NotNull MultiPolyline> {
         wrapper.addProperty("polylines", getPolylines());
         wrapper.addProperty("pane", getPane());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull MultiPolyline fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        MultiPolyline multiPolyline = MultiPolyline.of(obj.get("key").getAsString());
-        if ((el = obj.get("polylines")) != null && !(el instanceof JsonNull)) {
-            JsonArray arr = el.getAsJsonArray();
-            for (int i = 0; i < arr.size(); i++) {
-                multiPolyline.addPolyline(Polyline.fromJson((JsonObject) arr.get(i)));
-            }
-        }
-        if ((el = obj.get("pane")) != null && !(el instanceof JsonNull)) multiPolyline.setPane(el.getAsString());
-        return multiPolyline;
     }
 
     @Override

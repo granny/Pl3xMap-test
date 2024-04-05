@@ -35,6 +35,7 @@ import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("CanBeFinal")
 public class ColorsConfig extends AbstractConfig {
+    private static final ColorsConfig CONFIG = new ColorsConfig();
     @Key("blocks.colors")
     @Comment("""
             Each block has a specific color assigned to it. You can
@@ -979,7 +980,6 @@ public class ColorsConfig extends AbstractConfig {
         put("minecraft:zombie_head", 0x52763F);
         put("minecraft:zombie_wall_head", 0x52763F);
     }};
-
     @Key("biomes.colors")
     @Comment("""
             Each biome has a specific color assigned to it. You can
@@ -1070,7 +1070,6 @@ public class ColorsConfig extends AbstractConfig {
         put("minecraft:waxed_weathered_copper_grate", 0x69966E);
         put("minecraft:exposed_copper_trapdoor", 0xA17D69);
     }};
-
     @Key("blocks.air")
     @Comment("""
             List of blocks that are considered air when it comes
@@ -1080,7 +1079,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:cave_air");
         add("minecraft:void_air");
     }};
-
     @Key("blocks.foliage")
     @Comment("""
             List of blocks that are considered foliage when it comes
@@ -1096,7 +1094,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:oak_leaves");
         //add("minecraft:spruce_leaves"); // evergreen 0x619961
     }};
-
     @Key("blocks.glass")
     @Comment("""
             List of blocks that are considered glass when it comes
@@ -1139,7 +1136,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:yellow_stained_glass_pane");
         add("minecraft:tinted_glass");
     }};
-
     @Key("blocks.grass")
     @Comment("""
             List of blocks that are considered grass when it comes
@@ -1154,7 +1150,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:potted_fern");
         add("minecraft:tall_grass");
     }};
-
     @Key("blocks.water")
     @Comment("""
             List of blocks that are considered water when it comes
@@ -1185,7 +1180,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:seagrass");
         add("minecraft:tall_seagrass");
     }};
-
     @Key("blocks.flat")
     @Comment("""
             List of blocks that are considered "flat" when it comes
@@ -1239,7 +1233,6 @@ public class ColorsConfig extends AbstractConfig {
         add("minecraft:white_carpet");
         add("minecraft:yellow_carpet");
     }};
-
     @Key("biomes.color-overrides.foliage")
     @Comment("""
             Override foliage colors per biome.""")
@@ -1254,7 +1247,6 @@ public class ColorsConfig extends AbstractConfig {
         put("minecraft:swamp", 0x6A7039);
         put("minecraft:wooded_badlands", 0x9E814D);
     }};
-
     @Key("biomes.color-overrides.grass")
     @Comment("""
             Override grass colors per biome.""")
@@ -1263,13 +1255,10 @@ public class ColorsConfig extends AbstractConfig {
         put("minecraft:wooded_badlands", 0x90814D);
         put("minecraft:eroded_badlands", 0x90814D);
     }};
-
     @Key("biomes.color-overrides.water")
     @Comment("""
             Override water colors per biome.""")
     public static Map<@NotNull String, @NotNull Integer> BIOME_WATER = new LinkedHashMap<>();
-
-    private static final ColorsConfig CONFIG = new ColorsConfig();
 
     public static void reload() {
         // web dir has to extract before colors config to load biome colors correctly

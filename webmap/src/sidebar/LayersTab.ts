@@ -24,9 +24,6 @@ export default class LayersTab extends L.Control.Layers implements SidebarTab {
     declare protected _checkDisabledLayers: () => void;
 
     protected _pl3xmap: Pl3xMap;
-    protected _button: HTMLButtonElement = L.DomUtil.create('button');
-    protected _content: HTMLDivElement = L.DomUtil.create('div');
-
     protected _skeleton: HTMLParagraphElement = L.DomUtil.create('p');
     protected _container: HTMLDivElement = L.DomUtil.create('div');
     protected _list: HTMLFieldSetElement = L.DomUtil.create('fieldset', 'menu');
@@ -62,6 +59,40 @@ export default class LayersTab extends L.Control.Layers implements SidebarTab {
         this._content.setAttribute('aria-hidden', 'true');
 
         this.initEvents();
+    }
+
+    protected _button: HTMLButtonElement = L.DomUtil.create('button');
+
+    get button(): HTMLElement {
+        return this._button;
+    }
+
+    protected _content: HTMLDivElement = L.DomUtil.create('div');
+
+    get content(): HTMLElement {
+        return this._content;
+    }
+
+    get id(): string {
+        return 'layers';
+    }
+
+    expand(): this {
+        //Do nothing
+        return this;
+    }
+
+    collapse(): this {
+        //Do nothing
+        return this;
+    }
+
+    onActivate(): void {
+        if (!this._container.hidden) {
+            (this._list.querySelector('input') as HTMLElement)!.focus();
+        } else {
+            this._skeleton.focus();
+        }
     }
 
     private initEvents(): void {
@@ -146,35 +177,5 @@ export default class LayersTab extends L.Control.Layers implements SidebarTab {
 
         this._checkDisabledLayers();
         return label;
-    }
-
-    expand(): this {
-        //Do nothing
-        return this;
-    }
-
-    collapse(): this {
-        //Do nothing
-        return this;
-    }
-
-    onActivate(): void {
-        if (!this._container.hidden) {
-            (this._list.querySelector('input') as HTMLElement)!.focus();
-        } else {
-            this._skeleton.focus();
-        }
-    }
-
-    get button(): HTMLElement {
-        return this._button;
-    }
-
-    get content(): HTMLElement {
-        return this._content;
-    }
-
-    get id(): string {
-        return 'layers';
     }
 }

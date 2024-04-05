@@ -14,10 +14,15 @@ export class WorldManager {
     private readonly _pl3xmap: Pl3xMap;
 
     private _worlds: Map<string, World> = new Map();
-    private _currentWorld?: World;
 
     constructor(pl3xmap: Pl3xMap) {
         this._pl3xmap = pl3xmap;
+    }
+
+    private _currentWorld?: World;
+
+    get currentWorld(): World | undefined {
+        return this._currentWorld;
     }
 
     public async init(settings: Settings): Promise<void> {
@@ -42,10 +47,6 @@ export class WorldManager {
         if (world) {
             await this.setWorld(world, getUrlParam('renderer', undefined));
         }
-    }
-
-    get currentWorld(): World | undefined {
-        return this._currentWorld;
     }
 
     public getWorld(world: string): World | undefined {

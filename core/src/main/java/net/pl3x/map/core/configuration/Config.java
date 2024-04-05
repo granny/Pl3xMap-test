@@ -30,22 +30,20 @@ import org.simpleyaml.configuration.file.YamlFile;
 
 @SuppressWarnings("CanBeFinal")
 public final class Config extends AbstractConfig {
+    private static final Config CONFIG = new Config();
     @Key("settings.debug-mode")
     @Comment("""
             Extra logger/console output. (can be spammy)""")
     public static boolean DEBUG_MODE = false;
-
     @Key("settings.language-file")
     @Comment("""
             The language file to use from the locale folder.""")
     public static String LANGUAGE_FILE = "lang-en.yml";
-
     @Key("settings.web-address")
     @Comment("""
             Set the web address players use to connect to your map. This
             is only used for the client mod to know where to connect.""")
     public static String WEB_ADDRESS = "http://localhost:8080";
-
     @Key("settings.web-directory.path")
     @Comment("""
             The directory that houses the website and world tiles.
@@ -72,7 +70,6 @@ public final class Config extends AbstractConfig {
             1.0 is high quality, no compression, large file size
             Note: Not all image formats honor this setting.""")
     public static double WEB_TILE_QUALITY = 0.0D;
-
     @Key("settings.map.zoom.snap")
     @Comment("""
             Forces the map's zoom level to always be a multiple of this.
@@ -92,7 +89,6 @@ public final class Config extends AbstractConfig {
             a change of one full zoom level. Smaller values will make wheel-zooming
             faster (and vice versa).""")
     public static int MAP_ZOOM_WHEEL = 120;
-
     @Key("settings.internal-webserver.enabled")
     @Comment("""
             Enable the built-in web server.
@@ -117,25 +113,20 @@ public final class Config extends AbstractConfig {
             It is generally advised against enabling this,
             for security reasons. But you do you, boo boo.""")
     public static boolean HTTPD_FOLLOW_SYMLINKS = false;
-
     @Key("settings.performance.render-threads")
     @Comment("""
             The number of process-threads to use for loading and scanning chunks.
             Value of -1 will use 50% of the available cpu-threads. (recommended)""")
     public static int RENDER_THREADS = -1;
-
     @Key("settings.performance.gc.when-finished")
     @Comment("""
             Runs the JVM GC after a render job stops to free up memory immediately.""")
     public static boolean GC_WHEN_FINISHED = true;
-
     @Key("settings.performance.gc.when-running")
     @Comment("""
             Runs the JVM GC aggressively while a render is running
             CAUTION: this _will_ slow down your renders!""")
     public static boolean GC_WHEN_RUNNING = false;
-
-    private static final Config CONFIG = new Config();
 
     public static void reload() {
         Path mainDir = Pl3xMap.api().getMainDir();

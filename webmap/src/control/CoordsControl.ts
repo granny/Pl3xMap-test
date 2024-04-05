@@ -7,16 +7,39 @@ import Pl3xMapLeafletMap from "../map/Pl3xMapLeafletMap";
 export class CoordsControl extends ControlBox {
     declare _map: Pl3xMapLeafletMap;
     private _dom: HTMLDivElement = L.DomUtil.create('div');
-    private _x: number = 0;
-    private _y?: number;
-    private _z: number = 0;
-
-    private onEvent = (event: L.LeafletMouseEvent) => {
-        return this.update(this._map, toPoint(event.latlng));
-    }
 
     constructor(pl3xmap: Pl3xMap, position: string) {
         super(pl3xmap, position);
+    }
+
+    private _x: number = 0;
+
+    get x(): number {
+        return this._x;
+    }
+
+    set x(x: number) {
+        this._x = x;
+    }
+
+    private _y?: number;
+
+    get y(): number | undefined {
+        return this._y;
+    }
+
+    set y(y: number | undefined) {
+        this._y = y;
+    }
+
+    private _z: number = 0;
+
+    get z(): number {
+        return this._z;
+    }
+
+    set z(z: number) {
+        this._z = z;
     }
 
     onAdd(map: Pl3xMapLeafletMap): HTMLDivElement {
@@ -31,6 +54,10 @@ export class CoordsControl extends ControlBox {
         map.removeEventListener('mousemove', this.onEvent);
     }
 
+    private onEvent = (event: L.LeafletMouseEvent) => {
+        return this.update(this._map, toPoint(event.latlng));
+    }
+
     private update(map: Pl3xMapLeafletMap, point: L.PointTuple): void {
         this.x = Math.round(point[0]) - 1;
         this.z = Math.round(point[1]) - 1;
@@ -39,29 +66,5 @@ export class CoordsControl extends ControlBox {
             .replace(/<x>/g, this.x.toString().padStart(6, ' '))
             .replace(/<y>/g, (this.y?.toString() ?? '???').padStart(2, ' ').padEnd(3, ' '))
             .replace(/<z>/g, this.z.toString().padEnd(6, ' '));
-    }
-
-    get x(): number {
-        return this._x;
-    }
-
-    set x(x: number) {
-        this._x = x;
-    }
-
-    get y(): number | undefined {
-        return this._y;
-    }
-
-    set y(y: number | undefined) {
-        this._y = y;
-    }
-
-    get z(): number {
-        return this._z;
-    }
-
-    set z(z: number) {
-        this._z = z;
     }
 }

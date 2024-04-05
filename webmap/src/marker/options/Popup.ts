@@ -45,6 +45,14 @@ export class Popup {
         this._properties = props;
     }
 
+    get content(): string {
+        return this._content;
+    }
+
+    get properties(): L.PopupOptions {
+        return this._properties;
+    }
+
     applySize(data: PopupOptions, props: L.PopupOptions): void {
         if (isset(data.maxWidth)) props.maxWidth = data.maxWidth;
         if (isset(data.minWidth)) props.minWidth = data.minWidth;
@@ -52,25 +60,17 @@ export class Popup {
     }
 
     applyPanning(data: PopupOptions, props: L.PopupOptions): void {
-        if (isset(data.autoPan)) props.autoPan =  data.autoPan;
+        if (isset(data.autoPan)) props.autoPan = data.autoPan;
         if (isset(data.autoPanPaddingTopLeft)) props.autoPanPaddingTopLeft = [data.autoPanPaddingTopLeft!.x, data.autoPanPaddingTopLeft!.z];
         if (isset(data.autoPanPaddingBottomRight)) props.autoPanPaddingBottomRight = [data.autoPanPaddingBottomRight!.x, data.autoPanPaddingBottomRight!.z];
         if (isset(data.autoPanPadding)) props.autoPanPadding = [data.autoPanPadding!.x, data.autoPanPadding!.z];
-        if (isset(data.keepInView)) props.keepInView =  data.keepInView;
+        if (isset(data.keepInView)) props.keepInView = data.keepInView;
     }
 
     applyClosing(data: PopupOptions, props: L.PopupOptions): void {
-        if (isset(data.closeButton)) props.closeButton =  data.closeButton;
-        if (isset(data.autoClose)) props.autoClose =  data.autoClose;
-        if (isset(data.closeOnEscapeKey)) props.closeOnEscapeKey =  data.closeOnEscapeKey;
-        if (isset(data.closeOnClick)) props.closeOnClick =  data.closeOnClick;
-    }
-
-    get content(): string {
-        return this._content;
-    }
-
-    get properties(): L.PopupOptions {
-        return this._properties;
+        if (isset(data.closeButton)) props.closeButton = data.closeButton;
+        if (isset(data.autoClose)) props.autoClose = data.autoClose;
+        if (isset(data.closeOnEscapeKey)) props.closeOnEscapeKey = data.closeOnEscapeKey;
+        if (isset(data.closeOnClick)) props.closeOnClick = data.closeOnClick;
     }
 }

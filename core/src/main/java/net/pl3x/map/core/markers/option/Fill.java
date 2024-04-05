@@ -62,6 +62,15 @@ public class Fill extends Option<@NotNull Fill> {
         setColor(color);
     }
 
+    public static @NotNull Fill fromJson(@NotNull JsonObject obj) {
+        JsonElement el;
+        Fill fill = new Fill();
+        if ((el = obj.get("enabled")) != null && !(el instanceof JsonNull)) fill.setEnabled(el.getAsBoolean());
+        if ((el = obj.get("type")) != null && !(el instanceof JsonNull)) fill.setType(Type.values()[el.getAsInt()]);
+        if ((el = obj.get("color")) != null && !(el instanceof JsonNull)) fill.setColor(el.getAsInt());
+        return fill;
+    }
+
     /**
      * Whether to fill the path with color.
      * <p>
@@ -152,15 +161,6 @@ public class Fill extends Option<@NotNull Fill> {
         wrapper.addProperty("type", getType());
         wrapper.addProperty("color", getColor());
         return wrapper.getJsonObject();
-    }
-
-    public static @NotNull Fill fromJson(@NotNull JsonObject obj) {
-        JsonElement el;
-        Fill fill = new Fill();
-        if ((el = obj.get("enabled")) != null && !(el instanceof JsonNull)) fill.setEnabled(el.getAsBoolean());
-        if ((el = obj.get("type")) != null && !(el instanceof JsonNull)) fill.setType(Type.values()[el.getAsInt()]);
-        if ((el = obj.get("color")) != null && !(el instanceof JsonNull)) fill.setColor(el.getAsInt());
-        return fill;
     }
 
     @Override

@@ -44,6 +44,13 @@ public class NetworkManager {
         this.mod = mod;
     }
 
+    public static byte[] accessByteBufWithCorrectSize(FriendlyByteBuf buf) {
+        int i = buf.writerIndex();
+        byte[] bytes = new byte[i];
+        buf.getBytes(0, bytes);
+        return bytes;
+    }
+
     public void initialize() {
         ClientPlayNetworking.registerGlobalReceiver(this.channel, (client, handler, buf, sender) -> {
             ByteArrayDataInput packet = in(accessByteBufWithCorrectSize(buf));
@@ -108,13 +115,6 @@ public class NetworkManager {
             return;
         }
         ClientPlayNetworking.send(this.channel, new FriendlyByteBuf(Unpooled.wrappedBuffer(packet.toByteArray())));
-    }
-
-    public static byte[] accessByteBufWithCorrectSize(FriendlyByteBuf buf) {
-        int i = buf.writerIndex();
-        byte[] bytes = new byte[i];
-        buf.getBytes(0, bytes);
-        return bytes;
     }
 
     @SuppressWarnings("UnstableApiUsage")

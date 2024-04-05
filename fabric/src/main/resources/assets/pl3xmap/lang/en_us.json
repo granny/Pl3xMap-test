@@ -1,8 +1,8 @@
 {
-  "pl3xmap.title": "Pl3xMap",
-  "pl3xmap.keymap.toggle": "Toggle On/Off",
-  "pl3xmap.toggled.response": "Pl3xMap toggled %s.",
-  "pl3xmap.toggled.on": "on",
-  "pl3xmap.toggled.off": "off",
-  "modrinth.download.link": "Download on Modrinth"
+  "pl3xmap.title" : "Pl3xMap",
+  "pl3xmap.keymap.toggle" : "Toggle On/Off",
+  "pl3xmap.toggled.response" : "Pl3xMap toggled %s.",
+  "pl3xmap.toggled.on" : "on",
+  "pl3xmap.toggled.off" : "off",
+  "modrinth.download.link" : "Download on Modrinth"
 }

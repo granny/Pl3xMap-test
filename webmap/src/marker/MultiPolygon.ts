@@ -35,12 +35,6 @@ export class MultiPolygon extends Marker {
         super(data.key, L.polygon(MultiPolygon.createPolys(data), options));
     }
 
-    public update(raw: unknown[]): void {
-        const data: MultiPolygonOptions = raw as unknown as MultiPolygonOptions;
-        const polygon: L.Polygon = this.marker as L.Polygon;
-        polygon.setLatLngs(MultiPolygon.createPolys(data));
-    }
-
     private static createPolys(data: MultiPolygonOptions): L.LatLng[][][] {
         const polys: any[] = [];
         data.polygons.forEach((polygon: Polygon): void => {
@@ -55,5 +49,11 @@ export class MultiPolygon extends Marker {
             polys.push(poly);
         });
         return polys;
+    }
+
+    public update(raw: unknown[]): void {
+        const data: MultiPolygonOptions = raw as unknown as MultiPolygonOptions;
+        const polygon: L.Polygon = this.marker as L.Polygon;
+        polygon.setLatLngs(MultiPolygon.createPolys(data));
     }
 }
