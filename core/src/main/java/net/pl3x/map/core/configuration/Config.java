@@ -120,7 +120,7 @@ public final class Config extends AbstractConfig {
 
     @Key("settings.performance.live-update-threads")
     @Comment("""
-            The number of process-threads to use for for real-time marker updates on the map.
+            The number of process-threads to use for real-time marker updates on the map.
             Value of -1 will use 50% of the available cpu-threads. (recommended)""")
     public static int LIVE_UPDATE_THREADS = -1;
 
