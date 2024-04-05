@@ -6,7 +6,7 @@ import {insertCss, removeCss} from "../util/Util";
 export default class ContextMenuControl extends L.Control {
     private readonly _pl3xmap: Pl3xMap;
     private _dom: HTMLDivElement = L.DomUtil.create('div');
-    private _id: string = 'pl3xmap-content-menu';
+    private _id: string = 'pl3xmap-contentmenu';
 
 
     constructor(pl3xmap: Pl3xMap) {
