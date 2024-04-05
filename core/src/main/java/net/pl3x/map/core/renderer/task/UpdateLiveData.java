@@ -45,8 +45,8 @@ public class UpdateLiveData extends AbstractDataTask {
             .build();
     private Map<String, CompletableFuture<Void>> liveUpdateFutures;
 
-    public UpdateLiveData(@NotNull World world) {
-        super(1, true, world, "Pl3xMap-LiveData", 2);
+    public UpdateLiveData(@NotNull World world, int threads) {
+        super(1, true, world, "Pl3xMap-LiveData", threads);
         this.liveUpdateFutures = new HashMap<>();
     }
 

@@ -43,6 +43,7 @@ import java.util.stream.Stream;
 import javax.imageio.ImageIO;
 import net.pl3x.map.core.Keyed;
 import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.PlayersLayerConfig;
 import net.pl3x.map.core.configuration.SpawnLayerConfig;
 import net.pl3x.map.core.configuration.WorldBorderLayerConfig;
@@ -128,7 +129,7 @@ public abstract class World extends Keyed {
         this.regionModifiedState = new RegionModifiedState(this);
         //this.regionFileWatcher = new RegionFileWatcher(this);
         this.markerTask = new UpdateMarkerData(this);
-        this.liveDataTask = new UpdateLiveData(this);
+        this.liveDataTask = new UpdateLiveData(this, Config.LIVE_UPDATE_THREADS);
     }
 
     protected void init() {
