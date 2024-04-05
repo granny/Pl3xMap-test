@@ -88,13 +88,12 @@ export class Label {
 export class BlockInfoUnknown {
     private readonly _block: string;
     private readonly _biome: string;
-    
-    
+
     constructor(block: string, biome: string) {
         this._block = block;
         this._biome = biome;
     }
-    
+
     get block(): string {
         return this._block;
     }
@@ -104,19 +103,17 @@ export class BlockInfoUnknown {
     }
 }
 
-
 /**
  * Represents a label and a value, with 'unknown' values.
  */
 export class BlockInfo extends Label {
     private readonly _unknown: BlockInfoUnknown;
-    
-    
+
     constructor(label: string, value: string, unknown: BlockInfoUnknown) {
         super(label, value);
         this._unknown = unknown;
     }
-    
+
     get unknown(): BlockInfoUnknown {
         return this._unknown;
     }

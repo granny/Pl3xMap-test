@@ -132,8 +132,8 @@ public class UpdateSettingsData extends Task {
         lang.put("title", Lang.UI_TITLE);
         lang.put("langFile", Lang.UI_BLOCK_AND_BIOME_LANG_FILE);
         lang.put("blockInfo", Map.of(
-                "label", Lang.UI_BLOCKINFO_LABEL, 
-                "value", Lang.UI_BLOCKINFO_VALUE, 
+                "label", Lang.UI_BLOCKINFO_LABEL,
+                "value", Lang.UI_BLOCKINFO_VALUE,
                 "unknown", Map.of("block", Lang.UI_BLOCKINFO_UNKNOWN_BLOCK, "biome", Lang.UI_BLOCKINFO_UNKNOWN_BIOME))
         );
         lang.put("coords", Map.of("label", Lang.UI_COORDS_LABEL, "value", Lang.UI_COORDS_VALUE));
