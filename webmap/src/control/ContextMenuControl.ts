@@ -71,7 +71,6 @@ export default class ContextMenuControl extends L.Control {
                 event.originalEvent.clientY
             );
 
-        this._dom.style.display = 'flex';
         this._dom.style.transform = `translate(${x}px, ${y}px)`;
     }
 

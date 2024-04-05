@@ -150,6 +150,7 @@ public final class WorldConfig extends AbstractConfig {
             .leaflet-control-contextmenu {
               display: none;
               position: absolute;
+              display: flex;
               flex-direction: column;
               font-family: monospace;
               top: 0;
