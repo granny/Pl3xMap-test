@@ -90,9 +90,9 @@ export default class ContextMenuControl extends L.Control {
                 case ContextMenuItemType.copyCoords:
                     items.set('copyCoords', {
                         label: this._pl3xmap.settings!.lang.contextMenu.copyCoords
-                            .replace(/<x>/g, String(x))
-                            .replace(/<y>/g, String(y))
-                            .replace(/<z>/g, String(z)),
+                            .replace(/<x>/g, x.toString())
+                            .replace(/<y>/g, y?.toString() ?? '???')
+                            .replace(/<z>/g, z.toString()),
                         callback: () => navigator.clipboard.writeText(coords),
                     });
                     break;
