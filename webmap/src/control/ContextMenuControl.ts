@@ -12,45 +12,44 @@ export default class ContextMenuControl extends L.Control {
     private readonly _pl3xmap: Pl3xMap;
     private _dom: HTMLDivElement = L.DomUtil.create('div');
     private _id: string = 'pl3xmap-contextmenu';
-    private _items: Map<ContextMenuItemType, ContextMenuCallback> = new Map(
-        [
-            [ContextMenuItemType.copyCoords, {
-                label: () => {
-                    const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
-                    return this._pl3xmap.settings!.lang.contextMenu.copyCoords
-                        .replace(/<x>/g, x.toString())
-                        .replace(/<y>/g, y?.toString() ?? '???')
-                        .replace(/<z>/g, z.toString())
-                },
-                callback: () => {
-                    const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
-                    const coords = `(${x}, ${y ?? '???'}, ${z})`;
-                    navigator.clipboard.writeText(coords)
-                },
-            }],
-            [ContextMenuItemType.copyLink, {
-                label: () => this._pl3xmap.settings!.lang.contextMenu.copyLink,
-                callback : () => {
-                    const {x, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
-                    const world = this._pl3xmap.worldManager.currentWorld;
-                    navigator.clipboard.writeText(
-                        window.location.href +
-                        this._pl3xmap.controlManager.linkControl?.getUrlFromCoords(
-                            x, z,
-                            this._pl3xmap.map.getCurrentZoom(),
-                            world
-                        )
+    private _items: Map<ContextMenuItemType, ContextMenuCallback> = new Map([
+        [ContextMenuItemType.copyCoords, {
+            label: () => {
+                const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                return this._pl3xmap.settings!.lang.contextMenu.copyCoords
+                    .replace(/<x>/g, x.toString())
+                    .replace(/<y>/g, y?.toString() ?? '???')
+                    .replace(/<z>/g, z.toString())
+            },
+            callback: () => {
+                const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                const coords = `(${x}, ${y ?? '???'}, ${z})`;
+                navigator.clipboard.writeText(coords)
+            },
+        }],
+        [ContextMenuItemType.copyLink, {
+            label: () => this._pl3xmap.settings!.lang.contextMenu.copyLink,
+            callback : () => {
+                const {x, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                const world = this._pl3xmap.worldManager.currentWorld;
+                navigator.clipboard.writeText(
+                    window.location.href +
+                    this._pl3xmap.controlManager.linkControl?.getUrlFromCoords(
+                        x, z,
+                        this._pl3xmap.map.getCurrentZoom(),
+                        world
                     )
-                },
-            }],
-            [ContextMenuItemType.centerMap, {
-                label: () => this._pl3xmap.settings!.lang.contextMenu.centerMap,
-                callback: (event: L.LeafletMouseEvent) => {
-                    this._pl3xmap.map.panTo(event.latlng);
-                },
-            }]
-        ]
-    );
+                )
+            },
+        }],
+        [ContextMenuItemType.centerMap, {
+            label: () => this._pl3xmap.settings!.lang.contextMenu.centerMap,
+            callback: (event: L.LeafletMouseEvent) => {
+                this._pl3xmap.map.panTo(event.latlng);
+            },
+        }]
+
+    ]);
 
     constructor(pl3xmap: Pl3xMap) {
         super();
