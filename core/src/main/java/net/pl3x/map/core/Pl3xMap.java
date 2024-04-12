@@ -99,15 +99,6 @@ public abstract class Pl3xMap {
     public Pl3xMap(boolean isBukkit) {
         this.isBukkit = isBukkit;
 
-        /*try {
-            // Due to these bugs(?) in spi
-            // * relocated libraries cant find their services (xnio fails)
-            // * imageio fails to find twelvemonkeys spis at all
-            // I am forced to load them all myself instead of relying on the META-INF
-            SpiFix.forceRegisterSpis();
-        } catch (Throwable ignore) {
-        }*/
-
         try {
             Field api = Provider.class.getDeclaredField("api");
             api.setAccessible(true);
