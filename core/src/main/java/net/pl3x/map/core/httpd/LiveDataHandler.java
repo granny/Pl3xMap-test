@@ -100,6 +100,7 @@ public class LiveDataHandler {
     /**
      * Notification that is called when a message is sucessfully sent
      */
+    @FunctionalInterface
     public interface SuccessCallback {
         /**
          * @param connection The connection
@@ -113,6 +114,7 @@ public class LiveDataHandler {
     /**
      * Notification that is called when a message send fails.
      */
+    @FunctionalInterface
     public interface FailureCallback {
         /**
          * @param connection The connection
