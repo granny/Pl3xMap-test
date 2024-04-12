@@ -164,7 +164,7 @@ public class UpdateSettingsData extends Task {
         String json = this.gson.toJson(map);
 
         if (jsonHashCache != json.hashCode()) {
-            Pl3xMap.api().getHttpdServer().sendSSE("settings", json);
+            Pl3xMap.api().getHttpdServer().getLiveDataHandler().send("settings", json);
             jsonHashCache = json.hashCode();
         }
 

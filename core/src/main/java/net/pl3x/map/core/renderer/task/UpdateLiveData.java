@@ -79,7 +79,7 @@ public class UpdateLiveData extends AbstractDataTask {
                     int markerHashCode = list.hashCode();
                     if (markerCacheIfPresent == null || !markerCacheIfPresent.equals(markerHashCode)) {
                         Logger.debug("[%s/%s] sending through sse %d".formatted(this.world.getName(), key, (System.currentTimeMillis())));
-                        Pl3xMap.api().getHttpdServer().sendSSE(world.getServerSentEventHandler(), "markers", String.format("{\"key\": \"%s\", \"markers\": %s}", key, this.gson.toJson(list)));
+                        world.getServerSentEventHandler().send("markers", String.format("{\"key\": \"%s\", \"markers\": %s}", key, this.gson.toJson(list)));
                         markerCache.put(key, markerHashCode);
                     }
                 } catch (Throwable t) {

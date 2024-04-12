@@ -25,8 +25,6 @@ package net.pl3x.map.core.world;
 
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
-import io.undertow.Handlers;
-import io.undertow.server.handlers.sse.ServerSentEventHandler;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -48,6 +46,7 @@ import net.pl3x.map.core.configuration.PlayersLayerConfig;
 import net.pl3x.map.core.configuration.SpawnLayerConfig;
 import net.pl3x.map.core.configuration.WorldBorderLayerConfig;
 import net.pl3x.map.core.configuration.WorldConfig;
+import net.pl3x.map.core.httpd.LiveDataHandler;
 import net.pl3x.map.core.image.IconImage;
 import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
@@ -82,7 +81,8 @@ public abstract class World extends Keyed {
     private final long seed;
     private final Point spawn;
     private final Type type;
-    private final ServerSentEventHandler serverSentEventHandler;
+
+    private final LiveDataHandler liveDataHandler;
 
     private final BiomeManager biomeManager;
     private final BiomeRegistry biomeRegistry;
@@ -101,7 +101,8 @@ public abstract class World extends Keyed {
         this.seed = seed;
         this.spawn = spawn;
         this.type = type;
-        this.serverSentEventHandler = Handlers.serverSentEvents();
+
+        this.liveDataHandler = new LiveDataHandler();
 
         String safeNameForDirectories = name.replace(":", "-");
 
@@ -266,8 +267,8 @@ public abstract class World extends Keyed {
         return this.type;
     }
 
-    public ServerSentEventHandler getServerSentEventHandler() {
-        return serverSentEventHandler;
+    public LiveDataHandler getServerSentEventHandler() {
+        return liveDataHandler;
     }
 
     public @NotNull BiomeManager getBiomeManager() {

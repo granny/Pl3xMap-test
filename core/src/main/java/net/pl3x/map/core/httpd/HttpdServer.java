@@ -31,8 +31,6 @@ import io.undertow.server.HttpServerExchange;
 import io.undertow.server.handlers.resource.PathResourceManager;
 import io.undertow.server.handlers.resource.ResourceHandler;
 import io.undertow.server.handlers.resource.ResourceManager;
-import io.undertow.server.handlers.sse.ServerSentEventConnection;
-import io.undertow.server.handlers.sse.ServerSentEventHandler;
 import io.undertow.util.ETag;
 import io.undertow.util.Headers;
 import io.undertow.util.HttpString;
@@ -54,30 +52,10 @@ import net.pl3x.map.core.world.World;
 public class HttpdServer {
     private HttpString X_ACCEL_BUFFERING = new HttpString("X-Accel-Buffering");
     private Undertow server;
-    private ServerSentEventHandler serverSentEventHandler = Handlers.serverSentEvents();
+    private LiveDataHandler liveDataHandler = new LiveDataHandler();
 
-    public void sendSSE(ServerSentEventHandler serverSentEventHandler, String event, String data) {
-        for (ServerSentEventConnection connection : serverSentEventHandler.getConnections()) {
-            connection.send(data, event, null, null);
-        }
-    }
-
-    public void sendSSE(ServerSentEventHandler serverSentEventHandler, String data) {
-        sendSSE(serverSentEventHandler, null, data);
-    }
-
-    public void sendSSE(String event, String data) {
-        sendSSE(this.serverSentEventHandler, event, data);
-    }
-
-    public void sendSSE(String data) {
-        sendSSE(this.serverSentEventHandler, null, data);
-    }
-
-    public void closeSSEConnections(ServerSentEventHandler serverSentEventHandler) {
-        for (ServerSentEventConnection connection : serverSentEventHandler.getConnections()) {
-            connection.shutdown();
-        }
+    public LiveDataHandler getLiveDataHandler() {
+        return liveDataHandler;
     }
 
     public void startServer() {
@@ -134,7 +112,7 @@ public class HttpdServer {
                                     String worldName = exchange.getQueryParameters().get("world").peek();
                                     if (worldName == null || worldName.isEmpty()) {
                                         exchange.getResponseHeaders().put(X_ACCEL_BUFFERING, "no");
-                                        serverSentEventHandler.handleRequest(exchange);
+                                        liveDataHandler.handle(exchange);
                                         return;
                                     }
 
@@ -146,14 +124,15 @@ public class HttpdServer {
                                                 .map(World::getName).collect(Collectors.joining(", "));
                                         handleError(exchange, "Could not find world named '%s'. Available worlds: %s"
                                                 .formatted(worldName, listOfValidWorlds));
+                                        exchange.endExchange();
                                         return;
                                     }
 
                                     if (exchange.isInIoThread()) {
-                                        exchange.dispatch(world.getServerSentEventHandler());
+                                        exchange.dispatch(world.getServerSentEventHandler().get());
                                     } else {
                                         exchange.getResponseHeaders().put(X_ACCEL_BUFFERING, "no");
-                                        world.getServerSentEventHandler().handleRequest(exchange);
+                                        world.getServerSentEventHandler().handle(exchange);
                                     }
                                 })
                         )
@@ -189,9 +168,9 @@ public class HttpdServer {
         }
 
         LogFilter.HIDE_UNDERTOW_LOGS = true;
-        this.closeSSEConnections(this.serverSentEventHandler);
+        this.liveDataHandler.closeConnections();
         Pl3xMap.api().getWorldRegistry().forEach(world -> {
-            this.closeSSEConnections(world.getServerSentEventHandler());
+            world.getServerSentEventHandler().closeConnections();
         });
         this.server.stop();
         LogFilter.HIDE_UNDERTOW_LOGS = false;
