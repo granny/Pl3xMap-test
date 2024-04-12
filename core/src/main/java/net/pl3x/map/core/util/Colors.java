@@ -352,6 +352,8 @@ public class Colors {
         return String.format("#%08X", argb);
     }
 
-    public interface Sampler extends TriFunction<@NotNull Biome, @NotNull Integer, @NotNull Integer, @NotNull Integer> {
+    @FunctionalInterface
+    public interface Sampler {
+        @NotNull Integer apply(@NotNull Biome biome, @NotNull Integer x, @NotNull Integer z);
     }
 }
