@@ -3,11 +3,54 @@ import {Pl3xMap} from "../Pl3xMap";
 import {ContextMenuItemType} from "../settings/WorldSettings";
 import {insertCss, removeCss} from "../util/Util";
 
+type ContextMenuCallback = {
+    label: () => string;
+    callback: (e: L.LeafletMouseEvent) => void;
+};
+
 export default class ContextMenuControl extends L.Control {
     private readonly _pl3xmap: Pl3xMap;
     private _dom: HTMLDivElement = L.DomUtil.create('div');
     private _id: string = 'pl3xmap-contextmenu';
-
+    private _items: Map<ContextMenuItemType, ContextMenuCallback> = new Map(
+        [
+            [ContextMenuItemType.copyCoords, {
+                label: () => {
+                    const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                    return this._pl3xmap.settings!.lang.contextMenu.copyCoords
+                        .replace(/<x>/g, x.toString())
+                        .replace(/<y>/g, y?.toString() ?? '???')
+                        .replace(/<z>/g, z.toString())
+                },
+                callback: () => {
+                    const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                    const coords = `(${x}, ${y ?? '???'}, ${z})`;
+                    navigator.clipboard.writeText(coords)
+                },
+            }],
+            [ContextMenuItemType.copyLink, {
+                label: () => this._pl3xmap.settings!.lang.contextMenu.copyLink,
+                callback : () => {
+                    const {x, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
+                    const world = this._pl3xmap.worldManager.currentWorld;
+                    navigator.clipboard.writeText(
+                        window.location.href +
+                        this._pl3xmap.controlManager.linkControl?.getUrlFromCoords(
+                            x, z,
+                            this._pl3xmap.map.getCurrentZoom(),
+                            world
+                        )
+                    )
+                },
+            }],
+            [ContextMenuItemType.centerMap, {
+                label: () => this._pl3xmap.settings!.lang.contextMenu.centerMap,
+                callback: (event: L.LeafletMouseEvent) => {
+                    this._pl3xmap.map.panTo(event.latlng);
+                },
+            }]
+        ]
+    );
 
     constructor(pl3xmap: Pl3xMap) {
         super();
@@ -16,7 +59,7 @@ export default class ContextMenuControl extends L.Control {
             this._init();
         }
     }
-    
+
     private _init(): void {
         this._pl3xmap.map.on('contextmenu', this._show, this);
         this._pl3xmap.map.on('click', this._hide, this);
@@ -50,12 +93,17 @@ export default class ContextMenuControl extends L.Control {
         this._dom.style.visibility = 'visible';
 
         this._dom.innerHTML = '';
-        this._getItems(event).forEach((item) => {
+
+        const world = this._pl3xmap.worldManager.currentWorld;
+        world?.settings.ui.contextMenu?.items?.forEach(itemType => {
+            const item: ContextMenuCallback | undefined = this._items.get(itemType);
+            if (item === undefined) return;
+
             const menuItem = L.DomUtil.create('button', 'leaflet-control-contextmenu-item', this._dom);
-            menuItem.innerHTML = item.label;
-            L.DomEvent.on(menuItem, 'click', (e) => {
-                L.DomEvent.stopPropagation(e);
-                item.callback();
+            menuItem.innerHTML = item.label();
+            L.DomEvent.on(menuItem, 'click', (ev) => {
+                L.DomEvent.stopPropagation(ev);
+                item.callback(event);
                 this._hide();
             });
         });
@@ -76,48 +124,5 @@ export default class ContextMenuControl extends L.Control {
     private _hide(): void {
         this._dom.style.visibility = 'hidden';
         this._dom.style.left = '-1000';
-    }
-
-    private _getItems(e: L.LeafletMouseEvent): Map<string, { label: string, callback: () => void }> {
-        const {x, y, z} = this._pl3xmap.controlManager.coordsControl ?? {x: 0, y: 0, z: 0};
-        const coords = `(${x}, ${y ?? '???'}, ${z})`;
-        const world = this._pl3xmap.worldManager.currentWorld;
-        const settings = world?.settings.ui.contextMenu;
-        const items: Map<string, { label: string, callback: () => void }> = new Map();
-
-        settings?.items.forEach((item) => {
-            switch (item) {
-                case ContextMenuItemType.copyCoords:
-                    items.set('copyCoords', {
-                        label: this._pl3xmap.settings!.lang.contextMenu.copyCoords
-                            .replace(/<x>/g, x.toString())
-                            .replace(/<y>/g, y?.toString() ?? '???')
-                            .replace(/<z>/g, z.toString()),
-                        callback: () => navigator.clipboard.writeText(coords),
-                    });
-                    break;
-                case ContextMenuItemType.copyLink:
-                    items.set('copyLink', {
-                        label: this._pl3xmap.settings!.lang.contextMenu.copyLink,
-                        callback: () => navigator.clipboard.writeText(
-                            window.location.href +
-                            this._pl3xmap.controlManager.linkControl?.getUrlFromCoords(
-                                x, z,
-                                this._pl3xmap.map.getCurrentZoom(),
-                                world
-                            )
-                        ),
-                    });
-                    break;
-                case ContextMenuItemType.centerMap:
-                    items.set('centerMap', {
-                        label: this._pl3xmap.settings!.lang.contextMenu.centerMap,
-                        callback: () => this._pl3xmap.map.panTo(e.latlng),
-                    });
-                    break;
-            }
-        });
-
-        return items;
     }
 }
