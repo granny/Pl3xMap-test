@@ -50,7 +50,7 @@ public class UpdateSettingsData extends Task {
             .serializeNulls()
             .setLenient()
             .create();
-    private String cachedJsonData = "";
+    private int jsonHashCache = -1;
 
     public UpdateSettingsData() {
         super(1, true);
@@ -163,9 +163,9 @@ public class UpdateSettingsData extends Task {
 
         String json = this.gson.toJson(map);
 
-        if (!cachedJsonData.equals(json)) {
+        if (jsonHashCache != json.hashCode()) {
             Pl3xMap.api().getHttpdServer().sendSSE("settings", json);
-            cachedJsonData = json;
+            jsonHashCache = json.hashCode();
         }
 
         if (fileTick++ >= 20) {
