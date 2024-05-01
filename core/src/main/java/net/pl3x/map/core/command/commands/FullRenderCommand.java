@@ -23,20 +23,20 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
-import net.pl3x.map.core.command.argument.WorldArgument;
+import net.pl3x.map.core.command.parser.WorldParser;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.world.World;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class FullRenderCommand extends Pl3xMapCommand {
@@ -47,8 +47,8 @@ public class FullRenderCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("fullrender")
-                .argument(WorldArgument.of("world"), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_FULLRENDER_DESCRIPTION))
+                .required("world", WorldParser.parser(), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_FULLRENDER_DESCRIPTION)))
                 .permission("pl3xmap.command.fullrender")
                 .handler(this::execute));
     }
@@ -58,7 +58,7 @@ public class FullRenderCommand extends Pl3xMapCommand {
     }
 
     private void executeAsync(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
         World world = context.get("world");
 
         Collection<Point> regions = world.listRegions(true);

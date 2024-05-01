@@ -35,17 +35,7 @@ public abstract class Network {
 
     public abstract void unregister();
 
-    public <T> void sendServerData(T player) {
-        ByteArrayDataOutput out = out();
-
-        out.writeInt(Constants.PROTOCOL);
-        out.writeInt(Constants.SERVER_DATA);
-        out.writeInt(Constants.RESPONSE_SUCCESS);
-
-        out.writeUTF(Config.WEB_ADDRESS);
-
-        send(player, out);
-    }
+    protected abstract <T> void sendServerData(T player);
 
     protected abstract <T> void sendMapData(T player, int id);
 

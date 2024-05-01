@@ -23,15 +23,14 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
-import net.pl3x.map.core.command.argument.PlayerArgument;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.player.Player;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class ShowCommand extends Pl3xMapCommand {
@@ -42,19 +41,24 @@ public class ShowCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("show")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_SHOW_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_SHOW_DESCRIPTION)))
                 .permission("pl3xmap.command.show")
                 .handler(this::execute));
         getHandler().registerSubcommand(builder -> builder.literal("show")
-                .argument(PlayerArgument.optional("player"), description(Lang.COMMAND_ARGUMENT_OPTIONAL_PLAYER_DESCRIPTION))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_SHOW_DESCRIPTION))
+                .optional("player", getHandler().getPlatformParsers().playerSelectorParser(), description(Lang.COMMAND_ARGUMENT_OPTIONAL_PLAYER_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_SHOW_DESCRIPTION)))
                 .permission("pl3xmap.command.show.others")
                 .handler(this::execute));
     }
 
     private void execute(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
-        Player target = PlayerArgument.resolve(context, "player");
+        Sender sender = context.sender();
+        Player target = getHandler().getPlatformParsers().resolvePlayerFromPlayerSelector("player", context);
+
+        if (target == null) {
+            sender.sendMessage(Lang.ERROR_MUST_SPECIFY_PLAYER);
+            return;
+        }
 
         if (!target.isHidden()) {
             sender.sendMessage(Lang.COMMAND_SHOW_NOT_HIDDEN,

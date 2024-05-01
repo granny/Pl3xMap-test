@@ -32,7 +32,7 @@ import net.pl3x.map.core.player.Player;
 import net.pl3x.map.core.player.PlayerListener;
 import net.pl3x.map.core.player.PlayerRegistry;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

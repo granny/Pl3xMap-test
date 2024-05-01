@@ -23,7 +23,7 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:$fabricLoaderVersion"
     modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApiVersion"
-    modImplementation include("cloud.commandframework:cloud-fabric:$cloudVersion")
+    modImplementation include("org.incendo:cloud-fabric:$cloudVersion")
     modImplementation include("net.kyori:adventure-platform-fabric:$adventureFabricVersion")
 }
 

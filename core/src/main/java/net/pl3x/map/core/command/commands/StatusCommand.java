@@ -23,8 +23,6 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import java.util.Set;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.pl3x.map.core.Pl3xMap;
@@ -35,6 +33,8 @@ import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.renderer.progress.Progress;
 import net.pl3x.map.core.renderer.task.RegionProcessor;
 import net.pl3x.map.core.world.World;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class StatusCommand extends Pl3xMapCommand {
@@ -45,13 +45,13 @@ public class StatusCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("status")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_STATUS_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_STATUS_DESCRIPTION)))
                 .permission("pl3xmap.command.status")
                 .handler(this::execute));
     }
 
     public void execute(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
 
         String lineNext = "├─";
         String lineLast = "└─";

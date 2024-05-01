@@ -29,23 +29,32 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.network.Constants;
 import net.pl3x.map.core.scheduler.Scheduler;
 import net.pl3x.map.fabric.client.duck.MapInstance;
-import net.pl3x.map.fabric.client.manager.NetworkManager;
 import net.pl3x.map.fabric.client.manager.TileManager;
+import net.pl3x.map.fabric.common.network.ClientboundMapPayload;
+import net.pl3x.map.fabric.common.network.ClientboundServerPayload;
+import net.pl3x.map.fabric.common.network.ServerboundMapPayload;
+import net.pl3x.map.fabric.common.network.ServerboundServerPayload;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.glfw.GLFW;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Pl3xMapFabricClient implements ClientModInitializer {
+    public static final Logger LOGGER = LoggerFactory.getLogger(Pl3xMapFabricClient.class);
+
     private static Pl3xMapFabricClient instance;
 
-    private final NetworkManager networkManager;
     private final Scheduler scheduler;
     private final TileManager tileManager;
     private final ExecutorService executor = Pl3xMap.ThreadFactory.createService("Pl3xMap-Update");
@@ -62,8 +71,7 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
 
     public Pl3xMapFabricClient() {
         instance = this;
-        this.networkManager = new NetworkManager(this);
-        this.scheduler = new Scheduler();
+        this.scheduler = new ClientScheduler();
         this.tileManager = new TileManager(this);
     }
 
@@ -76,7 +84,13 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
                 "pl3xmap.title"
         ));
 
-        getNetworkManager().initialize();
+        PayloadTypeRegistry.playC2S().register(ServerboundServerPayload.TYPE, ServerboundServerPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(ClientboundServerPayload.TYPE, ClientboundServerPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playC2S().register(ServerboundMapPayload.TYPE, ServerboundMapPayload.STREAM_CODEC);
+        PayloadTypeRegistry.playS2C().register(ClientboundMapPayload.TYPE, ClientboundMapPayload.STREAM_CODEC);
+
+        ClientPlayNetworking.registerGlobalReceiver(ClientboundServerPayload.TYPE, ClientboundServerPayload::handle);
+        ClientPlayNetworking.registerGlobalReceiver(ClientboundMapPayload.TYPE, ClientboundMapPayload::handle);
 
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
             if (client.isSingleplayer()) {
@@ -84,7 +98,7 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
             }
             setEnabled(true);
             setIsOnServer(true);
-            getScheduler().addTask(0, getNetworkManager()::requestServerData);
+            getScheduler().addTask(0, () -> ClientPlayNetworking.send(new ServerboundServerPayload(Constants.PROTOCOL)));
         });
 
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> {
@@ -97,7 +111,7 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
         });
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (Minecraft.getInstance().player == null) {
+            if (client.player == null) {
                 return;
             }
             while (this.keyBinding.consumeClick()) {
@@ -111,10 +125,6 @@ public class Pl3xMapFabricClient implements ClientModInitializer {
                 getScheduler().tick();
             }
         });
-    }
-
-    public @NotNull NetworkManager getNetworkManager() {
-        return this.networkManager;
     }
 
     public @NotNull Scheduler getScheduler() {

@@ -21,18 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.pl3x.map.core.command.argument.parser;
+package net.pl3x.map.core.command.parser;
 
-import cloud.commandframework.arguments.parser.ArgumentParseResult;
-import cloud.commandframework.arguments.parser.ArgumentParser;
-import cloud.commandframework.context.CommandContext;
-import java.util.List;
-import java.util.Queue;
 import java.util.stream.Collectors;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.exception.RendererParseException;
 import net.pl3x.map.core.registry.RendererRegistry;
 import net.pl3x.map.core.renderer.Renderer;
+import org.checkerframework.checker.nullness.qual.NonNull;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.context.CommandInput;
+import org.incendo.cloud.parser.ArgumentParseResult;
+import org.incendo.cloud.parser.ArgumentParser;
+import org.incendo.cloud.parser.ParserDescriptor;
+import org.incendo.cloud.suggestion.BlockingSuggestionProvider;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -40,10 +42,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * @param <C> command sender type
  */
-public class RendererParser<C> implements ArgumentParser<@NotNull C, Renderer.@NotNull Builder> {
+public class RendererParser<C> implements ArgumentParser<@NotNull C, Renderer.@NotNull Builder>, BlockingSuggestionProvider.Strings<C> {
+    public static <C> ParserDescriptor<C, Renderer.@NotNull Builder> parser() {
+        return ParserDescriptor.of(new RendererParser<>(), Renderer.Builder.class);
+    }
+
     @Override
-    public @NotNull ArgumentParseResult<Renderer.@NotNull Builder> parse(@NotNull CommandContext<@NotNull C> context, @NotNull Queue<@NotNull String> queue) {
-        String input = queue.peek();
+    public @NotNull ArgumentParseResult<Renderer.@NotNull Builder> parse(@NotNull CommandContext<@NotNull C> commandContext, @NotNull CommandInput commandInput) {
+        String input = commandInput.peekString();
         if (input == null) {
             return ArgumentParseResult.failure(new RendererParseException(null, RendererParseException.MUST_SPECIFY_RENDERER));
         }
@@ -53,12 +59,12 @@ public class RendererParser<C> implements ArgumentParser<@NotNull C, Renderer.@N
             return ArgumentParseResult.failure(new RendererParseException(input, RendererParseException.NO_SUCH_RENDERER));
         }
 
-        queue.remove();
+        commandInput.readString();
         return ArgumentParseResult.success(builder);
     }
 
     @Override
-    public @NotNull List<@NotNull String> suggestions(@NotNull CommandContext<@NotNull C> commandContext, @NotNull String input) {
+    public @NonNull Iterable<@NonNull String> stringSuggestions(@NonNull CommandContext<C> commandContext, @NonNull CommandInput input) {
         return Pl3xMap.api().getRendererRegistry()
                 .values().stream()
                 .map(Renderer.Builder::getKey)

@@ -23,9 +23,9 @@
  */
 package net.pl3x.map.core.command;
 
-import cloud.commandframework.minecraft.extras.RichDescription;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.pl3x.map.core.configuration.Lang;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 /**

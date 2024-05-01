@@ -23,14 +23,14 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.renderer.task.RegionProcessor;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class ResumeCommand extends Pl3xMapCommand {
@@ -41,13 +41,13 @@ public class ResumeCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("resume")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_RESUME_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_RESUME_DESCRIPTION)))
                 .permission("pl3xmap.command.resume")
                 .handler(this::execute));
     }
 
     private void execute(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
 
         RegionProcessor processor = Pl3xMap.api().getRegionProcessor();
         

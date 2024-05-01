@@ -23,8 +23,8 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.extra.confirmation.CommandConfirmationManager;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
+import com.google.common.cache.CacheBuilder;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
@@ -32,17 +32,27 @@ import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.configuration.Lang;
+import org.incendo.cloud.description.CommandDescription;
+import org.incendo.cloud.description.Description;
+import org.incendo.cloud.minecraft.extras.RichDescription;
+import org.incendo.cloud.processors.cache.CloudCache;
+import org.incendo.cloud.processors.cache.GuavaCache;
+import org.incendo.cloud.processors.confirmation.ConfirmationConfiguration;
+import org.incendo.cloud.processors.confirmation.ConfirmationManager;
 import org.jetbrains.annotations.NotNull;
 
 public class ConfirmCommand extends Pl3xMapCommand {
-    private final CommandConfirmationManager<@NotNull Sender> confirmationManager = new CommandConfirmationManager<>(
-            15L, TimeUnit.SECONDS,
-            context -> context.getCommandContext().getSender().sendMessage(
-                    Component.text().append(Lang.parse(Lang.COMMAND_CONFIRM_CONFIRMATION_REQUIRED_MESSAGE))
-                            .hoverEvent(Lang.parse(Lang.CLICK_TO_CONFIRM))
-                            .clickEvent(ClickEvent.runCommand("/map confirm"))
-            ),
-            sender -> sender.sendMessage(Lang.COMMAND_CONFIRM_NO_PENDING_MESSAGE)
+    private final ConfirmationManager<@NotNull Sender> confirmationManager = ConfirmationManager.of(
+            ConfirmationConfiguration.<Sender>builder()
+                    .cache(GuavaCache.of(CacheBuilder.newBuilder().build()))
+                    .noPendingCommandNotifier(sender -> sender.sendMessage(Lang.COMMAND_CONFIRM_NO_PENDING_MESSAGE))
+                    .confirmationRequiredNotifier((sender, senderConfirmationContext) -> sender.sendMessage(
+                            Component.text().append(Lang.parse(Lang.COMMAND_CONFIRM_CONFIRMATION_REQUIRED_MESSAGE))
+                                    .hoverEvent(Lang.parse(Lang.CLICK_TO_CONFIRM))
+                                    .clickEvent(ClickEvent.runCommand("/map confirm"))
+                    ))
+                    .expiration(Duration.ofSeconds(15L))
+                    .build()
     );
 
     public ConfirmCommand(@NotNull CommandHandler handler) {
@@ -51,11 +61,11 @@ public class ConfirmCommand extends Pl3xMapCommand {
 
     @Override
     public void register() {
-        this.confirmationManager.registerConfirmationProcessor(getHandler().getManager());
+        getHandler().getManager().registerCommandPostProcessor(this.confirmationManager.createPostprocessor());
 
         getHandler().registerSubcommand(builder -> builder.literal("confirm")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_CONFIRM_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_CONFIRM_DESCRIPTION)))
                 .permission("pl3xmap.command.confirm")
-                .handler(this.confirmationManager.createConfirmationExecutionHandler()));
+                .handler(this.confirmationManager.createExecutionHandler()));
     }
 }

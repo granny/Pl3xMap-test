@@ -62,9 +62,14 @@ public class Scheduler {
                 iter.remove();
             }
         } catch (Throwable t) {
-            Logger.severe("Failed to tick a task", t);
+            error("Failed to tick a task", t);
         }
         this.ticking = false;
+    }
+
+    // TODO: make logger work in fabric client
+    protected void error(String message, Throwable t) {
+        Logger.severe(message, t);
     }
 
     /**

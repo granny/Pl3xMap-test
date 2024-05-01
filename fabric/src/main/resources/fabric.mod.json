@@ -40,7 +40,7 @@
     "fabricloader": ">=${fabricLoaderVersion}",
     "fabric": ">=${fabricApiVersion}",
     "minecraft": "~${minecraftVersion}",
-    "java": ">=17"
+    "java": ">=21"
   },
   "recommends": {
     "better-fabric-console": "*"

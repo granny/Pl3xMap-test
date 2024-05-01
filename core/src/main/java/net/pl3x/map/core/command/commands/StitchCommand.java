@@ -23,8 +23,6 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -38,9 +36,9 @@ import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
-import net.pl3x.map.core.command.argument.RendererArgument;
-import net.pl3x.map.core.command.argument.WorldArgument;
-import net.pl3x.map.core.command.argument.ZoomArgument;
+import net.pl3x.map.core.command.parser.RendererParser;
+import net.pl3x.map.core.command.parser.WorldParser;
+import net.pl3x.map.core.command.parser.ZoomParser;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.image.io.IO;
@@ -48,6 +46,8 @@ import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.renderer.Renderer;
 import net.pl3x.map.core.world.World;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,10 +59,10 @@ public class StitchCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("stitch")
-                .argument(WorldArgument.of("world"), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
-                .argument(RendererArgument.of("renderer"), description(Lang.COMMAND_ARGUMENT_REQUIRED_RENDERER_DESCRIPTION))
-                .argument(ZoomArgument.optional("zoom"), description(Lang.COMMAND_ARGUMENT_OPTIONAL_ZOOM_DESCRIPTION))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_STITCH_DESCRIPTION))
+                .required("world", WorldParser.parser(), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
+                .required("renderer", RendererParser.parser(), description(Lang.COMMAND_ARGUMENT_REQUIRED_RENDERER_DESCRIPTION))
+                .optional("zoom", ZoomParser.parser(), description(Lang.COMMAND_ARGUMENT_OPTIONAL_ZOOM_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_STITCH_DESCRIPTION)))
                 .permission("pl3xmap.command.stitch")
                 .handler(this::execute));
     }
@@ -72,7 +72,7 @@ public class StitchCommand extends Pl3xMapCommand {
     }
 
     private void executeAsync(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
         World world = context.get("world");
         Renderer.Builder renderer = context.get("renderer");
         int zoom = context.getOrDefault("zoom", 0);

@@ -26,6 +26,7 @@ package net.pl3x.map.fabric.client.mixin;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.awt.image.BufferedImage;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.gui.MapRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.world.level.material.MapColor;
@@ -33,6 +34,7 @@ import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.pl3x.map.core.util.Colors;
 import net.pl3x.map.fabric.client.Pl3xMapFabricClient;
 import net.pl3x.map.fabric.client.duck.MapInstance;
+import net.pl3x.map.fabric.common.network.ServerboundMapPayload;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -94,7 +96,7 @@ public abstract class MapInstanceMixin implements MapInstance {
 
         // ask for data from server if we haven't already
         if (!this.isReady) {
-            this.mod.getNetworkManager().requestMapData(this.id);
+            ClientPlayNetworking.send(new ServerboundMapPayload(this.id));
             this.skip = true;
             return;
         }

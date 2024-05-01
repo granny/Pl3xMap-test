@@ -23,9 +23,6 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.extra.confirmation.CommandConfirmationManager;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -34,10 +31,13 @@ import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
-import net.pl3x.map.core.command.argument.WorldArgument;
+import net.pl3x.map.core.command.parser.WorldParser;
 import net.pl3x.map.core.configuration.Lang;
 import net.pl3x.map.core.util.FileUtil;
 import net.pl3x.map.core.world.World;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
+import org.incendo.cloud.processors.confirmation.ConfirmationManager;
 import org.jetbrains.annotations.NotNull;
 
 public class ResetMapCommand extends Pl3xMapCommand {
@@ -48,9 +48,9 @@ public class ResetMapCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("resetmap")
-                .argument(WorldArgument.of("world"), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_RESETMAP_DESCRIPTION))
-                .meta(CommandConfirmationManager.META_CONFIRMATION_REQUIRED, true)
+                .required("world", WorldParser.parser(), description(Lang.COMMAND_ARGUMENT_REQUIRED_WORLD_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_RESETMAP_DESCRIPTION)))
+                .meta(ConfirmationManager.META_CONFIRMATION_REQUIRED, true)
                 .permission("pl3xmap.command.resetmap")
                 .handler(this::execute));
     }
@@ -60,7 +60,7 @@ public class ResetMapCommand extends Pl3xMapCommand {
     }
 
     private void executeAsync(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
         World world = context.get("world");
 
         TagResolver.Single worldPlaceholder = Placeholder.unparsed("world", world.getName());

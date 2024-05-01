@@ -23,15 +23,11 @@
  */
 package net.pl3x.map.core.command;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.CommandManager;
-import cloud.commandframework.meta.CommandMeta;
-import cloud.commandframework.minecraft.extras.AudienceProvider;
-import cloud.commandframework.minecraft.extras.MinecraftExceptionHandler;
 import java.util.List;
 import java.util.function.UnaryOperator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
+import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.commands.ConfirmCommand;
 import net.pl3x.map.core.command.commands.FullRenderCommand;
 import net.pl3x.map.core.command.commands.HelpCommand;
@@ -45,8 +41,15 @@ import net.pl3x.map.core.command.commands.ShowCommand;
 import net.pl3x.map.core.command.commands.StatusCommand;
 import net.pl3x.map.core.command.commands.StitchCommand;
 import net.pl3x.map.core.command.commands.VersionCommand;
+import net.pl3x.map.core.command.parser.PlatformParsers;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.CommandManager;
+import org.incendo.cloud.description.CommandDescription;
+import org.incendo.cloud.description.Description;
+import org.incendo.cloud.minecraft.extras.AudienceProvider;
+import org.incendo.cloud.minecraft.extras.MinecraftExceptionHandler;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -61,6 +64,13 @@ public interface CommandHandler {
     @NotNull CommandManager<@NotNull Sender> getManager();
 
     /**
+     * Get the platform parsers.
+     *
+     * @return platform parsers
+     */
+    @NotNull PlatformParsers getPlatformParsers();
+
+    /**
      * Get the root command.
      *
      * @return the root command
@@ -68,15 +78,15 @@ public interface CommandHandler {
     Command.@NotNull Builder<@NotNull Sender> getRoot();
 
     default void setupExceptionHandlers() {
-        new MinecraftExceptionHandler<Sender>()
-                .withDefaultHandlers()
-                .withDecorator(component -> Component.text()
+        MinecraftExceptionHandler.<Sender>createNative()
+                .defaultHandlers()
+                .decorator(component -> Component.text()
                         .append(Lang.parse(Lang.PREFIX_COMMAND)
                                 .hoverEvent(Lang.parse(Lang.CLICK_FOR_HELP))
                                 .clickEvent(ClickEvent.runCommand("/map help")))
                         .append(component)
                         .build())
-                .apply(getManager(), AudienceProvider.nativeAudience());
+                .registerTo(getManager());
     }
 
     /**
@@ -91,9 +101,9 @@ public interface CommandHandler {
     default Command.@NotNull Builder<@NotNull Sender> buildRoot() {
         return getManager().commandBuilder("map", "pl3xmap")
                 .permission("pl3xmap.command.map")
-                .meta(CommandMeta.DESCRIPTION, "Pl3xMap command. '/map help'")
+                .commandDescription(CommandDescription.commandDescription("Pl3xMap command. '/map help'"))
                 .handler(context -> {
-                    context.getSender().sendMessage(Lang.COMMAND_BASE
+                    context.sender().sendMessage(Lang.COMMAND_BASE
                             // minimessage doesn't seem to handle placeholders inside
                             // placeholders, so we have to replace this one manually
                             .replace("<web-address>", Config.WEB_ADDRESS));

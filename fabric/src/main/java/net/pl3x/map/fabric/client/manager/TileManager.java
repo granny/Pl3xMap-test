@@ -123,7 +123,7 @@ public class TileManager {
                     this.mod.getServerUrl(),
                     this.world,
                     0,
-                    "basic",
+                    "vintage_story",
                     Mathf.longToX(region),
                     Mathf.longToZ(region)
             );

@@ -23,16 +23,22 @@
  */
 package net.pl3x.map.bukkit;
 
-import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteArrayDataOutput;
+import io.netty.buffer.Unpooled;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
+import net.pl3x.map.bukkit.network.ClientboundMapPayload;
+import net.pl3x.map.bukkit.network.ClientboundServerPayload;
+import net.pl3x.map.bukkit.network.ServerboundMapPayload;
+import net.pl3x.map.bukkit.network.ServerboundServerPayload;
+import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.network.Constants;
 import net.pl3x.map.core.network.Network;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
-import org.bukkit.craftbukkit.v1_20_R3.map.CraftMapRenderer;
 import org.bukkit.entity.Player;
-import org.bukkit.map.MapRenderer;
 import org.bukkit.map.MapView;
+import org.jetbrains.annotations.NotNull;
 
 public class BukkitNetwork extends Network {
     private final Pl3xMapBukkit plugin;
@@ -42,69 +48,77 @@ public class BukkitNetwork extends Network {
     }
 
     public void register() {
-        Bukkit.getMessenger().registerOutgoingPluginChannel(this.plugin, Network.CHANNEL);
-        Bukkit.getMessenger().registerIncomingPluginChannel(this.plugin, Network.CHANNEL,
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this.plugin, ClientboundServerPayload.TYPE.id().toString());
+        Bukkit.getMessenger().registerOutgoingPluginChannel(this.plugin, ClientboundMapPayload.TYPE.id().toString());
+        Bukkit.getMessenger().registerIncomingPluginChannel(this.plugin, ServerboundServerPayload.TYPE.id().toString(),
                 (channel, player, bytes) -> {
-                    ByteArrayDataInput in = in(bytes);
-                    int protocol = in.readInt();
-                    if (protocol != Constants.PROTOCOL) {
+                    ClientboundServerPayload payload = new ClientboundServerPayload(Constants.PROTOCOL, Constants.RESPONSE_SUCCESS, Config.WEB_ADDRESS);
+                    FriendlyByteBuf friendlyByteBuf = new FriendlyByteBuf(Unpooled.buffer());
+                    ClientboundServerPayload.STREAM_CODEC.encode(friendlyByteBuf, payload);
+                    sendCustomPayloadPacket(player, payload, friendlyByteBuf);
+                }
+        );
+        Bukkit.getMessenger().registerIncomingPluginChannel(this.plugin, ServerboundMapPayload.TYPE.id().toString(),
+                (channel, player, bytes) -> {
+                    FriendlyByteBuf byteBuf = new FriendlyByteBuf(Unpooled.copiedBuffer(bytes));
+                    ServerboundMapPayload payload = ServerboundMapPayload.STREAM_CODEC.decode(byteBuf);
+
+                    MapView map = Bukkit.getMap(payload.mapId());
+                    if (map == null) {
+                        ClientboundMapPayload customPacketPayload = new ClientboundMapPayload(Constants.PROTOCOL, Constants.ERROR_NO_SUCH_MAP, payload.mapId());
+                        FriendlyByteBuf friendlyByteBuf = new FriendlyByteBuf(Unpooled.buffer(bytes.length));
+                        ClientboundMapPayload.STREAM_CODEC.encode(friendlyByteBuf, customPacketPayload);
+                        sendCustomPayloadPacket(player, customPacketPayload, friendlyByteBuf);
                         return;
                     }
-                    int action = in.readInt();
-                    switch (action) {
-                        case Constants.SERVER_DATA -> sendServerData(player);
-                        case Constants.MAP_DATA -> sendMapData(player, in.readInt());
+
+                    World world = map.getWorld();
+                    if (world == null) {
+                        ClientboundMapPayload customPacketPayload = new ClientboundMapPayload(Constants.PROTOCOL, Constants.ERROR_NO_SUCH_WORLD, payload.mapId());
+                        FriendlyByteBuf friendlyByteBuf = new FriendlyByteBuf(Unpooled.buffer());
+                        ClientboundMapPayload.STREAM_CODEC.encode(friendlyByteBuf, customPacketPayload);
+                        sendCustomPayloadPacket(player, customPacketPayload, friendlyByteBuf);
+                        return;
                     }
+
+                    ClientboundMapPayload customPacketPayload = new ClientboundMapPayload(
+                            Constants.PROTOCOL, Constants.RESPONSE_SUCCESS, payload.mapId(),
+                            getScale(map), map.getCenterX(), map.getCenterZ(), world.getName()
+                    );
+                    FriendlyByteBuf friendlyByteBuf = new FriendlyByteBuf(Unpooled.buffer());
+                    ClientboundMapPayload.STREAM_CODEC.encode(friendlyByteBuf, customPacketPayload);
+                    sendCustomPayloadPacket(player, customPacketPayload, friendlyByteBuf);
                 }
         );
     }
 
-    public void unregister() {
-        Bukkit.getMessenger().unregisterOutgoingPluginChannel(this.plugin, Network.CHANNEL);
-        Bukkit.getMessenger().unregisterIncomingPluginChannel(this.plugin, Network.CHANNEL);
+    @NotNull
+    private void sendCustomPayloadPacket(Player player, CustomPacketPayload customPacketPayload, FriendlyByteBuf friendlyByteBuf) {
+        byte[] byteArray = new byte[friendlyByteBuf.readableBytes()];
+        friendlyByteBuf.readBytes(byteArray);
+        player.sendPluginMessage(this.plugin, customPacketPayload.type().id().toString(), byteArray);
     }
 
+    public void unregister() {
+        Bukkit.getMessenger().unregisterOutgoingPluginChannel(this.plugin, ClientboundServerPayload.TYPE.id().toString());
+        Bukkit.getMessenger().unregisterOutgoingPluginChannel(this.plugin, ClientboundMapPayload.TYPE.id().toString());
+        Bukkit.getMessenger().unregisterIncomingPluginChannel(this.plugin, ServerboundServerPayload.TYPE.id().toString());
+        Bukkit.getMessenger().unregisterIncomingPluginChannel(this.plugin, ServerboundMapPayload.TYPE.id().toString());
+    }
+
+    @Override
+    protected <T> void sendServerData(T player) {
+
+    }
+
+    @Override
     protected <T> void sendMapData(T player, int id) {
-        ByteArrayDataOutput out = out();
 
-        out.writeInt(Constants.PROTOCOL);
-        out.writeInt(Constants.MAP_DATA);
-        out.writeInt(Constants.RESPONSE_SUCCESS);
-
-        MapView map = Bukkit.getMap(id);
-        if (map == null) {
-            out.writeInt(Constants.ERROR_NO_SUCH_MAP);
-            out.writeInt(id);
-            return;
-        }
-
-        World world = map.getWorld();
-        if (world == null) {
-            out.writeInt(Constants.ERROR_NO_SUCH_WORLD);
-            out.writeInt(id);
-            return;
-        }
-
-        for (MapRenderer renderer : map.getRenderers()) {
-            if (!renderer.getClass().getName().equals(CraftMapRenderer.class.getName())) {
-                out.writeInt(Constants.ERROR_NOT_VANILLA_MAP);
-                out.writeInt(id);
-                return;
-            }
-        }
-
-        out.writeInt(id);
-        out.writeByte(getScale(map));
-        out.writeInt(map.getCenterX());
-        out.writeInt(map.getCenterZ());
-        out.writeUTF(world.getName());
-
-        send(player, out);
     }
 
     @Override
     protected <T> void send(T player, ByteArrayDataOutput out) {
-        ((Player) player).sendPluginMessage(this.plugin, Network.CHANNEL, out.toByteArray());
+
     }
 
     @SuppressWarnings("deprecation")

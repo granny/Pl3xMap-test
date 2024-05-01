@@ -33,7 +33,6 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.pl3x.map.core.network.Constants;
 import net.pl3x.map.fabric.client.Pl3xMapFabricClient;
-import net.pl3x.map.fabric.client.duck.MapInstance;
 import org.jetbrains.annotations.NotNull;
 
 public class NetworkManager {
@@ -42,88 +41,5 @@ public class NetworkManager {
 
     public NetworkManager(@NotNull Pl3xMapFabricClient mod) {
         this.mod = mod;
-    }
-
-    public void initialize() {
-        ClientPlayNetworking.registerGlobalReceiver(this.channel, (client, handler, buf, sender) -> {
-            ByteArrayDataInput packet = in(accessByteBufWithCorrectSize(buf));
-
-            int protocol = packet.readInt();
-            if (protocol != Constants.PROTOCOL) {
-                this.mod.setEnabled(false);
-                return;
-            }
-
-            int packetType = packet.readInt();
-            switch (packetType) {
-                case Constants.SERVER_DATA -> {
-                    int response = packet.readInt();
-                    if (response != Constants.RESPONSE_SUCCESS) {
-                        this.mod.setEnabled(false);
-                        return;
-                    }
-                    this.mod.getTileManager().initialize();
-                    this.mod.setServerUrl(packet.readUTF());
-                }
-                case Constants.MAP_DATA -> {
-                    int response = packet.readInt();
-                    switch (response) {
-                        case Constants.ERROR_NO_SUCH_MAP, Constants.ERROR_NO_SUCH_WORLD, Constants.ERROR_NOT_VANILLA_MAP -> {
-                            MapInstance texture = (MapInstance) Minecraft.getInstance().gameRenderer.getMapRenderer().maps.get(packet.readInt());
-                            if (texture != null) {
-                                texture.skip();
-                            }
-                        }
-                        case Constants.RESPONSE_SUCCESS -> {
-                            MapInstance texture = (MapInstance) Minecraft.getInstance().gameRenderer.getMapRenderer().maps.get(packet.readInt());
-                            if (texture != null) {
-                                texture.setData(packet.readByte(), packet.readInt(), packet.readInt(), packet.readUTF());
-                            }
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    public void requestServerData() {
-        ByteArrayDataOutput out = out();
-        out.writeInt(Constants.PROTOCOL);
-        out.writeInt(Constants.SERVER_DATA);
-        sendPacket(out);
-    }
-
-    public void requestMapData(int id) {
-        ByteArrayDataOutput out = out();
-        out.writeInt(Constants.PROTOCOL);
-        out.writeInt(Constants.MAP_DATA);
-        out.writeInt(id);
-        sendPacket(out);
-    }
-
-    private void sendPacket(@NotNull ByteArrayDataOutput packet) {
-        if (Minecraft.getInstance().getConnection() == null) {
-            // not in game yet; reschedule
-            this.mod.getScheduler().addTask(0, () -> sendPacket(packet));
-            return;
-        }
-        ClientPlayNetworking.send(this.channel, new FriendlyByteBuf(Unpooled.wrappedBuffer(packet.toByteArray())));
-    }
-
-    public static byte[] accessByteBufWithCorrectSize(FriendlyByteBuf buf) {
-        int i = buf.writerIndex();
-        byte[] bytes = new byte[i];
-        buf.getBytes(0, bytes);
-        return bytes;
-    }
-
-    @SuppressWarnings("UnstableApiUsage")
-    private @NotNull ByteArrayDataOutput out() {
-        return ByteStreams.newDataOutput();
-    }
-
-    @SuppressWarnings("UnstableApiUsage")
-    private @NotNull ByteArrayDataInput in(byte[] bytes) {
-        return ByteStreams.newDataInput(bytes);
     }
 }

@@ -52,7 +52,7 @@ import net.pl3x.map.core.registry.BiomeRegistry;
 import net.pl3x.map.core.registry.BlockRegistry;
 import net.pl3x.map.core.world.World;
 import org.bukkit.Bukkit;
-import org.bukkit.craftbukkit.v1_20_R3.CraftWorld;
+import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

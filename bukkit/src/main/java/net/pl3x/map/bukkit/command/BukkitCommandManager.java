@@ -23,14 +23,16 @@
  */
 package net.pl3x.map.bukkit.command;
 
-import cloud.commandframework.Command;
-import cloud.commandframework.brigadier.CloudBrigadierManager;
-import cloud.commandframework.bukkit.CloudBukkitCapabilities;
-import cloud.commandframework.execution.CommandExecutionCoordinator;
-import cloud.commandframework.paper.PaperCommandManager;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Sender;
+import net.pl3x.map.core.command.parser.PlatformParsers;
 import org.bukkit.plugin.Plugin;
+import org.incendo.cloud.Command;
+import org.incendo.cloud.SenderMapper;
+import org.incendo.cloud.brigadier.CloudBrigadierManager;
+import org.incendo.cloud.bukkit.CloudBukkitCapabilities;
+import org.incendo.cloud.execution.ExecutionCoordinator;
+import org.incendo.cloud.paper.PaperCommandManager;
 import org.jetbrains.annotations.NotNull;
 
 public class BukkitCommandManager implements CommandHandler {
@@ -38,7 +40,9 @@ public class BukkitCommandManager implements CommandHandler {
     private final Command.Builder<@NotNull Sender> root;
 
     public BukkitCommandManager(@NotNull Plugin plugin) throws Exception {
-        this.manager = new PaperCommandManager<>(plugin, CommandExecutionCoordinator.simpleCoordinator(), BukkitSender::create, Sender::getSender);
+        this.manager = new PaperCommandManager<Sender>(plugin,
+                ExecutionCoordinator.simpleCoordinator(),
+                SenderMapper.create(BukkitSender::create, Sender::getSender));
 
         if (getManager().hasCapability(CloudBukkitCapabilities.NATIVE_BRIGADIER)) {
             getManager().registerBrigadier();
@@ -62,6 +66,11 @@ public class BukkitCommandManager implements CommandHandler {
     @Override
     public @NotNull PaperCommandManager<@NotNull Sender> getManager() {
         return this.manager;
+    }
+
+    @Override
+    public @NotNull PlatformParsers getPlatformParsers() {
+        return new BukkitParsers();
     }
 
     @Override

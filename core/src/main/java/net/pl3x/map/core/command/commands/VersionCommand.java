@@ -23,8 +23,6 @@
  */
 package net.pl3x.map.core.command.commands;
 
-import cloud.commandframework.context.CommandContext;
-import cloud.commandframework.minecraft.extras.MinecraftExtrasMetaKeys;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -40,6 +38,8 @@ import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.configuration.Lang;
+import org.incendo.cloud.context.CommandContext;
+import org.incendo.cloud.minecraft.extras.RichDescription;
 import org.jetbrains.annotations.NotNull;
 
 public class VersionCommand extends Pl3xMapCommand {
@@ -56,13 +56,13 @@ public class VersionCommand extends Pl3xMapCommand {
     @Override
     public void register() {
         getHandler().registerSubcommand(builder -> builder.literal("version")
-                .meta(MinecraftExtrasMetaKeys.DESCRIPTION, Lang.parse(Lang.COMMAND_VERSION_DESCRIPTION))
+                .commandDescription(RichDescription.of(Lang.parse(Lang.COMMAND_VERSION_DESCRIPTION)))
                 .permission("pl3xmap.command.version")
                 .handler(this::execute));
     }
 
     public void execute(@NotNull CommandContext<@NotNull Sender> context) {
-        Sender sender = context.getSender();
+        Sender sender = context.sender();
 
         long now = System.currentTimeMillis();
         if (this.lastChecked + TimeUnit.SECONDS.toMillis(15) > now) {
@@ -89,7 +89,7 @@ public class VersionCommand extends Pl3xMapCommand {
                     JsonElement elem = JsonParser.parseString(json);
                     if (elem.isJsonArray()) {
                         JsonArray arr = elem.getAsJsonArray();
-                        if (arr.size() > 0) {
+                        if (!arr.isEmpty()) {
                             JsonElement elem1 = arr.get(0);
                             if (elem1.isJsonObject()) {
                                 JsonObject obj = elem1.getAsJsonObject();
@@ -117,6 +117,12 @@ public class VersionCommand extends Pl3xMapCommand {
     }
 
     private void showVersion(Sender sender) {
+        sender.sendMessage(Lang.COMMAND_VERSION_SUCCESS,
+                Placeholder.unparsed("version", Pl3xMap.api().getVersion()),
+                Placeholder.unparsed("platform", Pl3xMap.api().getPlatform()),
+                Placeholder.unparsed("commit", Pl3xMap.api().getVersionCommit())
+        );
+
         if (this.version.startsWith("-")) {
             sender.sendMessage(switch (this.version) {
                 case "-1" -> Lang.COMMAND_VERSION_STILL_CHECKING;
@@ -126,12 +132,6 @@ public class VersionCommand extends Pl3xMapCommand {
             });
             return;
         }
-
-        sender.sendMessage(Lang.COMMAND_VERSION_SUCCESS,
-                Placeholder.unparsed("version", Pl3xMap.api().getVersion()),
-                Placeholder.unparsed("platform", Pl3xMap.api().getPlatform()),
-                Placeholder.unparsed("commit", Pl3xMap.api().getVersionCommit())
-        );
 
         int cur_build;
         int new_build;

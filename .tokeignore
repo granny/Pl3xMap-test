@@ -1,0 +1,13 @@
+# do not count these lines
+.github/
+.editorconfig
+.gitattributes
+.gitignore
+.tokeignore
+LICENSE
+gradle/
+*.gradle*
+*.json
+*.accesswidener
+*.yml
+*.config.js

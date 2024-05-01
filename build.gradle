@@ -70,21 +70,28 @@ allprojects {
 
     java {
         toolchain {
-            languageVersion = JavaLanguageVersion.of(17)
+            languageVersion = JavaLanguageVersion.of(21)
         }
     }
 
     repositories {
         mavenCentral()
-        mavenLocal()
+        maven {
+            url 'https://repo.granny.dev/snapshots'
+        }
+        maven {
+            url = 'https://s01.oss.sonatype.org/content/repositories/snapshots/'
+            mavenContent { snapshotsOnly() }
+        }
         maven { url = 'https://jitpack.io' }
     }
 
     dependencies {
-        implementation "cloud.commandframework:cloud-core:$cloudVersion"
-        implementation "cloud.commandframework:cloud-brigadier:$cloudVersion"
-        implementation "cloud.commandframework:cloud-paper:$cloudVersion"
-        implementation("cloud.commandframework:cloud-minecraft-extras:$cloudVersion") {
+        implementation "org.incendo:cloud-core:$cloudVersion"
+        implementation "org.incendo:cloud-brigadier:$cloudVersion"
+        implementation "org.incendo:cloud-paper:$cloudVersion"
+        implementation "org.incendo:cloud-processors-confirmation:1.0.0-beta.1"
+        implementation("org.incendo:cloud-minecraft-extras:$cloudVersion") {
             exclude group: 'net.kyori', module: '*'
         }
 
@@ -120,7 +127,7 @@ allprojects {
 
     compileJava {
         options.encoding = 'UTF-8'
-        options.release.set(17)
+        options.release.set(21)
     }
 
     processResources {
