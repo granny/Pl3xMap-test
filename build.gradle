@@ -156,7 +156,7 @@ modrinth {
     //        rootProject.layout.buildDirectory.file("libs/${rootProject.name}-${project.version}-sources.jar").get()
     //])
     gameVersions.addAll(["${minecraftVersion}"])
-    loaders.addAll(['bukkit', 'fabric', /*'forge',*/ 'paper', 'purpur', 'quilt', 'spigot'])
+    loaders.addAll(['bukkit', 'fabric', /*'forge',*/ 'paper', 'purpur', 'quilt', 'spigot', 'folia'])
     changelog = System.getenv('COMMIT_MESSAGE')
     dependencies {
         required.project 'fabric-api'
