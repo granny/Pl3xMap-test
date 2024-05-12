@@ -6,6 +6,7 @@ load: "POSTWORLD"
 authors: ${authors}
 description: "${description}"
 website: "${website}"
+folia-supported: true
 
 permissions:
   pl3xmap.command.map:

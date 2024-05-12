@@ -24,6 +24,7 @@
 package net.pl3x.map.bukkit;
 
 import java.util.UUID;
+import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.pl3x.map.bukkit.command.BukkitCommandManager;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.server.ServerLoadedEvent;
@@ -31,6 +32,7 @@ import net.pl3x.map.core.network.Network;
 import net.pl3x.map.core.player.Player;
 import net.pl3x.map.core.player.PlayerListener;
 import net.pl3x.map.core.player.PlayerRegistry;
+import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.EventHandler;
@@ -47,6 +49,8 @@ import org.jetbrains.annotations.NotNull;
 public class Pl3xMapBukkit extends JavaPlugin implements Listener {
     private final Pl3xMapImpl pl3xmap;
     private final PlayerListener playerListener = new PlayerListener();
+    private boolean isFolia = false;
+    private ScheduledTask tickTimerTask = null;
 
     private Network network;
 
@@ -58,13 +62,9 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         try {
-            io.papermc.paper.chunk.system.scheduling.ChunkFullTask.class.getDeclaredField("chunkLoads");
-            io.papermc.paper.chunk.system.scheduling.ChunkFullTask.class.getDeclaredField("chunkGenerates");
-            getLogger().severe("Pl3xMap does not support Folia");
-            getLogger().severe("Pl3xMap will now disable itself");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        } catch (Throwable ignore) {
+            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
+            isFolia = true;
+        } catch (ClassNotFoundException ignored) {
         }
 
         this.pl3xmap.enable();
@@ -80,8 +80,13 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
             throw new RuntimeException(e);
         }
 
-        getServer().getScheduler().runTaskTimer(this, () ->
-                this.pl3xmap.getScheduler().tick(), 20, 1);
+        if (isFolia) {
+            tickTimerTask = Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, timerTask ->
+                    this.pl3xmap.getScheduler().tick(), 20, 1);
+        } else {
+            getServer().getScheduler().runTaskTimer(this, () ->
+                    this.pl3xmap.getScheduler().tick(), 20, 1);
+        }
     }
 
     @Override
@@ -89,6 +94,10 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
         if (this.network != null) {
             this.network.unregister();
             this.network = null;
+        }
+
+        if (tickTimerTask != null) {
+            tickTimerTask.cancel();
         }
 
         this.pl3xmap.disable();
