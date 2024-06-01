@@ -54,6 +54,7 @@ dependencies {
 
     implementation(libs.caffeine)
     implementation(libs.querzNbt)
+    implementation(libs.lz4Java)
     implementation(libs.simpleYaml) {
         exclude("org.yaml", "snakeyaml")
     }
@@ -83,6 +84,7 @@ tasks {
             "io.undertow",
             //"net.kyori", // do not relocate!
             "net.querz",
+            "net.jpountz",
             "org.checkerframework",
             "org.jboss",
             "org.simpleyaml",

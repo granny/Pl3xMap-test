@@ -30,9 +30,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.nio.file.Path;
 import java.util.Objects;
+import net.jpountz.lz4.LZ4BlockInputStream;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.log.Logger;
 import net.querz.mca.CompressionType;
@@ -124,11 +126,20 @@ public class Region {
 
         byte compressionTypeByte = raf.readByte();
         CompressionType compressionType = CompressionType.getFromID(compressionTypeByte);
-        if (compressionType == null) {
+
+        // TODO: hotfix until querz' nbt library supports id as 3 for uncompressed
+        if (compressionType == null && compressionTypeByte == 3) {
+            compressionType = CompressionType.NONE;
+        }
+
+        if (compressionTypeByte != 4 && compressionType == null) {
             throw new IOException("Invalid compression type " + compressionTypeByte);
         }
 
-        DataInputStream dis = new DataInputStream(new BufferedInputStream(compressionType.decompress(new FileInputStream(raf.getFD()))));
+        FileInputStream fileInputStream = new FileInputStream(raf.getFD());
+        // TODO: hotfix until querz' nbt library supports the LZ4 compression type
+        InputStream decompress = compressionTypeByte == 4 ? new LZ4BlockInputStream(fileInputStream) : compressionType.decompress(fileInputStream);
+        DataInputStream dis = new DataInputStream(new BufferedInputStream(decompress));
         NamedTag tag = new NBTInputStream(dis).readTag(Tag.DEFAULT_MAX_DEPTH);
         if (tag != null && tag.getTag() instanceof CompoundTag compoundTag) {
             return this.chunks[index] = Chunk.create(getWorld(), this, compoundTag, index).populate();

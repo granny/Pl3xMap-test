@@ -110,6 +110,7 @@ allprojects {
 
         implementation "com.github.ben-manes.caffeine:caffeine:$caffeineVersion"
         implementation "com.github.Querz:NBT:$querzNbtVersion"
+        implementation "org.lz4:lz4-java:1.8.0"
         implementation("com.github.Carleslc.Simple-YAML:Simple-Yaml:$simpleYamlVersion") {
             exclude group: 'org.yaml', module: 'snakeyaml'
         }
