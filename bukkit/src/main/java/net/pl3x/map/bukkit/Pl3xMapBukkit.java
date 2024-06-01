@@ -24,7 +24,6 @@
 package net.pl3x.map.bukkit;
 
 import java.util.UUID;
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import net.pl3x.map.bukkit.command.BukkitCommandManager;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.server.ServerLoadedEvent;
@@ -50,7 +49,6 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
     private final Pl3xMapImpl pl3xmap;
     private final PlayerListener playerListener = new PlayerListener();
     private boolean isFolia = false;
-    private ScheduledTask tickTimerTask = null;
 
     private Network network;
 
@@ -81,7 +79,7 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
         }
 
         if (isFolia) {
-            tickTimerTask = Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, timerTask ->
+            Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, timerTask ->
                     this.pl3xmap.getScheduler().tick(), 20, 1);
         } else {
             getServer().getScheduler().runTaskTimer(this, () ->
@@ -94,10 +92,6 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
         if (this.network != null) {
             this.network.unregister();
             this.network = null;
-        }
-
-        if (tickTimerTask != null) {
-            tickTimerTask.cancel();
         }
 
         this.pl3xmap.disable();
