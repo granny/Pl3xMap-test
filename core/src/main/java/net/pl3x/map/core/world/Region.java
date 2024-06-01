@@ -126,6 +126,12 @@ public class Region {
 
         byte compressionTypeByte = raf.readByte();
         CompressionType compressionType = CompressionType.getFromID(compressionTypeByte);
+
+        // TODO: hotfix until querz' nbt library supports id as 3 for uncompressed
+        if (compressionType == null && compressionTypeByte == 3) {
+            compressionType = CompressionType.NONE;
+        }
+
         if (compressionTypeByte != 4 && compressionType == null) {
             throw new IOException("Invalid compression type " + compressionTypeByte);
         }
