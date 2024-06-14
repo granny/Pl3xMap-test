@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.minotaur)
 }
 
-val buildNum = System.getenv("NEXT_BUILD_NUMBER") ?: "TEMP" // TODO: Temp
+val buildNum = System.getenv("NEXT_BUILD_NUMBER") ?: "SNAPSHOT"
 project.version = "${libs.versions.minecraft.get()}-$buildNum"
 
 tasks {

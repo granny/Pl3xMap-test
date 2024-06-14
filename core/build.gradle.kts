@@ -4,7 +4,7 @@ plugins {
     alias(libs.plugins.indra.git)
 }
 
-val buildNum = System.getenv("NEXT_BUILD_NUMBER") ?: "TEMP" // TODO: Temp
+val buildNum = System.getenv("NEXT_BUILD_NUMBER") ?: "SNAPSHOT"
 project.group = "net.pl3x.map.core"
 project.version = "${libs.versions.minecraft.get()}-$buildNum"
 
