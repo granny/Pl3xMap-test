@@ -307,7 +307,7 @@ public class Polyline extends Marker<@NotNull Polyline> {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getKey(), getPoints(), getPane(), getOptions());
+        return Objects.hash(getKey(), new ArrayList<>(getPoints()), getPane(), getOptions());
     }
 
     @Override
