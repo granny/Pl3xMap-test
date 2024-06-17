@@ -36,7 +36,7 @@ import net.pl3x.map.fabric.client.Pl3xMapFabricClient;
 import org.jetbrains.annotations.NotNull;
 
 public class NetworkManager {
-    private final ResourceLocation channel = new ResourceLocation(Constants.MODID, Constants.MODID);
+    private final ResourceLocation channel = ResourceLocation.fromNamespaceAndPath(Constants.MODID, Constants.MODID);
     private final Pl3xMapFabricClient mod;
 
     public NetworkManager(@NotNull Pl3xMapFabricClient mod) {

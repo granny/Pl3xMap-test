@@ -8,7 +8,7 @@ import net.pl3x.map.core.network.Constants;
 
 public record ServerboundMapPayload(int protocol, int mapId) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, ServerboundMapPayload> STREAM_CODEC = CustomPacketPayload.codec(ServerboundMapPayload::write, ServerboundMapPayload::new);
-    public static final Type<ServerboundMapPayload> TYPE = new Type<>(new ResourceLocation(Constants.MODID, "server_map_data"));
+    public static final Type<ServerboundMapPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MODID, "server_map_data"));
 
     public ServerboundMapPayload(int mapId) {
         this(Constants.PROTOCOL, mapId);

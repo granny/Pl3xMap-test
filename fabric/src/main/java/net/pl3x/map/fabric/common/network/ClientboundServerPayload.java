@@ -10,7 +10,7 @@ import net.pl3x.map.fabric.client.Pl3xMapFabricClient;
 
 public record ClientboundServerPayload(int protocol, int response, String webAddress) implements CustomPacketPayload {
     public static final StreamCodec<FriendlyByteBuf, ClientboundServerPayload> STREAM_CODEC = CustomPacketPayload.codec(ClientboundServerPayload::write, ClientboundServerPayload::new);
-    public static final Type<ClientboundServerPayload> TYPE = new Type<>(new ResourceLocation(Constants.MODID, "client_server_data"));
+    public static final Type<ClientboundServerPayload> TYPE = new Type<>(ResourceLocation.fromNamespaceAndPath(Constants.MODID, "client_server_data"));
 
     public ClientboundServerPayload(int protocol, int response) {
         this(protocol, response, null);
