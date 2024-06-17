@@ -1,0 +1,81 @@
+[versions]
+bukkit="1.20.6-R0.1-SNAPSHOT"
+
+fabricApi="0.97.8+1.20.6"
+fabricLoader="0.15.10"
+fabricLoom="1.6-SNAPSHOT"
+
+forge="1.20.2-48.0.6"
+forgeGradle="[6.0,6.2)"
+forgeLoader="[48,)"
+
+minecraft="1.20.6"
+minotaur="2.+"
+paperweight="1.7.1"
+indra-git="2.1.1"
+shadowJar="8.1.7"
+
+adventure="4.17.0-SNAPSHOT"
+adventureBukkit="4.3.3-SNAPSHOT"
+adventureFabric="5.13.1-SNAPSHOT"
+
+caffeine="3.1.8"
+cloud="2.0.0-SNAPSHOT"
+gson="2.10.1"
+guava="33.0.0-jre"
+log4j="2.14.1"
+querzNbt="6.1"
+lz4Java="1.8.0"
+simpleYaml="1.8.4"
+slf4j="2.0.1"
+undertow="2.3.12.Final"
+#xnio="3.8.8.Final"
+
+
+[plugins]
+minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
+shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
+fabric-loom = { id = "fabric-loom", version.ref = "fabricLoom" }
+indra-git = { id = "net.kyori.indra.git", version.ref = "indra-git" }
+paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
+
+[libraries]
+
+minecraft = { group = "com.mojang", name = "minecraft", version.ref = "minecraft" }
+
+log4j = { group = "org.apache.logging.log4j", name = "log4j-core", version.ref = "log4j" }
+
+jetbrainsAnnotations = { group = "org.jetbrains", name = "annotations", version = "24.1.0" }
+
+undertow = { group = "io.undertow", name = "undertow-core", version.ref = "undertow" }
+
+fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabricLoader" }
+fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
+
+cloudCore = { group = "org.incendo", name = "cloud-core", version.ref = "cloud" }
+cloudBrigadier = { group = "org.incendo", name = "cloud-brigadier", version.ref = "cloud" }
+cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud" }
+cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloud" }
+cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud" }
+cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version = "1.0.0-beta.2" }
+
+adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
+adventureTextMinimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
+adventureTextSerializerPlain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure" }
+
+adventurePlatformBukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventureBukkit" }
+adventurePlatformFabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventureFabric" }
+
+
+caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version.ref = "caffeine" }
+querzNbt = { group = "com.github.Querz", name = "NBT", version.ref = "querzNbt" }
+lz4Java = { group = "org.lz4", name = "lz4-java", version.ref = "lz4Java" }
+simpleYaml = { group = "com.github.Carleslc.Simple-YAML", name = "Simple-Yaml", version.ref = "simpleYaml" }
+
+
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
+
+[bundles]
+cloud = ["cloudCore", "cloudBrigadier", "cloudPaper"]
+adventure = ["adventureApi", "adventureTextMinimessage", "adventureTextSerializerPlain"]

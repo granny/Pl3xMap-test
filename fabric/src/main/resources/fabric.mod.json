@@ -4,11 +4,7 @@
   "version": "${version}",
   "name": "${name}",
   "description": "${description}",
-  "authors": [
-    "granny",
-    "BillyGalbreath",
-    "JLyne"
-  ],
+  "authors": [],
   "contact": {
     "homepage": "${website}",
     "sources": "${sources}",
@@ -40,7 +36,9 @@
     "fabricloader": ">=${fabricLoaderVersion}",
     "fabric": ">=${fabricApiVersion}",
     "minecraft": "~${minecraftVersion}",
-    "java": ">=21"
+    "java": ">=21",
+    "cloud": "*",
+    "adventure-platform-fabric": "*"
   },
   "recommends": {
     "better-fabric-console": "*"

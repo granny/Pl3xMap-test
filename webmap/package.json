@@ -12,6 +12,7 @@
   "devDependencies": {
     "@types/leaflet": "^1.9.3",
     "compression-webpack-plugin": "^10.0.0",
+    "copy-webpack-plugin": "^12.0.2",
     "css-loader": "^6.7.1",
     "leaflet": "^1.9.4",
     "mini-css-extract-plugin": "^2.6.1",

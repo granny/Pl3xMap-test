@@ -57,7 +57,7 @@ jobs:
 
             return core.exportVariable("NEXT_BUILD_NUMBER", process.env.NEXT_BUILD_NUMBER);
       - name: Build
-        run: ./gradlew build modrinth --stacktrace
+        run: ./gradlew modrinth --stacktrace
         env:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           COMMIT_MESSAGE: ${{ join(github.event.commits.*.message, '<br>') }}
