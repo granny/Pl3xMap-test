@@ -108,7 +108,12 @@ public class JsonObjectWrapper {
             return;
         }
         JsonArray arr = new JsonArray();
-        value.forEach(serializable -> arr.add(serializable.toJson()));
+        value.forEach(serializable -> {
+            if (serializable == null) {
+                return;
+            }
+            arr.add(serializable.toJson());
+        });
         getJsonObject().add(property, arr);
     }
 
