@@ -20,9 +20,12 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-      - name: Import gradle properties
-        shell: bash
-        run: cat gradle.properties >> $GITHUB_ENV
+      - name: Import Gradle Version Catalog
+        uses: SebRollen/toml-action@v1.2.0
+        id: minecraft_version
+        with:
+          file: gradle/libs.versions.toml
+          field: versions.minecraft
       - uses: actions/github-script@v6
         name: Prepare build number if it doesn't exist
         with:
@@ -79,8 +82,8 @@ jobs:
           noprefix: true
           title: New build of Pl3xMap is ready!
           description: |
-            Version ${{ env.minecraftVersion }} build ${{ env.NEXT_BUILD_NUMBER }}
-            Click [here](https://modrinth.com/mod/pl3xmap/version/${{ env.minecraftVersion }}-${{ env.NEXT_BUILD_NUMBER }}) to download!
+            Version ${{ steps.minecraft_version.outputs.value }} build ${{ env.NEXT_BUILD_NUMBER }}
+            Click [here](https://modrinth.com/mod/pl3xmap/version/${{ steps.minecraft_version.outputs.value }}-${{ env.NEXT_BUILD_NUMBER }}) to download!
       - name: Notify Discord
         uses: granny/actions-status-discord@v1.14.0.pre-0
         if: ${{ failure() }}
@@ -90,7 +93,7 @@ jobs:
           title: Build Failure!
           color: 0xff0000
           description: |
-            Version ${{ env.minecraftVersion }} build ${{ env.NEXT_BUILD_NUMBER }}
+            Version ${{ steps.minecraft_version.outputs.value }} build ${{ env.NEXT_BUILD_NUMBER }}
             Click [here](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) to view the run!
       - uses: actions/github-script@v6
         name: Increment Build Number
