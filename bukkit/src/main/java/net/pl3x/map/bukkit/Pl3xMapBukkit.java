@@ -25,13 +25,13 @@ package net.pl3x.map.bukkit;
 
 import java.util.UUID;
 import net.pl3x.map.bukkit.command.BukkitCommandManager;
+import net.pl3x.map.bukkit.util.SchedulerUtil;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.server.ServerLoadedEvent;
 import net.pl3x.map.core.network.Network;
 import net.pl3x.map.core.player.Player;
 import net.pl3x.map.core.player.PlayerListener;
 import net.pl3x.map.core.player.PlayerRegistry;
-import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.craftbukkit.CraftWorld;
 import org.bukkit.event.EventHandler;
@@ -59,12 +59,6 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
 
     @Override
     public void onEnable() {
-        try {
-            Class.forName("io.papermc.paper.threadedregions.RegionizedServer");
-            isFolia = true;
-        } catch (ClassNotFoundException ignored) {
-        }
-
         this.pl3xmap.enable();
 
         getServer().getPluginManager().registerEvents(this, this);
@@ -78,13 +72,7 @@ public class Pl3xMapBukkit extends JavaPlugin implements Listener {
             throw new RuntimeException(e);
         }
 
-        if (isFolia) {
-            Bukkit.getGlobalRegionScheduler().runAtFixedRate(this, timerTask ->
-                    this.pl3xmap.getScheduler().tick(), 20, 1);
-        } else {
-            getServer().getScheduler().runTaskTimer(this, () ->
-                    this.pl3xmap.getScheduler().tick(), 20, 1);
-        }
+        SchedulerUtil.runTaskTimer(this, this.pl3xmap.getScheduler(), this.getServer().getScheduler());
     }
 
     @Override
