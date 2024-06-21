@@ -57,7 +57,7 @@ public class UpdateMarkerData extends AbstractDataTask {
                     this.lastUpdated.put(key, now);
                 }
             } catch (Throwable t) {
-                Logger.severe("Failed to process layer " + key + "for world " + world.getName(), t);
+                Logger.severe("Failed to process layer " + key + " for world " + world.getName(), t);
             }
         });
 
