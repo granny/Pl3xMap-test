@@ -63,6 +63,7 @@ adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adv
 adventureTextMinimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
 adventureTextSerializerPlain = { group = "net.kyori", name = "adventure-text-serializer-plain", version.ref = "adventure" }
 
+adventurePlatformFacet = { group = "net.kyori", name = "adventure-platform-facet", version.ref = "adventureBukkit" }
 adventurePlatformBukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventureBukkit" }
 adventurePlatformFabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventureFabric" }
 
@@ -77,5 +78,4 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 guava = { group = "com.google.guava", name = "guava", version.ref = "guava" }
 
 [bundles]
-cloud = ["cloudCore", "cloudBrigadier", "cloudPaper"]
 adventure = ["adventureApi", "adventureTextMinimessage", "adventureTextSerializerPlain"]

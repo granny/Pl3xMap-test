@@ -43,14 +43,14 @@ dependencies {
 
     implementation(libs.undertow)
 
-    implementation(libs.bundles.cloud)
+    implementation(libs.cloudCore)
     implementation(libs.cloudProcessorsConfirmation)
     implementation(libs.cloudMinecraftExtras) {
         exclude("net.kyori", "*")
     }
 
     implementation(libs.bundles.adventure)
-    implementation(libs.adventurePlatformBukkit)
+    implementation(libs.adventurePlatformFacet)
 
     implementation(libs.caffeine)
     implementation(libs.querzNbt)
