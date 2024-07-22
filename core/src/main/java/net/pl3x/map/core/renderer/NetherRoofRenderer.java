@@ -23,19 +23,101 @@
  */
 package net.pl3x.map.core.renderer;
 
+import java.util.LinkedList;
+import net.pl3x.map.core.Pl3xMap;
+import net.pl3x.map.core.renderer.heightmap.Heightmap;
 import net.pl3x.map.core.renderer.task.RegionScanTask;
+import net.pl3x.map.core.util.Colors;
+import net.pl3x.map.core.world.BlockState;
 import net.pl3x.map.core.world.Chunk;
+import net.pl3x.map.core.world.EmptyChunk;
 import net.pl3x.map.core.world.Region;
 import org.jetbrains.annotations.NotNull;
 
-public class NetherRoofRenderer extends VanillaRenderer {
+public class NetherRoofRenderer extends Renderer {
+    private final Heightmap heightmap;
 
     public NetherRoofRenderer(@NotNull RegionScanTask task, @NotNull Builder builder) {
         super(task, builder);
+        this.heightmap = Pl3xMap.api().getHeightmapRegistry().get("none");
     }
 
     @Override
-    protected int getBlockBelowCeiling(int blockY, Chunk chunk, int blockX, int blockZ) {
-        return blockY;
+    public @NotNull Heightmap getHeightmap() {
+        return this.heightmap;
+    }
+
+    @Override
+    public void scanData(@NotNull Region region) {
+        int startX = region.getX() << 9;
+        int startZ = region.getZ() << 9;
+
+        LinkedList<Integer> glass = new LinkedList<>();
+
+        for (int pixelX = 0; pixelX < 512; pixelX++) {
+            int blockX = startX + pixelX;
+            double lastBlockY = 0.0D;
+            for (int pixelZ = -1; pixelZ < 512; pixelZ++) {
+                int blockZ = startZ + pixelZ;
+
+                if (!getWorld().visibleBlock(blockX, blockZ)) {
+                    continue;
+                }
+
+                Pl3xMap.api().getRegionProcessor().checkPaused();
+
+                Chunk chunk = region.getWorld().getChunk(region, blockX >> 4, blockZ >> 4);
+                if (chunk instanceof EmptyChunk) {
+                    continue;
+                }
+
+                int blockY = chunk.noHeightmap() ? getWorld().getMaxBuildHeight() : chunk.getWorldSurfaceY(blockX, blockZ) + 1;
+                int fluidY = 0;
+                BlockState blockstate;
+                BlockState fluidstate = null;
+
+                // iterate down until we find a renderable block
+                do {
+                    blockY -= 1;
+                    blockstate = chunk.getBlockState(blockX, blockY, blockZ);
+                    if (blockstate.getBlock().isFluid()) {
+                        if (fluidstate == null) {
+                            // get fluid information for the top fluid block
+                            fluidY = blockY;
+                            fluidstate = blockstate;
+                        }
+                        continue;
+                    }
+
+                    if (getWorld().getConfig().RENDER_TRANSLUCENT_GLASS && blockstate.getBlock().isGlass()) {
+                        // translucent glass. store this color and keep iterating
+                        glass.addFirst(Colors.setAlpha(0x99, blockstate.getBlock().color()));
+                        continue;
+                    }
+
+                    // test if block is renderable. we ignore blocks with black color
+                    if (blockstate.getBlock().color() > 0) {
+                        break;
+                    }
+                } while (blockY > getWorld().getMinBuildHeight());
+
+                Chunk.BlockData blockData = Chunk.BlockData.of(blockY, fluidY, blockstate, fluidstate, glass);
+
+                int pixelColor = basicPixelColor(region, blockData, blockX, blockZ);
+                getTileImage().setPixel(blockX, blockZ, pixelColor);
+
+                if (blockstate.getBlock().isFlat()) {
+                    blockY--;
+                }
+
+                glass.clear();
+
+                lastBlockY = blockY;
+            }
+        }
+    }
+
+    @Override
+    public void scanBlock(@NotNull Region region, @NotNull Chunk chunk, Chunk.@NotNull BlockData data, int blockX, int blockZ) {
     }
 }

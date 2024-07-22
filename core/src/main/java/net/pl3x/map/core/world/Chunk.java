@@ -249,7 +249,18 @@ public abstract class Chunk {
         protected BlockState fluidstate = null;
         protected Biome biome;
 
-        protected final LinkedList<Integer> glass = new LinkedList<>();
+        protected LinkedList<Integer> glass = new LinkedList<>();
+
+        // TODO: kinda jank
+        public static BlockData of(int blockY, int fluidY, BlockState blockstate, BlockState fluidstate, LinkedList<Integer> glass) {
+            BlockData data = new BlockData();
+            data.blockY = blockY;
+            data.fluidY = fluidY;
+            data.blockstate = blockstate;
+            data.fluidstate = fluidstate;
+            data.glass = glass;
+            return data;
+        }
 
         public int getBlockY() {
             return this.blockY;
