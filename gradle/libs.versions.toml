@@ -57,7 +57,7 @@ cloudBrigadier = { group = "org.incendo", name = "cloud-brigadier", version.ref 
 cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud" }
 cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloud" }
 cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud" }
-cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version = "1.0.0-beta.2" }
+cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version = "1.0.0-beta.3" }
 
 adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
 adventureTextMinimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
