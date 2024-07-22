@@ -79,6 +79,8 @@ public final class Lang extends AbstractConfig {
     public static String COMMAND_FULLRENDER_DESCRIPTION = "Fully render a world";
     @Key("command.fullrender.starting")
     public static String COMMAND_FULLRENDER_STARTING = "<green>Full render starting. Check <grey>/map status</grey> for more info";
+    @Key("command.fullrender.no-region-files-found")
+    public static String COMMAND_FULLRENDER_NO_REGION_FILES_FOUND = "<red>No region files found for <world>. Please either pregenerate your world using <u><click:open_url:'https://modrinth.com/plugin/chunky'>Chunky</click></u> or wait for the loaded chunks to save.";
 
     @Key("command.help.description")
     public static String COMMAND_HELP_DESCRIPTION = "Get help for Pl3xmap commands";

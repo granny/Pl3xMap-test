@@ -25,6 +25,8 @@ package net.pl3x.map.core.command.commands;
 
 import java.util.Collection;
 import java.util.concurrent.CompletableFuture;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Pl3xMapCommand;
@@ -69,6 +71,12 @@ public class FullRenderCommand extends Pl3xMapCommand {
 
         Pl3xMap.api().getRegionProcessor().addRegions(world, regions);
 
-        sender.sendMessage(Lang.COMMAND_FULLRENDER_STARTING);
+        if (regions.isEmpty()) {
+            TagResolver.Single worldPlaceholder = Placeholder.unparsed("world", world.getName());
+            sender.sendMessage(Lang.COMMAND_FULLRENDER_NO_REGION_FILES_FOUND, worldPlaceholder);
+        } else {
+            sender.sendMessage(Lang.COMMAND_FULLRENDER_STARTING);
+        }
+
     }
 }
