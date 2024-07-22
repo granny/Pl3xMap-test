@@ -63,6 +63,12 @@ public class ResetMapCommand extends Pl3xMapCommand {
         Sender sender = context.sender();
         World world = context.get("world");
 
+        // TODO: Look into why it seems to inconsistently initialize the world twice when called as a player :/
+        if (sender instanceof Sender.Player<?> player) {
+            sender.sendMessage("<yellow>Resetting the map in-game is temporarily disabled. Please run this command in the console instead.");
+            return;
+        }
+
         TagResolver.Single worldPlaceholder = Placeholder.unparsed("world", world.getName());
         sender.sendMessage(Lang.COMMAND_RESETMAP_BEGIN, worldPlaceholder);
 
