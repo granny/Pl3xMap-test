@@ -30,6 +30,8 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.configuration.Lang;
@@ -51,18 +53,38 @@ public class UpdateSettingsData extends Task {
             .setLenient()
             .create();
     private int jsonHashCache = -1;
+    private final ExecutorService executor;
+
+    private CompletableFuture<Void> future;
+    private boolean running;
 
     public UpdateSettingsData() {
         super(1, true);
+        this.executor = Pl3xMap.ThreadFactory.createService("Pl3xMap-Settings");
+    }
+
+    @Override
+    public void cancel() {
+        super.cancel();
+        if (this.future != null) {
+            this.future.cancel(true);
+        }
     }
 
     @Override
     public void run() {
-        try {
-            parseSettings();
-        } catch (Throwable t) {
-            Logger.severe("Failed to parse settings.json", t);
+        if (this.running) {
+            return;
         }
+        this.running = true;
+        this.future = CompletableFuture.runAsync(() -> {
+            try {
+                parseSettings();
+            } catch (Throwable t) {
+                Logger.severe("Failed to parse settings.json", t);
+            }
+            this.running = false;
+        }, this.executor);
     }
 
     private @NotNull List<@NotNull Map<@NotNull String, @NotNull Object>> parseWorlds() {
