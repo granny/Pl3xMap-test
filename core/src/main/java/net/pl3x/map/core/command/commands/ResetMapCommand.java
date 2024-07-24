@@ -33,6 +33,7 @@ import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.command.parser.WorldParser;
 import net.pl3x.map.core.configuration.Lang;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.util.FileUtil;
 import net.pl3x.map.core.world.World;
 import org.incendo.cloud.context.CommandContext;
@@ -63,12 +64,6 @@ public class ResetMapCommand extends Pl3xMapCommand {
         Sender sender = context.sender();
         World world = context.get("world");
 
-        // TODO: Look into why it seems to inconsistently initialize the world twice when called as a player :/
-        if (sender instanceof Sender.Player<?> player) {
-            sender.sendMessage("<yellow>Resetting the map in-game is temporarily disabled. Please run this command in the console instead.");
-            return;
-        }
-
         TagResolver.Single worldPlaceholder = Placeholder.unparsed("world", world.getName());
         sender.sendMessage(Lang.COMMAND_RESETMAP_BEGIN, worldPlaceholder);
 
@@ -86,7 +81,11 @@ public class ResetMapCommand extends Pl3xMapCommand {
             }
 
             // create a new world and register it
-            Pl3xMap.api().getWorldRegistry().register(Pl3xMap.api().cloneWorld(world));
+            // hotfix: only do so if there's no players online. an unloaded world gets registered if a player is found in it.
+            // UpdateSettingsData#parseSettings->PlayerRegistry#parsePlayers->Player#getWorld
+            if (world.getPlayers().isEmpty()) {
+                Pl3xMap.api().getWorldRegistry().register(Pl3xMap.api().cloneWorld(world));
+            }
 
             sender.sendMessage(result, worldPlaceholder);
         });

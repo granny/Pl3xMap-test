@@ -94,6 +94,9 @@ public abstract class AbstractDataTask extends Task {
         if (this.future != null) {
             this.future.cancel(true);
         }
+        if (this.executor != null) {
+            this.executor.shutdownNow();
+        }
     }
 
     public abstract void parse();
