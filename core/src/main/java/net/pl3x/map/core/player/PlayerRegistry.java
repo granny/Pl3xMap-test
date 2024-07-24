@@ -102,7 +102,7 @@ public class PlayerRegistry extends Registry<@NotNull Player> {
             return Collections.emptyList();
         }
         List<Object> players = new ArrayList<>();
-        Pl3xMap.api().getPlayerRegistry().forEach(player -> {
+        forEach(player -> {
             // do not expose hidden players in the json
             if (player.isHidden() || player.isNPC()) {
                 return;

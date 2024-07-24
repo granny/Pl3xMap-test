@@ -33,7 +33,6 @@ import net.pl3x.map.core.command.Pl3xMapCommand;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.command.parser.WorldParser;
 import net.pl3x.map.core.configuration.Lang;
-import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.util.FileUtil;
 import net.pl3x.map.core.world.World;
 import org.incendo.cloud.context.CommandContext;
