@@ -138,7 +138,7 @@ public class ChunkAnvil118 extends Chunk {
         private final int bitsPerBiome;
 
         public Section(@NotNull World world, @NotNull CompoundTag sectionData) {
-            this.sectionY = sectionData.getByte("Y");
+            this.sectionY = sectionData.getNumber("Y").intValue();
             this.blockLight = sectionData.getByteArray("BlockLight");
             this.blocks = sectionData.getLongArray("BlockStates");
 

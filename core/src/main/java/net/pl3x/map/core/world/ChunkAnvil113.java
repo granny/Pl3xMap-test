@@ -145,7 +145,7 @@ public class ChunkAnvil113 extends Chunk {
         private final int bitsPerBlock;
 
         public Section(@NotNull CompoundTag sectionData) {
-            this.sectionY = sectionData.getByte("Y");
+            this.sectionY = sectionData.getNumber("Y").intValue();
             this.blockLight = sectionData.getByteArray("BlockLight");
             this.blocks = sectionData.getLongArray("BlockStates");
 
