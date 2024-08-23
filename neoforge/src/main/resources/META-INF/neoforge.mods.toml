@@ -1,0 +1,41 @@
+modLoader = "javafml"
+loaderVersion = "${neoforgeLoaderVersion}"
+license = "MIT"
+showAsResourcePack = false
+properties = {}
+issueTrackerURL = "${issues}"
+
+[[mods]]
+modId = "pl3xmap"
+version = "${version}"
+displayName = "${name}"
+description = "${description}"
+logoFile = "pl3xmap.png"
+logoBlur = false
+#updateJSONURL = ""
+modproperties = {}
+#credits = ""
+authors = ${authors}
+displayURL = "${website}"
+displayTest = "IGNORE_SERVER_VERSION"
+
+[[dependencies.pl3xmap]]
+modId = "neoforge"
+type = "required"
+versionRange = "${neoforgeLoaderVersion}"
+ordering = "AFTER"
+side = "SERVER"
+
+[[dependencies.pl3xmap]]
+modId = "minecraft"
+type = "required"
+versionRange = "[${minecraftVersion}]"
+ordering = "AFTER"
+side = "SERVER"
+
+[[dependencies.pl3xmap]]
+modId = "cloud"
+type = "required"
+versionRange = "[1.0,)"
+ordering = "NONE"
+side = "BOTH"

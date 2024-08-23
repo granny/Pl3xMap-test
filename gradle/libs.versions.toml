@@ -7,9 +7,9 @@ fabricApi="0.102.1+1.21.1"
 fabricLoader="0.16.2"
 fabricLoom="1.7-SNAPSHOT"
 
-#forge="1.20.2-48.0.6"
-#forgeGradle="[6.0,6.2)"
-#forgeLoader="[48,)"
+neoforge="21.1.23"
+neoGradle="7.0.145"
+neoforgeLoader="[20.5,)"
 
 minotaur="2.+" # https://github.com/modrinth/minotaur
 paperweight="1.7.2" # https://github.com/PaperMC/Paperweight
@@ -45,6 +45,7 @@ shadow = { id = "com.gradleup.shadow", version.ref = "shadowJar" }
 fabric-loom = { id = "fabric-loom", version.ref = "fabricLoom" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra-git" }
 paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
+neoforged-userdev = { id = "net.neoforged.gradle.userdev", version.ref = "neoGradle" }
 
 [libraries]
 
@@ -59,11 +60,14 @@ undertow = { group = "io.undertow", name = "undertow-core", version.ref = "under
 fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = "fabricLoader" }
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
 
+neoforge-loader = { group = "net.neoforged", name = "neoforge", version.ref = "neoforge" }
+
 cloudCore = { group = "org.incendo", name = "cloud-core", version.ref = "cloud" }
 cloudBrigadier = { group = "org.incendo", name = "cloud-brigadier", version.ref = "cloud-minecraft" }
 cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud-minecraft" }
 cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud-minecraft" }
 cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloud-minecraft-modded" }
+cloudNeoforge = { group = "org.incendo", name = "cloud-neoforge", version.ref = "cloud-minecraft-modded" }
 cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version.ref = "cloud-processors" }
 
 adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
