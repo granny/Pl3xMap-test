@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.pl3x.map.forge;
+package net.pl3x.map.neoforge;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;

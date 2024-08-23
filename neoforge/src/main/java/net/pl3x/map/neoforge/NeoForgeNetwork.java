@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.pl3x.map.forge;
+package net.pl3x.map.neoforge;
 
 import com.google.common.io.ByteArrayDataOutput;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -38,10 +38,10 @@ import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.pl3x.map.core.configuration.Config;
 import net.pl3x.map.core.network.Constants;
 import net.pl3x.map.core.network.Network;
-import net.pl3x.map.forge.common.network.ClientboundMapPayload;
-import net.pl3x.map.forge.common.network.ClientboundServerPayload;
-import net.pl3x.map.forge.common.network.ServerboundMapPayload;
-import net.pl3x.map.forge.common.network.ServerboundServerPayload;
+import net.pl3x.map.neoforge.common.network.ClientboundMapPayload;
+import net.pl3x.map.neoforge.common.network.ClientboundServerPayload;
+import net.pl3x.map.neoforge.common.network.ServerboundMapPayload;
+import net.pl3x.map.neoforge.common.network.ServerboundServerPayload;
 
 public class NeoForgeNetwork extends Network {
     public static IPayloadHandler<CustomPacketPayload> NOOP_HANDLER = (payload, context) -> {};

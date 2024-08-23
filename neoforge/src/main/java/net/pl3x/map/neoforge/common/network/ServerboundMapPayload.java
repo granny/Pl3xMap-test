@@ -1,4 +1,4 @@
-package net.pl3x.map.forge.common.network;
+package net.pl3x.map.neoforge.common.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;

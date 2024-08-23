@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.pl3x.map.forge.command;
+package net.pl3x.map.neoforge.command;
 
 import io.leangen.geantyref.TypeToken;
 import net.minecraft.commands.arguments.DimensionArgument;

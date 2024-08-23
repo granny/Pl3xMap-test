@@ -1,4 +1,4 @@
-package net.pl3x.map.forge.command;
+package net.pl3x.map.neoforge.command;
 
 import net.minecraft.world.phys.Vec3;
 import net.pl3x.map.core.Pl3xMap;
@@ -6,7 +6,7 @@ import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.command.parser.PlatformParsers;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.player.Player;
-import net.pl3x.map.forge.NeoForgePlayer;
+import net.pl3x.map.neoforge.NeoForgePlayer;
 import org.incendo.cloud.context.CommandContext;
 import org.incendo.cloud.minecraft.modded.data.Coordinates;
 import org.incendo.cloud.minecraft.modded.data.SinglePlayerSelector;

@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package net.pl3x.map.forge;
+package net.pl3x.map.neoforge;
 
 import java.nio.file.Path;
 import java.util.List;
@@ -68,7 +68,7 @@ import net.pl3x.map.core.player.Player;
 import net.pl3x.map.core.player.PlayerListener;
 import net.pl3x.map.core.player.PlayerRegistry;
 import net.pl3x.map.core.world.World;
-import net.pl3x.map.forge.command.NeoForgeCommandManager;
+import net.pl3x.map.neoforge.command.NeoForgeCommandManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

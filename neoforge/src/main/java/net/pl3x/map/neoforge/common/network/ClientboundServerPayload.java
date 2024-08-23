@@ -1,4 +1,4 @@
-package net.pl3x.map.forge.common.network;
+package net.pl3x.map.neoforge.common.network;
 
 //import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
