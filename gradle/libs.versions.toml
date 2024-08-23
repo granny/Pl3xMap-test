@@ -1,40 +1,47 @@
 [versions]
-bukkit="1.21-R0.1-SNAPSHOT"
+bukkit="1.21.1-R0.1-SNAPSHOT"
+minecraft="1.21.1"
 
-fabricApi="0.100.1+1.21"
-fabricLoader="0.15.11"
-fabricLoom="1.6-SNAPSHOT"
+# https://fabricmc.net/develop/
+fabricApi="0.102.1+1.21.1"
+fabricLoader="0.16.2"
+fabricLoom="1.7-SNAPSHOT"
 
-forge="1.20.2-48.0.6"
-forgeGradle="[6.0,6.2)"
-forgeLoader="[48,)"
+#forge="1.20.2-48.0.6"
+#forgeGradle="[6.0,6.2)"
+#forgeLoader="[48,)"
 
-minecraft="1.21"
-minotaur="2.+"
-paperweight="1.7.1"
-indra-git="2.1.1"
-shadowJar="8.1.7"
+minotaur="2.+" # https://github.com/modrinth/minotaur
+paperweight="1.7.2" # https://github.com/PaperMC/Paperweight
+indra-git="3.1.3" # https://github.com/KyoriPowered/indra
+shadowJar="8.3.0" # https://github.com/GradleUp/shadow
 
 adventure="4.18.0-SNAPSHOT"
-adventureBukkit="4.3.3-SNAPSHOT"
-adventureFabric="5.14.0-SNAPSHOT"
+adventureBukkit="4.3.5-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform
+adventureFabric="5.14.2-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
 
-caffeine="3.1.8"
-cloud="2.0.0-SNAPSHOT"
-gson="2.10.1"
-guava="33.0.0-jre"
-log4j="2.14.1"
-querzNbt="6.1"
-lz4Java="1.8.0"
-simpleYaml="1.8.4"
+cloud="2.0.0-rc.2" # https://github.com/incendo/cloud
+cloud-minecraft="2.0.0-beta.9" # https://github.com/Incendo/cloud-minecraft
+cloud-minecraft-modded="2.0.0-beta.7" # https://github.com/Incendo/cloud-minecraft-modded
+cloud-processors="1.0.0-beta.3" # https://github.com/Incendo/cloud-processors
+
+caffeine="3.1.8" # https://github.com/ben-manes/caffeine
+gson="2.10.1" # https://github.com/google/gson
+guava="33.0.0-jre" # https://github.com/google/guava
+log4j="2.14.1" # https://github.com/apache/logging-log4j2
+
+querzNbt="6.1" # https://github.com/Querz/NBT
+
+lz4Java="1.8.0" # https://github.com/lz4/lz4-java
+simpleYaml="1.8.4" # https://github.com/Carleslc/Simple-YAML
 slf4j="2.0.1"
-undertow="2.3.12.Final"
+undertow="2.3.12.Final" # https://github.com/undertow-io/undertow
 #xnio="3.8.8.Final"
 
 
 [plugins]
 minotaur = { id = "com.modrinth.minotaur", version.ref = "minotaur" }
-shadow = { id = "io.github.goooler.shadow", version.ref = "shadowJar" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadowJar" }
 fabric-loom = { id = "fabric-loom", version.ref = "fabricLoom" }
 indra-git = { id = "net.kyori.indra.git", version.ref = "indra-git" }
 paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
@@ -53,11 +60,11 @@ fabric-loader = { group = "net.fabricmc", name = "fabric-loader", version.ref = 
 fabric-api = { group = "net.fabricmc.fabric-api", name = "fabric-api", version.ref = "fabricApi" }
 
 cloudCore = { group = "org.incendo", name = "cloud-core", version.ref = "cloud" }
-cloudBrigadier = { group = "org.incendo", name = "cloud-brigadier", version.ref = "cloud" }
-cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud" }
-cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloud" }
-cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud" }
-cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version = "1.0.0-beta.3" }
+cloudBrigadier = { group = "org.incendo", name = "cloud-brigadier", version.ref = "cloud-minecraft" }
+cloudPaper = { group = "org.incendo", name = "cloud-paper", version.ref = "cloud-minecraft" }
+cloudMinecraftExtras = { group = "org.incendo", name = "cloud-minecraft-extras", version.ref = "cloud-minecraft" }
+cloudFabric = { group = "org.incendo", name = "cloud-fabric", version.ref = "cloud-minecraft-modded" }
+cloudProcessorsConfirmation = { group = "org.incendo", name = "cloud-processors-confirmation", version.ref = "cloud-processors" }
 
 adventureApi = { group = "net.kyori", name = "adventure-api", version.ref = "adventure" }
 adventureTextMinimessage = { group = "net.kyori", name = "adventure-text-minimessage", version.ref = "adventure" }
