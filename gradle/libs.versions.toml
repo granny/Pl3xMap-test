@@ -9,7 +9,7 @@ fabricLoom="1.7-SNAPSHOT"
 
 neoforge="21.1.23"
 neoGradle="7.0.145"
-neoforgeLoader="[20.5,)"
+neoforgeLoader="[4,)"
 
 minotaur="2.+" # https://github.com/modrinth/minotaur
 paperweight="1.7.2" # https://github.com/PaperMC/Paperweight

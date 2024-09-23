@@ -1,11 +1,14 @@
+import net.neoforged.gradle.common.tasks.JarJar
+
 plugins {
     alias(libs.plugins.neoforged.userdev)
-    alias(libs.plugins.shadow)
 }
 
 val buildNum = System.getenv("NEXT_BUILD_NUMBER") ?: "SNAPSHOT"
 project.version = "${libs.versions.minecraft.get()}-$buildNum"
 project.group = "net.pl3x.map.neoforge"
+
+val shade: Configuration by configurations.creating
 
 base {
     archivesName = "${rootProject.name}-${project.name}"
@@ -37,6 +40,7 @@ repositories {
 dependencies {
     implementation(libs.neoforge.loader)
     implementation(project(path = ":core", configuration = "shadow"))
+    shade(project(path = ":core", configuration = "shadow"))
     implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
 
     implementation(libs.cloudNeoforge)
@@ -52,30 +56,31 @@ minecraft {
 }
 
 tasks {
-    assemble {
-        dependsOn(shadowJar)
+    val jarJarTask = named<JarJar>("jarJar") {
+        archiveClassifier = ""
+
+        val fileTreeProvider = shade.elements.map { zipTree(it.single()) }
+        from(fileTreeProvider)
+
+        // this is jank but it works
+        doFirst {
+            manifest {
+                from(fileTreeProvider.get().matching { include("META-INF/MANIFEST.MF") }.files)
+            }
+        }
     }
 
-    // needed for below jank
+    jar {
+        archiveClassifier = "original"
+    }
+
+    // needed for above jank
     compileJava {
         dependsOn(":core:jar")
     }
 
-    shadowJar {
-        mergeServiceFiles()
-
-        dependencies {
-            include(project(":core"))
-        }
-
-        // this is janky, but it works
-        manifest {
-            from(project(":core").tasks.named<Jar>("shadowJar").get().manifest)
-        }
-    }
-
     build {
-        dependsOn(jarJar)
+        dependsOn(jarJarTask)
     }
 
     sourceSets {
