@@ -46,8 +46,10 @@ import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.RandomPatchConfiguration;
 import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConfiguration;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -91,11 +93,11 @@ public class Pl3xMapNeoForge extends Pl3xMap {
     private final NeoForgeNetwork network;
 
     @SuppressWarnings("InstantiationOfUtilityClass")
-    public Pl3xMapNeoForge() {
+    public Pl3xMapNeoForge(IEventBus eventBus) {
         super(false);
 
         NeoForge.EVENT_BUS.register(this);
-        ATTACHMENT_TYPES.register(NeoForge.EVENT_BUS);
+        ATTACHMENT_TYPES.register(eventBus);
 
         try {
             new NeoForgeCommandManager();
@@ -104,11 +106,7 @@ public class Pl3xMapNeoForge extends Pl3xMap {
         }
 
         this.network = new NeoForgeNetwork(this);
-    }
-
-    @SubscribeEvent
-    public void onRegisterPayloadHandlers(@NotNull RegisterPayloadHandlersEvent event) {
-        this.network.register();
+        eventBus.register(this.network);
     }
 
     @SubscribeEvent

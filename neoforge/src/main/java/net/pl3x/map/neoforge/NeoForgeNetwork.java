@@ -32,7 +32,9 @@ import net.minecraft.world.item.MapItem;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.saveddata.maps.MapId;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.network.PacketDistributor;
+import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.network.handling.IPayloadHandler;
 import net.neoforged.neoforge.network.registration.PayloadRegistrar;
 import net.pl3x.map.core.configuration.Config;
@@ -42,6 +44,7 @@ import net.pl3x.map.neoforge.common.network.ClientboundMapPayload;
 import net.pl3x.map.neoforge.common.network.ClientboundServerPayload;
 import net.pl3x.map.neoforge.common.network.ServerboundMapPayload;
 import net.pl3x.map.neoforge.common.network.ServerboundServerPayload;
+import org.jetbrains.annotations.NotNull;
 
 public class NeoForgeNetwork extends Network {
     public static IPayloadHandler<CustomPacketPayload> NOOP_HANDLER = (payload, context) -> {};
@@ -50,6 +53,11 @@ public class NeoForgeNetwork extends Network {
 
     public NeoForgeNetwork(Pl3xMapNeoForge mod) {
         this.mod = mod;
+    }
+
+    @SubscribeEvent
+    public void onRegisterPayloadHandlers(@NotNull RegisterPayloadHandlersEvent event) {
+        this.register();
     }
 
     @Override
