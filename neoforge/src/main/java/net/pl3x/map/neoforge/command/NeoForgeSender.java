@@ -26,7 +26,7 @@ package net.pl3x.map.neoforge.command;
 import java.util.Objects;
 import java.util.UUID;
 import net.kyori.adventure.audience.Audience;
-import net.kyori.adventure.platform.forge.NeoForgeServerAudiences;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.level.ServerPlayer;
 import net.pl3x.map.core.Pl3xMap;
@@ -55,7 +55,7 @@ public class NeoForgeSender extends Sender {
 
     @Override
     public @NotNull Audience audience() {
-        return ((NeoForgeServerAudiences) Pl3xMap.api().adventure()).audience(getSender());
+        return ((MinecraftServerAudiences) Pl3xMap.api().adventure()).audience(getSender());
     }
 
     @Override

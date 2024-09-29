@@ -43,6 +43,9 @@ dependencies {
     shade(project(path = ":core", configuration = "shadow"))
     implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
 
+    implementation(libs.adventurePlatformNeoforge)
+    jarJar(libs.adventurePlatformNeoforge)
+
     implementation(libs.cloudNeoforge)
     jarJar(libs.cloudNeoforge)
 }

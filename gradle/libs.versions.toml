@@ -19,6 +19,7 @@ shadowJar="8.3.0" # https://github.com/GradleUp/shadow
 adventure="4.18.0-SNAPSHOT"
 adventureBukkit="4.3.5-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform
 adventureFabric="5.14.2-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
+adventureModded="6.0.0" # https://github.com/KyoriPowered/adventure-platform-fabric
 
 cloud="2.0.0-rc.2" # https://github.com/incendo/cloud
 cloud-minecraft="2.0.0-beta.9" # https://github.com/Incendo/cloud-minecraft
@@ -77,6 +78,7 @@ adventureTextSerializerPlain = { group = "net.kyori", name = "adventure-text-ser
 adventurePlatformFacet = { group = "net.kyori", name = "adventure-platform-facet", version.ref = "adventureBukkit" }
 adventurePlatformBukkit = { group = "net.kyori", name = "adventure-platform-bukkit", version.ref = "adventureBukkit" }
 adventurePlatformFabric = { group = "net.kyori", name = "adventure-platform-fabric", version.ref = "adventureFabric" }
+adventurePlatformNeoforge = { group = "net.kyori", name = "adventure-platform-neoforge", version.ref = "adventureModded" }
 
 
 caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine", version.ref = "caffeine" }

@@ -29,7 +29,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
 import net.kyori.adventure.platform.AudienceProvider;
-import net.kyori.adventure.platform.forge.NeoForgeServerAudiences;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -84,7 +84,7 @@ public class Pl3xMapNeoForge extends Pl3xMap {
     private MinecraftServer server;
     private IModInfo modInfo;
 
-    private NeoForgeServerAudiences adventure;
+    private MinecraftServerAudiences adventure;
 
     private int tick;
 
@@ -161,7 +161,7 @@ public class Pl3xMapNeoForge extends Pl3xMap {
     @SubscribeEvent
     public void onServerStarted(@NotNull ServerStartedEvent event) {
         this.server = event.getServer();
-        this.adventure = new NeoForgeServerAudiences(this.server);
+        this.adventure = MinecraftServerAudiences.of(this.server);
 
         enable();
 
