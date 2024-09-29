@@ -9,6 +9,10 @@ project.version = "${libs.versions.minecraft.get()}-$buildNum"
 project.group = "net.pl3x.map.neoforge"
 
 val shade: Configuration by configurations.creating
+configurations.implementation {
+    extendsFrom(shade)
+}
+
 
 base {
     archivesName = "${rootProject.name}-${project.name}"
@@ -39,9 +43,12 @@ repositories {
 
 dependencies {
     implementation(libs.neoforge.loader)
-    implementation(project(path = ":core", configuration = "shadow"))
     shade(project(path = ":core", configuration = "shadow"))
-    implementation("net.kyori:adventure-text-serializer-gson:4.17.0")
+
+    jarJar(libs.cloudProcessorsConfirmation)
+    jarJar(libs.cloudProcessorsCommon)
+    jarJar(libs.cloudBrigadier)
+    jarJar(libs.cloudMinecraftExtras)
 
     implementation(libs.adventurePlatformNeoforge)
     jarJar(libs.adventurePlatformNeoforge)

@@ -32,10 +32,16 @@ repositories {
 dependencies {
     implementation(project(":core", configuration = "shadow"))
 
-    implementation(libs.cloudBrigadier)
-    implementation(libs.cloudPaper)
+//    implementation(libs.cloudCore)
+//    implementation(libs.cloudProcessorsConfirmation)
+//    implementation(libs.cloudMinecraftExtras)
+//
+//    implementation(libs.bundles.adventure)
 
-    implementation(libs.adventurePlatformBukkit)
+    compileOnly(libs.cloudBrigadier)
+    compileOnly(libs.cloudPaper)
+
+    compileOnly(libs.adventurePlatformBukkit)
 
     paperweight.paperDevBundle(libs.versions.bukkit)
 }
@@ -52,6 +58,12 @@ tasks {
 
     shadowJar {
         mergeServiceFiles()
+
+//        arrayOf(
+//            "org.incendo",
+//            "io.leangen.geantyref",
+//            "net.kyori",
+//        ).forEach { it -> relocate(it, "libs.$it") }
 
         // this is janky, but it works
         manifest {
@@ -70,7 +82,12 @@ tasks {
             "version" to project.version,
             "authors" to project.properties["authors"],
             "description" to project.properties["description"],
-            "website" to project.properties["website"]
+            "website" to project.properties["website"],
+            "cloud" to libs.versions.cloud.asProvider().get(),
+            "cloudProcessors" to libs.versions.cloud.processors.get(),
+            "cloudMinecraft" to libs.versions.cloud.minecraft.asProvider().get(),
+            "adventure" to libs.versions.adventure.get(),
+            "adventureBukkit" to libs.versions.adventureBukkit.get()
         ))
 
         filesMatching("plugin.yml") {

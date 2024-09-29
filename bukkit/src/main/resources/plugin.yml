@@ -8,6 +8,17 @@ description: "${description}"
 website: "${website}"
 folia-supported: true
 
+libraries:
+  - org.incendo:cloud-core:${cloud}
+  - org.incendo:cloud-processors-confirmation:${cloudProcessors}
+  - org.incendo:cloud-minecraft-extras:${cloudMinecraft}
+  - org.incendo:cloud-brigadier:${cloudMinecraft}
+  - org.incendo:cloud-paper:${cloudMinecraft}
+  - net.kyori:adventure-api:${adventure}
+  - net.kyori:adventure-text-minimessage:${adventure}
+  - net.kyori:adventure-text-serializer-plain:${adventure}
+  - net.kyori:adventure-platform-bukkit:${adventureBukkit}
+
 permissions:
   pl3xmap.command.map:
     description: Gives access to the base command

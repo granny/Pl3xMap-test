@@ -43,14 +43,12 @@ dependencies {
 
     implementation(libs.undertow)
 
-    implementation(libs.cloudCore)
-    implementation(libs.cloudProcessorsConfirmation)
-    implementation(libs.cloudMinecraftExtras) {
-        exclude("net.kyori", "*")
-    }
+    compileOnly(libs.cloudCore)
+    compileOnly(libs.cloudProcessorsConfirmation)
+    compileOnly(libs.cloudMinecraftExtras)
 
-    implementation(libs.bundles.adventure)
-    implementation(libs.adventurePlatformFacet)
+    compileOnly(libs.bundles.adventure)
+    compileOnly(libs.adventurePlatformFacet)
 
     implementation(libs.caffeine)
     implementation(libs.querzNbt)
@@ -75,14 +73,11 @@ tasks {
         )
 
         arrayOf(
-            //"org.incendo", // do not relocate
             "com.github.benmanes.caffeine.cache",
             "com.github.Carleslc.Simple-YAML",
             "com.google.errorprone.annotations",
             "com.luciad",
-            //"io.leangen.geantyref", // do not relocate!
             "io.undertow",
-            //"net.kyori", // do not relocate!
             "net.querz",
             "net.jpountz",
             "org.checkerframework",
