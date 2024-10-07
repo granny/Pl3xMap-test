@@ -27,6 +27,7 @@ import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -36,8 +37,10 @@ import net.minecraft.world.level.biome.BiomeManager;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.configuration.ColorsConfig;
 import net.pl3x.map.core.event.world.WorldLoadedEvent;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.markers.Point;
 import net.pl3x.map.core.player.Player;
+import net.pl3x.map.core.registry.BiomeRegistry;
 import net.pl3x.map.core.util.Colors;
 import net.pl3x.map.core.util.Mathf;
 import net.pl3x.map.core.world.World;
@@ -62,6 +65,7 @@ public class NeoForgeWorld extends World {
 
         init();
 
+        // TODO: try using ATs to make the field public
         // we have to do all this because forge throws an error if we use ATs to make the field public :/
         Field climateSettings = null;
         try {
@@ -72,7 +76,13 @@ public class NeoForgeWorld extends World {
         }
 
         // register biomes
-        for (Map.Entry<ResourceKey<Biome>, Biome> entry : level.registryAccess().registryOrThrow(Registries.BIOME).entrySet()) {
+        Set<Map.Entry<ResourceKey<Biome>, Biome>> entries = level.registryAccess().registryOrThrow(Registries.BIOME).entrySet();
+        for (Map.Entry<ResourceKey<Biome>, Biome> entry : entries) {
+            if (getBiomeRegistry().size() > BiomeRegistry.MAX_INDEX) {
+                Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBiomeRegistry().size(), entries.size() - getBiomeRegistry().size()));
+                break;
+            }
+
             String id = entry.getKey().location().toString();
             Biome biome = entry.getValue();
             float temperature = Mathf.clamp(0.0F, 1.0F, biome.getBaseTemperature());

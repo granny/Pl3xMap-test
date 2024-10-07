@@ -28,6 +28,7 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 import net.kyori.adventure.platform.AudienceProvider;
@@ -51,7 +52,6 @@ import net.minecraft.world.level.levelgen.feature.configurations.SimpleBlockConf
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModList;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.loading.FMLPaths;
 import net.neoforged.neoforge.attachment.AttachmentType;
@@ -61,16 +61,17 @@ import net.neoforged.neoforge.event.level.LevelEvent;
 import net.neoforged.neoforge.event.server.ServerStartedEvent;
 import net.neoforged.neoforge.event.server.ServerStoppingEvent;
 import net.neoforged.neoforge.event.tick.ServerTickEvent;
-import net.neoforged.neoforge.network.event.RegisterPayloadHandlersEvent;
 import net.neoforged.neoforge.registries.DeferredRegister;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import net.neoforged.neoforgespi.language.IModInfo;
 import net.pl3x.map.core.Pl3xMap;
 import net.pl3x.map.core.event.server.ServerLoadedEvent;
+import net.pl3x.map.core.log.Logger;
 import net.pl3x.map.core.network.Constants;
 import net.pl3x.map.core.player.Player;
 import net.pl3x.map.core.player.PlayerListener;
 import net.pl3x.map.core.player.PlayerRegistry;
+import net.pl3x.map.core.registry.BlockRegistry;
 import net.pl3x.map.core.world.World;
 import net.pl3x.map.neoforge.command.NeoForgeCommandManager;
 import org.jetbrains.annotations.NotNull;
@@ -172,8 +173,6 @@ public class Pl3xMapNeoForge extends Pl3xMap {
         this.adventure = MinecraftServerAudiences.of(this.server);
 
         enable();
-
-        this.network.register();
     }
 
     @SubscribeEvent
@@ -275,7 +274,13 @@ public class Pl3xMapNeoForge extends Pl3xMap {
 
     @Override
     protected void loadBlocks() {
-        for (Map.Entry<ResourceKey<Block>, Block> entry : this.server.registryAccess().registryOrThrow(Registries.BLOCK).entrySet()) {
+        Set<Map.Entry<ResourceKey<Block>, Block>> entries = this.server.registryAccess().registryOrThrow(Registries.BLOCK).entrySet();
+        for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
+            if (getBlockRegistry().size() > BlockRegistry.MAX_INDEX) {
+                Logger.debug(String.format("Cannot register any more blocks. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));
+                break;
+            }
+
             String id = entry.getKey().location().toString();
             int color = entry.getValue().defaultMapColor().col;
             getBlockRegistry().register(id, color);

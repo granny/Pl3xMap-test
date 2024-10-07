@@ -231,7 +231,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
         Set<Map.Entry<ResourceKey<Block>, Block>> entries = this.server.registryAccess().registryOrThrow(Registries.BLOCK).entrySet();
         for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
             if (getBlockRegistry().size() > BlockRegistry.MAX_INDEX) {
-                Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));
+                Logger.debug(String.format("Cannot register any more blocks. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));
                 break;
             }
 
