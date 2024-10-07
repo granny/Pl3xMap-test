@@ -62,7 +62,7 @@ public class NeoForgeNetwork extends Network {
 
     @Override
     public void register() {
-        new PayloadRegistrar(Constants.MODID)
+        new PayloadRegistrar(Constants.MODID).optional()
             .playToServer(ServerboundServerPayload.TYPE, ServerboundServerPayload.STREAM_CODEC, (payload, context) -> {
                 if (!(context.player() instanceof ServerPlayer serverPlayer)) {
                     return; // not a server player
