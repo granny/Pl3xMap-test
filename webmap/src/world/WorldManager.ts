@@ -49,7 +49,6 @@ export class WorldManager {
     }
 
     public getWorld(world: string): World | undefined {
-        world = world.replace(/:/g, "-");
         return this._worlds.get(world);
     }
 

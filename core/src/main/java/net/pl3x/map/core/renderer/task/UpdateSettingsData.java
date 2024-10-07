@@ -118,7 +118,7 @@ public class UpdateSettingsData extends Task {
             ui.put("attribution", config.UI_ATTRIBUTION);
 
             Map<String, Object> settings = new LinkedHashMap<>();
-            settings.put("name", world.getName().replace(":", "-"));
+            settings.put("name", world.getName());
             settings.put("tileUpdateInterval", 10);
             settings.put("spawn", spawn);
             settings.put("center", center);
@@ -134,7 +134,8 @@ public class UpdateSettingsData extends Task {
             });
 
             Map<String, Object> worldsList = new LinkedHashMap<>();
-            worldsList.put("name", world.getName().replace(":", "-"));
+            worldsList.put("name", world.getName());
+            worldsList.put("directoryName", world.getName().replace(":", "-"));
             worldsList.put("displayName", config.DISPLAY_NAME
                     .replace("<world>", world.getName()));
             worldsList.put("type", world.getType().toString());

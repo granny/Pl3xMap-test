@@ -9,7 +9,7 @@ export class ReversedZoomTileLayer extends L.TileLayer {
     private readonly _renderer: Label;
 
     constructor(pl3xmap: Pl3xMap, world: World, renderer: Renderer) {
-        super(`tiles/${world.name}/{z}/${renderer.label}/{x}_{y}.${pl3xmap.settings?.format}`, {
+        super(`tiles/${world.directoryName}/{z}/${renderer.label}/{x}_{y}.${pl3xmap.settings?.format}`, {
             // tile sizes match regions sizes (512 blocks x 512 blocks)
             tileSize: 512,
             // dont wrap tiles at edges

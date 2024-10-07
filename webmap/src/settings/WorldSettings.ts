@@ -6,6 +6,7 @@ import {Renderer} from "../world/World";
 export class WorldSettings {
     private readonly _name: string;
     private readonly _displayName: string;
+    private readonly _directoryName: string;
     private readonly _type: string;
     private readonly _order: number;
     private readonly _renderers: Renderer[];
@@ -16,8 +17,9 @@ export class WorldSettings {
     private _zoom: Zoom = new Zoom(0, 3, 2);
     private _ui: UI = new UI()
 
-    constructor(name: string, displayName: string, type: string, order: number, renderers: Renderer[]) {
+    constructor(name: string, directoryName: string, displayName: string, type: string, order: number, renderers: Renderer[]) {
         this._name = name;
+        this._directoryName = directoryName;
         this._displayName = displayName;
         this._type = type;
         this._order = order;
@@ -26,6 +28,10 @@ export class WorldSettings {
 
     get name(): string {
         return this._name;
+    }
+
+    get directoryName(): string {
+        return this._directoryName;
     }
 
     get displayName(): string {

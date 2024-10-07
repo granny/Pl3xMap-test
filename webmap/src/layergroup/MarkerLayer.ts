@@ -135,7 +135,7 @@ export class MarkerLayer extends L.LayerGroup {
             }
         }
 
-        getJSON(`tiles/${world.name}/markers/${this._key}.json`)
+        getJSON(`tiles/${world.directoryName}/markers/${this._key}.json`)
             .then((json): void => this.updateMarkers(json, world));
     }
 

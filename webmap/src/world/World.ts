@@ -60,7 +60,7 @@ export class World {
             return Promise.resolve(this);
         }
 
-        getJSON(`tiles/${this.name}/biomes.gz`).then((json): void => {
+        getJSON(`tiles/${this.directoryName}/biomes.gz`).then((json): void => {
             Object.entries(json).forEach((data: [string, unknown]): void => {
                 let name: string = <string>data[1];
                 name = getLangName("biome", name);
@@ -70,7 +70,7 @@ export class World {
 
         //TODO: Handle errors
         return new Promise((resolve): void => {
-            getJSON(`tiles/${this.name}/settings.json`)
+            getJSON(`tiles/${this.directoryName}/settings.json`)
                 .then((settings: WorldSettings): void => {
                     this._loaded = true;
 
@@ -106,7 +106,7 @@ export class World {
 
     public loadMarkers(): void {
         this.initSSE();
-        getJSON(`tiles/${this.name}/markers.json`)
+        getJSON(`tiles/${this.directoryName}/markers.json`)
             .then((json): void => {
                 (json as MarkerLayer[]).forEach((layer: MarkerLayer): void => {
                     const markerLayer: MarkerLayer = new MarkerLayer(layer.key, layer.label, layer.updateInterval, layer.showControls, layer.defaultHidden, layer.priority, layer.zIndex, layer.pane, layer.css);
@@ -120,7 +120,7 @@ export class World {
         if (!this.settings.ui.blockinfo) {
             return;
         }
-        getBytes(`tiles/${this.name}/${zoom}/blockinfo/${x}_${z}.pl3xmap.gz`)
+        getBytes(`tiles/${this.directoryName}/${zoom}/blockinfo/${x}_${z}.pl3xmap.gz`)
             .then((buffer?: ArrayBuffer): void => {
                 this.setBlockInfo(zoom, x, z, buffer);
             });
@@ -193,6 +193,10 @@ export class World {
 
     get name(): string {
         return this.settings.name;
+    }
+
+    get directoryName(): string {
+        return this.settings.directoryName;
     }
 
     get displayName(): string {
