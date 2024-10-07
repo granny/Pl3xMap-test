@@ -48,14 +48,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class NeoForgePlayer extends Player {
-    private static final Supplier<AttachmentType<Boolean>> HIDDEN = Pl3xMapNeoForge.ATTACHMENT_TYPES.register(
-            "hidden",
-            () -> AttachmentType.builder(() -> false)
-                    .serialize(Codec.BOOL)
-                    .copyOnDeath()
-                    .build()
-    );
-
     public NeoForgePlayer(@NotNull ServerPlayer player) {
         super(player.getScoreboardName(), player);
     }
@@ -152,12 +144,12 @@ public class NeoForgePlayer extends Player {
 
     @Override
     public boolean isPersistentlyHidden() {
-        return getPlayer().getData(HIDDEN).booleanValue();
+        return getPlayer().getData(Pl3xMapNeoForge.HIDDEN).booleanValue();
     }
 
     @Override
     public void setPersistentlyHidden(boolean hidden) {
-        getPlayer().setData(HIDDEN, hidden);
+        getPlayer().setData(Pl3xMapNeoForge.HIDDEN, hidden);
     }
 
     @Override

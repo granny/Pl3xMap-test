@@ -23,11 +23,13 @@
  */
 package net.pl3x.map.neoforge;
 
+import com.mojang.serialization.Codec;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Supplier;
 import net.kyori.adventure.platform.AudienceProvider;
 import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.SharedConstants;
@@ -76,7 +78,15 @@ import org.jetbrains.annotations.Nullable;
 
 @Mod("pl3xmap")
 public class Pl3xMapNeoForge extends Pl3xMap {
-    public static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Constants.MODID);
+    private static final DeferredRegister<AttachmentType<?>> ATTACHMENT_TYPES = DeferredRegister.create(NeoForgeRegistries.ATTACHMENT_TYPES, Constants.MODID);
+
+    public static final Supplier<AttachmentType<Boolean>> HIDDEN = Pl3xMapNeoForge.ATTACHMENT_TYPES.register(
+            "hidden",
+            () -> AttachmentType.builder(() -> false)
+                    .serialize(Codec.BOOL)
+                    .copyOnDeath()
+                    .build()
+    );
 
     private final PlayerListener playerListener = new PlayerListener();
 
