@@ -27,8 +27,8 @@ import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import java.awt.image.BufferedImage;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.minecraft.client.gui.MapRenderer;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.client.resources.MapTextureManager;
 import net.minecraft.world.level.material.MapColor;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.pl3x.map.core.util.Colors;
@@ -43,7 +43,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(MapRenderer.MapInstance.class)
+@Mixin(MapTextureManager.MapInstance.class)
 public abstract class MapInstanceMixin implements MapInstance {
     @Final
     @Shadow
@@ -67,13 +67,13 @@ public abstract class MapInstanceMixin implements MapInstance {
     private boolean skip;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void ctor(@NotNull MapRenderer renderer, int id, @NotNull MapItemSavedData data, @NotNull CallbackInfo ci) {
+    private void ctor(@NotNull MapTextureManager renderer, int id, @NotNull MapItemSavedData data, @NotNull CallbackInfo ci) {
         this.mod = Pl3xMapFabricClient.getInstance(); // there's got to be a better way :3
         this.id = id;
     }
 
-    @Inject(method = "updateTexture()V", at = @At("HEAD"), cancellable = true)
-    private void updateTexture(@NotNull CallbackInfo ci) {
+    @Inject(method = "updateTextureIfNeeded()V", at = @At("HEAD"), cancellable = true)
+    private void updateTextureIfNeeded(@NotNull CallbackInfo ci) {
         if (!this.mod.isEnabled()) {
             // custom map renderers are disabled; show vanilla map
             return;
@@ -185,7 +185,7 @@ public abstract class MapInstanceMixin implements MapInstance {
                 // check if vanilla color exists
                 if (color >> 2 == 0) {
                     // vanilla color missing (fog of war); draw transparent pixel
-                    pixels.setPixelRGBA(x, z, 0);
+                    pixels.setPixel(x, z, 0);
                     continue;
                 }
 
@@ -193,10 +193,10 @@ public abstract class MapInstanceMixin implements MapInstance {
                 pl3xColor = this.image.getRGB(x, z);
                 if (pl3xColor == 0) {
                     // pl3xmap color is missing; fallback to vanilla color
-                    pixels.setPixelRGBA(x, z, MapColor.getColorFromPackedId(color));
+                    pixels.setPixel(x, z, MapColor.getColorFromPackedId(color));
                 } else {
                     // draw pl3xmap tile pixel
-                    pixels.setPixelRGBA(x, z, pl3xColor);
+                    pixels.setPixel(x, z, pl3xColor);
                 }
             }
         }

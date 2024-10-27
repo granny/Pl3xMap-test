@@ -154,7 +154,7 @@ public class Pl3xMapImpl extends Pl3xMap {
     @Override
     public net.pl3x.map.core.world.@Nullable Block getFlower(@NotNull World world, net.pl3x.map.core.world.@NotNull Biome biome, int blockX, int blockY, int blockZ) {
         // https://github.com/Draradech/FlowerMap (CC0-1.0 license)
-        Biome nms = world.<ServerLevel>getLevel().registryAccess().registryOrThrow(Registries.BIOME).get(ResourceLocation.parse(biome.getKey()));
+        Biome nms = world.<ServerLevel>getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getValue(ResourceLocation.parse(biome.getKey()));
         if (nms == null) {
             return null;
         }
@@ -170,7 +170,7 @@ public class Pl3xMapImpl extends Pl3xMap {
 
     @Override
     protected void loadBlocks() {
-        Set<Map.Entry<ResourceKey<Block>, Block>> entries = MinecraftServer.getServer().registryAccess().registryOrThrow(Registries.BLOCK).entrySet();
+        Set<Map.Entry<ResourceKey<Block>, Block>> entries = MinecraftServer.getServer().registryAccess().lookupOrThrow(Registries.BLOCK).entrySet();
         for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
             if (getBlockRegistry().size() > BlockRegistry.MAX_INDEX) {
                 Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));

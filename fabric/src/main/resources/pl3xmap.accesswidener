@@ -1,12 +1,12 @@
 accessWidener v2 named
 
 # client
-accessible class net/minecraft/client/gui/MapRenderer$MapInstance
-accessible method net/minecraft/client/gui/MapRenderer$MapInstance updateTexture ()V
-accessible field net/minecraft/client/gui/MapRenderer maps Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
+accessible class net/minecraft/client/resources/MapTextureManager$MapInstance
+accessible method net/minecraft/client/resources/MapTextureManager$MapInstance updateTextureIfNeeded ()V
+accessible field net/minecraft/client/resources/MapTextureManager maps Lit/unimi/dsi/fastutil/ints/Int2ObjectMap;
 
 # server
 accessible class net/minecraft/world/level/biome/Biome$ClimateSettings
 accessible field net/minecraft/world/level/biome/Biome climateSettings Lnet/minecraft/world/level/biome/Biome$ClimateSettings;
-accessible field net/minecraft/world/level/storage/DimensionDataStorage dataFolder Ljava/io/File;
+accessible field net/minecraft/world/level/storage/DimensionDataStorage dataFolder Ljava/nio/file/Path;
 accessible field net/minecraft/commands/CommandSourceStack source Lnet/minecraft/commands/CommandSource;

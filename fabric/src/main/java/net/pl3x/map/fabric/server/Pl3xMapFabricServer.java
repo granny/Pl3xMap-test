@@ -38,7 +38,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.kyori.adventure.platform.AudienceProvider;
-import net.kyori.adventure.platform.fabric.FabricServerAudiences;
+import net.kyori.adventure.platform.modcommon.MinecraftServerAudiences;
 import net.minecraft.SharedConstants;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -73,7 +73,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
 
     private MinecraftServer server;
     private ModContainer modContainer;
-    private FabricServerAudiences adventure;
+    private MinecraftServerAudiences adventure;
 
     private boolean firstTick = true;
 
@@ -127,7 +127,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
 
         ServerLifecycleEvents.SERVER_STARTED.register(server -> {
             this.server = server;
-            this.adventure = FabricServerAudiences.of(this.server);
+            this.adventure = MinecraftServerAudiences.of(this.server);
 
             enable();
 
@@ -212,7 +212,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
     @Override
     public net.pl3x.map.core.world.@Nullable Block getFlower(@NotNull World world, net.pl3x.map.core.world.@NotNull Biome biome, int blockX, int blockY, int blockZ) {
         // https://github.com/Draradech/FlowerMap (CC0-1.0 license)
-        Biome nms = world.<ServerLevel>getLevel().registryAccess().registryOrThrow(Registries.BIOME).get(ResourceLocation.parse(biome.getKey()));
+        Biome nms = world.<ServerLevel>getLevel().registryAccess().lookupOrThrow(Registries.BIOME).getValue(ResourceLocation.parse(biome.getKey()));
         if (nms == null) {
             return null;
         }
@@ -228,7 +228,7 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
 
     @Override
     protected void loadBlocks() {
-        Set<Map.Entry<ResourceKey<Block>, Block>> entries = this.server.registryAccess().registryOrThrow(Registries.BLOCK).entrySet();
+        Set<Map.Entry<ResourceKey<Block>, Block>> entries = this.server.registryAccess().lookupOrThrow(Registries.BLOCK).entrySet();
         for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
             if (getBlockRegistry().size() > BlockRegistry.MAX_INDEX) {
                 Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));

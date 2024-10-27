@@ -1,29 +1,29 @@
 [versions]
-bukkit="1.21.1-R0.1-SNAPSHOT"
-minecraft="1.21.1"
+bukkit="1.21.3-R0.1-SNAPSHOT"
+minecraft="1.21.3"
 
 # https://fabricmc.net/develop/
-fabricApi="0.102.1+1.21.1"
-fabricLoader="0.16.2"
-fabricLoom="1.7-SNAPSHOT"
+fabricApi="0.107.0+1.21.3"
+fabricLoader="0.16.7"
+fabricLoom="1.8-SNAPSHOT"
 
 #forge="1.20.2-48.0.6"
 #forgeGradle="[6.0,6.2)"
 #forgeLoader="[48,)"
 
 minotaur="2.+" # https://github.com/modrinth/minotaur
-paperweight="1.7.2" # https://github.com/PaperMC/Paperweight
+paperweight="1.7.4" # https://github.com/PaperMC/Paperweight
 indra-git="3.1.3" # https://github.com/KyoriPowered/indra
-shadowJar="8.3.0" # https://github.com/GradleUp/shadow
+shadowJar="8.3.3" # https://github.com/GradleUp/shadow
 
 adventure="4.18.0-SNAPSHOT"
 adventureBukkit="4.3.5-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform
-adventureFabric="5.14.2-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
+adventureFabric="6.1.0-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
 
-cloud="2.0.0-rc.2" # https://github.com/incendo/cloud
-cloud-minecraft="2.0.0-beta.9" # https://github.com/Incendo/cloud-minecraft
-cloud-minecraft-modded="2.0.0-beta.7" # https://github.com/Incendo/cloud-minecraft-modded
-cloud-processors="1.0.0-beta.3" # https://github.com/Incendo/cloud-processors
+cloud="2.0.0" # https://github.com/incendo/cloud
+cloud-minecraft="2.0.0-beta.10" # https://github.com/Incendo/cloud-minecraft
+cloud-minecraft-modded="2.0.0-beta.9" # https://github.com/Incendo/cloud-minecraft-modded
+cloud-processors="1.0.0-rc.1" # https://github.com/Incendo/cloud-processors
 
 caffeine="3.1.8" # https://github.com/ben-manes/caffeine
 gson="2.10.1" # https://github.com/google/gson

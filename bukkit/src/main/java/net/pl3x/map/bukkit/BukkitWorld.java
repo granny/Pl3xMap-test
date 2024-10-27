@@ -65,7 +65,7 @@ public class BukkitWorld extends World {
         init();
 
         // register biomes
-        Set<Map.Entry<ResourceKey<Biome>, Biome>> entries = level.registryAccess().registryOrThrow(Registries.BIOME).entrySet();
+        Set<Map.Entry<ResourceKey<Biome>, Biome>> entries = level.registryAccess().lookupOrThrow(Registries.BIOME).entrySet();
         for (Map.Entry<ResourceKey<Biome>, Biome> entry : entries) {
             if (getBiomeRegistry().size() > BiomeRegistry.MAX_INDEX) {
                 Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBiomeRegistry().size(), entries.size() - getBiomeRegistry().size()));
@@ -109,12 +109,12 @@ public class BukkitWorld extends World {
 
     @Override
     public int getMinBuildHeight() {
-        return this.level.getMinBuildHeight();
+        return this.level.getMinY();
     }
 
     @Override
     public int getMaxBuildHeight() {
-        return this.level.getMaxBuildHeight();
+        return this.level.getMaxY();
     }
 
     @Override

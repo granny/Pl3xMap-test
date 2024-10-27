@@ -46,13 +46,13 @@ public record ClientboundMapPayload(int protocol, int response, int mapId, byte 
 
         switch (payload.response) {
             case Constants.ERROR_NO_SUCH_MAP, Constants.ERROR_NO_SUCH_WORLD, Constants.ERROR_NOT_VANILLA_MAP -> {
-                MapInstance texture = (MapInstance) Minecraft.getInstance().gameRenderer.getMapRenderer().maps.get(payload.mapId);
+                MapInstance texture = (MapInstance) Minecraft.getInstance().getMapTextureManager().maps.get(payload.mapId);
                 if (texture != null) {
                     texture.skip();
                 }
             }
             case Constants.RESPONSE_SUCCESS -> {
-                MapInstance texture = (MapInstance) Minecraft.getInstance().gameRenderer.getMapRenderer().maps.get(payload.mapId);
+                MapInstance texture = (MapInstance) Minecraft.getInstance().getMapTextureManager().maps.get(payload.mapId);
                 if (texture != null) {
                     texture.setData(payload.scale, payload.centerX, payload.centerZ, payload.worldName);
                 }
