@@ -96,7 +96,7 @@ public class BukkitPlayer extends Player {
 
     @Override
     public int getArmorPoints() {
-        AttributeInstance attr = getPlayer().getAttribute(Attribute.GENERIC_ARMOR);
+        AttributeInstance attr = getPlayer().getAttribute(Attribute.ARMOR);
         return attr == null ? 0 : (int) Math.round(attr.getValue());
     }
 
