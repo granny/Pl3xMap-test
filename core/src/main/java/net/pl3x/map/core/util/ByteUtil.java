@@ -31,17 +31,17 @@ public class ByteUtil {
     }
 
     public static byte[] toBytes(int packed) {
-        byte[] bytes = new byte[4];
-        for (int i = 0; i < 4; i++) {
-            bytes[i] = (byte) (packed >>> (i * 8));
+        byte[] bytes = new byte[Integer.BYTES];
+        for (int i = 0; i < Integer.BYTES; i++) {
+            bytes[i] = (byte) (packed >>> (Byte.SIZE * (Integer.BYTES - 1 - i)));
         }
         return bytes;
     }
 
     public static int getInt(@NotNull ByteBuffer buffer, int index) {
         int value = 0;
-        for (int i = 0; i < 4; i++) {
-            value |= (buffer.get(index + i) & 0xFF) << (i * 8);
+        for (int i = 0; i < Integer.BYTES; i++) {
+            value |= (buffer.get(index + i) & 0xFF) << (Byte.SIZE * (Integer.BYTES - 1 - i));
         }
         return value;
     }
