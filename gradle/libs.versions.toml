@@ -1,10 +1,10 @@
 [versions]
-bukkit="1.21.3-R0.1-SNAPSHOT"
-minecraft="1.21.3"
+bukkit="1.21.4-R0.1-SNAPSHOT"
+minecraft="1.21.4"
 
 # https://fabricmc.net/develop/
-fabricApi="0.107.0+1.21.3"
-fabricLoader="0.16.7"
+fabricApi="0.110.5+1.21.4"
+fabricLoader="0.16.9"
 fabricLoom="1.8-SNAPSHOT"
 
 #forge="1.20.2-48.0.6"
@@ -12,9 +12,9 @@ fabricLoom="1.8-SNAPSHOT"
 #forgeLoader="[48,)"
 
 minotaur="2.+" # https://github.com/modrinth/minotaur
-paperweight="1.7.4" # https://github.com/PaperMC/Paperweight
+paperweight="1.7.6" # https://github.com/PaperMC/Paperweight
 indra-git="3.1.3" # https://github.com/KyoriPowered/indra
-shadowJar="8.3.3" # https://github.com/GradleUp/shadow
+shadowJar="8.3.5" # https://github.com/GradleUp/shadow
 
 adventure="4.18.0-SNAPSHOT"
 adventureBukkit="4.3.5-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform
@@ -22,11 +22,11 @@ adventureFabric="6.1.1-SNAPSHOT" # https://github.com/KyoriPowered/adventure-pla
 
 cloud="2.0.0" # https://github.com/incendo/cloud
 cloud-minecraft="2.0.0-beta.10" # https://github.com/Incendo/cloud-minecraft
-cloud-minecraft-modded="2.0.0-beta.9" # https://github.com/Incendo/cloud-minecraft-modded
+cloud-minecraft-modded="2.0.0-beta.10" # https://github.com/Incendo/cloud-minecraft-modded
 cloud-processors="1.0.0-rc.1" # https://github.com/Incendo/cloud-processors
 
 caffeine="3.1.8" # https://github.com/ben-manes/caffeine
-gson="2.10.1" # https://github.com/google/gson
+gson="2.11.0" # https://github.com/google/gson
 guava="33.0.0-jre" # https://github.com/google/guava
 log4j="2.14.1" # https://github.com/apache/logging-log4j2
 
