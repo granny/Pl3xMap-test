@@ -18,7 +18,7 @@ shadowJar="8.3.3" # https://github.com/GradleUp/shadow
 
 adventure="4.18.0-SNAPSHOT"
 adventureBukkit="4.3.5-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform
-adventureFabric="6.1.0-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
+adventureFabric="6.1.1-SNAPSHOT" # https://github.com/KyoriPowered/adventure-platform-fabric
 
 cloud="2.0.0" # https://github.com/incendo/cloud
 cloud-minecraft="2.0.0-beta.10" # https://github.com/Incendo/cloud-minecraft

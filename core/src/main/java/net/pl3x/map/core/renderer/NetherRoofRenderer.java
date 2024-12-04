@@ -71,7 +71,7 @@ public class NetherRoofRenderer extends Renderer {
                     continue;
                 }
 
-                int blockY = getWorld().getMaxBuildHeight() + 1;
+                int blockY = chunk.noHeightmap() ? getWorld().getMaxBuildHeight() : chunk.getWorldSurfaceY(blockX, blockZ) + 1;
                 int fluidY = 0;
                 BlockState blockstate;
                 BlockState fluidstate = null;

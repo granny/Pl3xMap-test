@@ -114,7 +114,7 @@ public class FabricWorld extends World {
 
     @Override
     public int getMaxBuildHeight() {
-        return this.level.getMaxY();
+        return this.level.getMaxY() + 1;
     }
 
     @Override
