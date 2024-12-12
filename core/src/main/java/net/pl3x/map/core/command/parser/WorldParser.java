@@ -50,6 +50,12 @@ public class WorldParser<C> implements ArgumentParser<@NotNull C, @NotNull World
     @Override
     public @NonNull ArgumentParseResult<@NonNull @NotNull World> parse(@NonNull CommandContext<@NonNull @NotNull C> commandContext, @NonNull CommandInput commandInput) {
         String input = commandInput.peekString();
+        if (input.startsWith("\"")) {
+            commandInput.moveCursor(1);
+            input = commandInput.readUntilAndSkip('"');
+        } else {
+            input = commandInput.readString();
+        }
         if (input == null) {
             return ArgumentParseResult.failure(new WorldParseException(null, WorldParseException.MUST_SPECIFY_WORLD));
         }
@@ -68,7 +74,6 @@ public class WorldParser<C> implements ArgumentParser<@NotNull C, @NotNull World
             return ArgumentParseResult.failure(new WorldParseException(input, WorldParseException.MAP_NOT_ENABLED));
         }
 
-        commandInput.readString();
         return ArgumentParseResult.success(world);
     }
 
@@ -97,7 +102,7 @@ public class WorldParser<C> implements ArgumentParser<@NotNull C, @NotNull World
         return Pl3xMap.api().getWorldRegistry()
                 .values().stream()
                 .filter(World::isEnabled)
-                .map(World::getName)
+                .map(world -> world.getName().contains(" ") ? "\"" + world.getName() + "\"" : world.getName())
                 .collect(Collectors.toList());
     }
 }

@@ -23,8 +23,8 @@
  */
 package net.pl3x.map.fabric.server.command;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
 import io.leangen.geantyref.TypeToken;
-import net.minecraft.commands.arguments.DimensionArgument;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.command.parser.PlatformParsers;
@@ -49,7 +49,7 @@ public class FabricCommandManager implements CommandHandler {
         CloudBrigadierManager<@NotNull Sender, ?> brigadier = getManager().brigadierManager();
         brigadier.setNativeNumberSuggestions(false);
         brigadier.registerMapping(new TypeToken<WorldParser<Sender>>() {
-        }, builder -> builder.toConstant(DimensionArgument.dimension()).cloudSuggestions());
+        }, builder -> builder.cloudSuggestions().toConstant(StringArgumentType.string()));
 
         setupExceptionHandlers();
 

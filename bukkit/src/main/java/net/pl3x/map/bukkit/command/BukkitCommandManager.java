@@ -23,9 +23,12 @@
  */
 package net.pl3x.map.bukkit.command;
 
+import com.mojang.brigadier.arguments.StringArgumentType;
+import io.leangen.geantyref.TypeToken;
 import net.pl3x.map.core.command.CommandHandler;
 import net.pl3x.map.core.command.Sender;
 import net.pl3x.map.core.command.parser.PlatformParsers;
+import net.pl3x.map.core.command.parser.WorldParser;
 import org.bukkit.plugin.Plugin;
 import org.incendo.cloud.Command;
 import org.incendo.cloud.SenderMapper;
@@ -49,6 +52,8 @@ public class BukkitCommandManager implements CommandHandler {
             CloudBrigadierManager<Sender, ?> brigadier = getManager().brigadierManager();
             if (brigadier != null) {
                 brigadier.setNativeNumberSuggestions(false);
+                brigadier.registerMapping(new TypeToken<WorldParser<Sender>>() {
+                }, builder -> builder.cloudSuggestions().toConstant(StringArgumentType.string()));
             }
         } else if (getManager().hasCapability(CloudBukkitCapabilities.ASYNCHRONOUS_COMPLETION)) {
             getManager().registerAsynchronousCompletions();
