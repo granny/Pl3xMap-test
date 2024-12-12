@@ -44,9 +44,17 @@ public final class WorldConfig extends AbstractConfig {
 
     @Key("render.renderers")
     @Comment("""
-            Renderers to use. Each renderer will render a different
-            type of map. The built-in renderers include:
-            vintage_story, basic, biomes, flowermap, inhabited, night, nether_roof, and vanilla""")
+            Renderers to use. Each renderer will render a different type of map. The value is the icon
+            that the renderer should use in the Web UI. These are any "*.png" files under "web/images/icon/"
+            
+            The built-in renderers include (key):
+            vintage_story, basic, biomes, flowermap, inhabited, night, nether_roof, and vanilla
+            
+            The built-in icons include (value):
+            overworld_basic, overworld_biomes, overworld_night,
+            nether_basic, nether_biomes, nether_night, nether_roof,
+            the_end_basic, the_end_biomes, the_end_night,
+            flowermap, inhabited, vanilla""")
     public Map<@NotNull String, @NotNull String> RENDER_RENDERERS = new LinkedHashMap<>() {{
         put("vintage_story", "overworld_basic");
     }};
