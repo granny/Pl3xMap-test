@@ -3,9 +3,9 @@ bukkit="1.21.4-R0.1-SNAPSHOT"
 minecraft="1.21.4"
 
 # https://fabricmc.net/develop/
-fabricApi="0.110.5+1.21.4"
+fabricApi="0.111.0+1.21.4"
 fabricLoader="0.16.9"
-fabricLoom="1.8-SNAPSHOT"
+fabricLoom="1.9-SNAPSHOT"
 
 #forge="1.20.2-48.0.6"
 #forgeGradle="[6.0,6.2)"
