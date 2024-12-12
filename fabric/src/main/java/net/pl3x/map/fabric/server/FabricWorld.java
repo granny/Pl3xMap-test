@@ -67,11 +67,6 @@ public class FabricWorld extends World {
         // register biomes
         Set<Map.Entry<ResourceKey<Biome>, Biome>> entries = level.registryAccess().lookupOrThrow(Registries.BIOME).entrySet();
         for (Map.Entry<ResourceKey<Biome>, Biome> entry : entries) {
-            if (getBiomeRegistry().size() > BiomeRegistry.MAX_INDEX) {
-                Logger.debug(String.format("Cannot register any more biomes. Registered: %d Unregistered: %d", getBiomeRegistry().size(), entries.size() - getBiomeRegistry().size()));
-                break;
-            }
-
             String id = entry.getKey().location().toString();
             Biome biome = entry.getValue();
             float temperature = Mathf.clamp(0.0F, 1.0F, biome.getBaseTemperature());

@@ -71,6 +71,10 @@ public class BlockRegistry extends Registry<@NotNull Block> {
     }
 
     private int getNextIndex(String id) {
+        if (size() > MAX_INDEX) {
+            return -1;
+        }
+
         int index = this.indexMap.getOrDefault(id, -1);
         if (index > -1) {
             return index;

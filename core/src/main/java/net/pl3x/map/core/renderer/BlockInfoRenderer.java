@@ -39,6 +39,7 @@ import net.pl3x.map.core.util.FileUtil;
 import net.pl3x.map.core.util.Mathf;
 import net.pl3x.map.core.world.Biome;
 import net.pl3x.map.core.world.Block;
+import net.pl3x.map.core.world.Blocks;
 import net.pl3x.map.core.world.Chunk;
 import net.pl3x.map.core.world.Region;
 import org.jetbrains.annotations.NotNull;
@@ -162,11 +163,14 @@ public class BlockInfoRenderer extends Renderer {
         Block block = (fluid ? data.getFluidState() : data.getBlockState()).getBlock();
         Biome biome = data.getBiome(region, blockX, blockZ);
 
+        int blockIndex = block.getIndex() == -1 ? Blocks.AIR.getIndex() : block.getIndex();
+        int biomeIndex = biome.index() == -1 ? Biome.DEFAULT.index() : biome.index();
+
         // 11111111111111111111111111111111 - 32 bits - (4294967295)
         // 1111111111                       - 10 bits - block (1023)
         //           1111111111             - 10 bits - biome (1023)
         //                     111111111111 - 12 bits - yPos  (4095)
-        int packed = ((block.getIndex() & 1023) << 22) | ((biome.index() & 1023) << 12) | (y & 4095);
+        int packed = ((blockIndex & 1023) << 22) | ((biomeIndex & 1023) << 12) | (y & 4095);
         int index = (blockZ & 511) * 512 + (blockX & 511);
         this.byteBuffer.put(12 + index * 4, ByteUtil.toBytes(packed));
     }

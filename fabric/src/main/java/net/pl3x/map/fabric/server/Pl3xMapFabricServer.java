@@ -230,11 +230,6 @@ public class Pl3xMapFabricServer extends Pl3xMap implements DedicatedServerModIn
     protected void loadBlocks() {
         Set<Map.Entry<ResourceKey<Block>, Block>> entries = this.server.registryAccess().lookupOrThrow(Registries.BLOCK).entrySet();
         for (Map.Entry<ResourceKey<Block>, Block> entry : entries) {
-            if (getBlockRegistry().size() > BlockRegistry.MAX_INDEX) {
-                Logger.debug(String.format("Cannot register any more blocks. Registered: %d Unregistered: %d", getBlockRegistry().size(), entries.size() - getBlockRegistry().size()));
-                break;
-            }
-
             String id = entry.getKey().location().toString();
             int color = entry.getValue().defaultMapColor().col;
             getBlockRegistry().register(id, color);
