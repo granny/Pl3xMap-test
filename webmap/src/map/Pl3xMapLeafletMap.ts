@@ -39,6 +39,15 @@ export default class Pl3xMapLeafletMap extends L.Map {
         this.attributionControl.setPrefix("<a href='https://modrinth.com/plugin/pl3xmap/'>Pl3xMap &copy; 2020-2023</a>");
 
         this._pl3xmap = pl3xmap;
+
+        // stuff to do after the map fully loads
+        this.on('load', (): void => this.onLoad());
+    }
+
+    onLoad(): void {
+        // fix map size on load - fixes android browser url bar pushing page off-screen
+        // https://chanind.github.io/javascript/2019/09/28/avoid-100vh-on-mobile-web.html
+        this.updateSizeToWindow();
     }
 
     // https://stackoverflow.com/a/60391674/3530727
@@ -71,5 +80,12 @@ export default class Pl3xMapLeafletMap extends L.Map {
 
     public getCurrentZoom(): number {
         return this.getMaxZoomOut() - this.getZoom();
+    }
+
+    public updateSizeToWindow(): void {
+        const style: CSSStyleDeclaration = this.getContainer().style;
+        style.width = `${window.innerWidth}px`;
+        style.height = `${window.innerHeight}px`;
+        this.invalidateSize();
     }
 }

@@ -43,6 +43,13 @@ export class Pl3xMap {
             }
         });
 
+        // update map size when window size, scale, or orientation changes
+        'orientationchange resize'.split(' ').forEach((event: string): void => {
+            window.addEventListener(event, (): void => {
+                this._map.updateSizeToWindow();
+            }, {passive: true});
+        });
+
         this._controlManager = new ControlManager(this);
         this._playerManager = new PlayerManager(this);
         this._worldManager = new WorldManager(this);
