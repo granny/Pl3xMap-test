@@ -43,6 +43,8 @@ dependencies {
 tasks {
     reobfJar {
         dependsOn(shadowJar)
+
+        outputJar.set(jar.get().archiveFile)
     }
 
     // needed for below jank
