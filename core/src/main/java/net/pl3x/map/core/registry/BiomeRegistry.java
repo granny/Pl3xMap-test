@@ -40,7 +40,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BiomeRegistry extends Registry<@NotNull Biome> {
     private static final Gson GSON = new GsonBuilder().create();
-    public static final int MAX_INDEX = 1023;
+    public static final int MAX_INDEX = 511;
 
     private final Map<String, Integer> indexMap;
     private int lastIndex = 0;

@@ -41,7 +41,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class BlockRegistry extends Registry<@NotNull Block> {
     private static final Gson GSON = new GsonBuilder().create();
-    public static final int MAX_INDEX = 1023;
+    public static final int MAX_INDEX = 2047;
 
     private final Map<String, Integer> indexMap;
     private int lastIndex = 0;

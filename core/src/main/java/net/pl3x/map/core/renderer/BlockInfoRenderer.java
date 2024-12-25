@@ -167,10 +167,10 @@ public class BlockInfoRenderer extends Renderer {
         int biomeIndex = biome.index() == -1 ? Biome.DEFAULT.index() : biome.index();
 
         // 11111111111111111111111111111111 - 32 bits - (4294967295)
-        // 1111111111                       - 10 bits - block (1023)
-        //           1111111111             - 10 bits - biome (1023)
+        // 11111111111                      - 11 bits - block (2047)
+        //            111111111             -  9 bits - biome (511)
         //                     111111111111 - 12 bits - yPos  (4095)
-        int packed = ((blockIndex & 1023) << 22) | ((biomeIndex & 1023) << 12) | (y & 4095);
+        int packed = ((blockIndex & 2047) << 21) | ((biomeIndex & 511) << 12) | (y & 4095);
         int index = (blockZ & 511) * 512 + (blockX & 511);
         this.byteBuffer.put(12 + index * 4, ByteUtil.toBytes(packed));
     }
