@@ -116,6 +116,11 @@ public class UpdateSettingsData extends Task {
             ui.put("coords", config.UI_COORDS);
             ui.put("blockinfo", config.UI_BLOCKINFO);
             ui.put("attribution", config.UI_ATTRIBUTION);
+            ui.put("contextMenu", Map.of(
+                    "enabled", config.UI_CONTEXT_MENU_ENABLED,
+                    "items", config.UI_CONTEXT_MENU_ITEMS,
+                    "css", config.UI_CONTEXT_MENU_CSS
+            ));
 
             Map<String, Object> settings = new LinkedHashMap<>();
             settings.put("name", world.getName().replace(":", "-"));
@@ -158,6 +163,12 @@ public class UpdateSettingsData extends Task {
                 "value", Lang.UI_BLOCKINFO_VALUE,
                 "unknown", Map.of("block", Lang.UI_BLOCKINFO_UNKNOWN_BLOCK, "biome", Lang.UI_BLOCKINFO_UNKNOWN_BIOME))
         );
+        lang.put("contextMenu", Map.of(
+                "label", Lang.UI_CONTEXTMENU_LABEL,
+                "copyCoords", Lang.UI_CONTEXTMENU_COPY_COORDS,
+                "copyLink", Lang.UI_CONTEXTMENU_COPY_LINK,
+                "centerMap", Lang.UI_CONTEXTMENU_CENTER_MAP
+        ));
         lang.put("coords", Map.of("label", Lang.UI_COORDS_LABEL, "value", Lang.UI_COORDS_VALUE));
         lang.put("layers", Map.of("label", Lang.UI_LAYERS_LABEL, "value", Lang.UI_LAYERS_VALUE));
         lang.put("link", Map.of("label", Lang.UI_LINK_LABEL, "value", Lang.UI_LINK_VALUE));

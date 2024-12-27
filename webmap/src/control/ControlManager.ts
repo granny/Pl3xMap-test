@@ -2,11 +2,13 @@ import {Pl3xMap} from "../Pl3xMap";
 import {BlockInfoControl} from "./BlockInfoControl";
 import {CoordsControl} from "./CoordsControl";
 import {LinkControl} from "./LinkControl";
+import ContextMenuControl from "./ContextMenuControl";
 import SidebarControl from "./SidebarControl";
 
 export class ControlManager {
     private readonly _pl3xmap: Pl3xMap;
 
+    private _contextMenuControl?: ContextMenuControl;
     private _sidebarControl?: SidebarControl
     private _blockInfoControl?: BlockInfoControl;
     private _coordsControl?: CoordsControl;
@@ -14,6 +16,16 @@ export class ControlManager {
 
     constructor(pl3xmap: Pl3xMap) {
         this._pl3xmap = pl3xmap;
+    }
+
+    get contextMenuControl(): ContextMenuControl | undefined {
+        return this._contextMenuControl;
+    }
+
+    set contextMenuControl(menu: ContextMenuControl | undefined) {
+        this._contextMenuControl?.remove();
+        this._contextMenuControl = menu;
+        this._contextMenuControl?.addTo(this._pl3xmap.map);
     }
 
     get sidebarControl(): SidebarControl | undefined {

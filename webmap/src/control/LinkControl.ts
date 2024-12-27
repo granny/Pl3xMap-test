@@ -52,6 +52,10 @@ export class LinkControl extends ControlBox {
         const zoom: number = this._pl3xmap.map.getCurrentZoom();
         const x: number = Math.floor(center[0]);
         const z: number = Math.floor(center[1]);
+        return this.getUrlFromCoords(x, z, zoom, world);
+    }
+    
+    public getUrlFromCoords(x: number, z: number, zoom: number, world?: World): string {
         let url: string = `?`;
         if (world !== undefined) {
             url += `world=${world.name}&renderer=${world.currentRenderer?.label ?? 'basic'}`;

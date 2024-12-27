@@ -116,6 +116,11 @@ ui:
     unknown:
       block: Nieznany blok
       biome: Nieznany biom
+  contextmenu:
+    label: ContextMenu
+    copy-coords: 'X: <x> Y: <y> Z: <z>'
+    copy-link: Skopiuj link do tego miejsca
+    center-map: Wyśrodkuj mapę w tym miejscu
   coords:
     label: Współrzędne
     value: <x>, <y>, <z>

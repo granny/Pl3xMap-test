@@ -6,6 +6,7 @@ import {Settings} from "../settings/Settings";
 import {Renderer, World} from "./World";
 import {fireCustomEvent, getUrlParam} from "../util/Util";
 import {UI, WorldSettings} from "../settings/WorldSettings";
+import ContextMenuControl from "../control/ContextMenuControl";
 
 /**
  * The world manager. Manages all loaded worlds.
@@ -78,6 +79,7 @@ export class WorldManager {
             );
 
             const ui: UI = world.settings.ui;
+            this._pl3xmap.controlManager.contextMenuControl = new ContextMenuControl(this._pl3xmap);
             this._pl3xmap.controlManager.linkControl = ui.link ? new LinkControl(this._pl3xmap, ui.link) : undefined;
             this._pl3xmap.controlManager.coordsControl = ui.coords ? new CoordsControl(this._pl3xmap, ui.coords) : undefined;
             this._pl3xmap.controlManager.blockInfoControl = ui.blockinfo ? new BlockInfoControl(this._pl3xmap, ui.blockinfo) : undefined;

@@ -134,6 +134,54 @@ public final class WorldConfig extends AbstractConfig {
     @Comment("""
             The display position for the link box""")
     public String UI_LINK = "bottomright";
+    
+    @Key("ui.context-menu.enabled")
+    @Comment("""
+            Enable the context menu.""")
+    public boolean UI_CONTEXT_MENU_ENABLED = true;
+
+    @Key("ui.context-menu.items")
+    @Comment("""
+            Items to show in the context menu.
+            Available items are:
+            copy-coords, copy-link, center-map""")
+    public List<@NotNull String> UI_CONTEXT_MENU_ITEMS = new ArrayList<>() {{
+        add("copy-coords");
+        add("copy-link");
+        add("center-map");
+    }};
+
+    @Key("ui.context-menu.css")
+    @Comment("""
+            Custom css for the context menu.""")
+    public static String UI_CONTEXT_MENU_CSS = """
+            .leaflet-control-contextmenu {
+              display: none;
+              position: absolute;
+              display: flex;
+              flex-direction: column;
+              font-family: monospace;
+              top: 0;
+              left: 0;
+              text-align: left;
+              white-space: pre;
+              background-color: var(--ui-background);
+              border: var(--ui-border);
+              border-radius: var(--ui-border-radius);
+              overflow: hidden;
+              z-index: 10000; /* Ensure the menu appears over other map controls */
+            }
+                        
+            .leaflet-control-contextmenu-item {
+              padding: 5px;
+              color: var(--ui-text);
+              transition: background-color 0.3s ease-in-out;
+                        
+              &:hover {
+                background-color: var(--ui-background-hover);
+                color: var(--ui-text-hover);
+              }
+            }""";
 
     @Key("center.x")
     @Comment("""
