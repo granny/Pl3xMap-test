@@ -1,0 +1,139 @@
+prefix:
+  command: '<grey>[<gradient:#C028FF:#5B00FF>Pl3xMap</gradient>]</grey> '
+command:
+  base: View the map at '<grey><click:open_url:'<web-address>'><web-address></click></grey>'
+  event:
+    click-for-help: Click for help
+    click-to-confirm: Click to confirm
+  argument:
+    optional-player: Defaults to the executing player if unspecified (console must
+      specify a player)
+    optional-center: Defaults to (<white>0<gray>,</gray> 0</white>) if unspecified
+    optional-zoom: Map zoom level
+    required-renderer: Renderer is required
+    required-world: World is required
+  confirm:
+    description: Confirm a pending command
+    not-rendering: <red>Confirmation required. Confirm using <grey>/map confirm
+    success: <red>You don't have any pending confirmations
+  fullrender:
+    description: Fully render a world
+    starting: <green>Full render starting. Check <grey>/map status</grey> for more
+      info
+    no-region-files-found: <red>No region files found for <world>. Please either pregenerate
+      your world using <u><click:open_url:'https://modrinth.com/plugin/chunky'>Chunky</click></u>
+      or wait for the loaded chunks to save.
+  help:
+    description: Get help for Pl3xmap commands
+    argument:
+      query: Help Query
+  hide:
+    description: Hide a player from the map
+    already-hidden: <grey><player> <red>is already hidden from the map
+    success: <grey><player> <green>is now hidden from the map
+  pause:
+    description: Pause renderers
+    paused: <green>Renderers are now paused
+    already-paused: <grey>Renderers are already paused
+  resume:
+    description: Resume renderers
+    resumed: <green>Renderers have now resumed
+    already-resumed: <grey>Renderers have already resumed
+  radiusrender:
+    description: Render a section of a world
+    starting: <green>Radius render starting. Check <grey>/map status</grey> for more
+      info
+  reload:
+    description: Reloads the plugin
+    success: <green>Pl3xMap <grey>v<version></grey> reloaded
+  resetmap:
+    description: Cancel active render of a world
+    begin: <green>Map reset for <grey><world></grey> has begun
+    success: <green>Successfully reset map for <grey><world>
+    failed: <red>Could not reset map for <grey><world>
+  show:
+    description: Show a player on the map
+    not-hidden: <grey><player> <red>is not hidden from the map
+    success: <grey><player> <green>is no longer hidden from the map
+  status:
+    description: View the render status
+  stitch:
+    description: Stitches tiles into one image
+    missing-directory: <red>Unable to find tiles directory.
+    error-reading-directory: <red>There was a problem reading the tiles directory.
+    empty-directory: <red>There are no tiles to stitch.
+    starting: |-
+      <green>Started stitching <count> tiles..
+      <green><italic>(min: <min-x>,<min-z> max: <max-x>,<max-z> size: <size-x>,<size-z>)
+    finished: |-
+      <green>Finished stitching <count> tiles!
+      <green>You can find it at <grey>/tiles/<world>/stitched/<filename>
+  version:
+    description: Get version information
+    please-wait: <italic>Checking version, please wait...
+    still-checking: <italic>Still checking...
+    error:
+      not-array: '<red>Error: response not an array'
+      corrupt-json: '<red>Error: response is corrupt json'
+      unknown-version: '<red>Error: response has unknown version'
+      unable-to-determine: '<red>Error: Unable to determine latest build'
+    success: Pl3xMap v3 <version> (<italic><platform></italic>) git-<commit>
+    snapshot: <yellow><italic>You are running a snapshot
+    latest-build-is: <yellow><italic>Latest build is <build>
+    running-latest-build: <green><italic>You are running the latest build.
+    builds-behind: <yellow><italic>You are <number> builds behind.
+    download: '<yellow><italic>Download new build at: <gold><link>'
+    time-traveler: <yellow><italic>Are you a time traveler?
+httpd:
+  started:
+    success: <green>Internal webserver running on <yellow><bind></yellow>:<yellow><port></yellow>
+    error: <red>Internal webserver could not start
+  stopped:
+    success: <green>Internal webserver stopped
+    error: <red>An error occurred with the internal webserver
+  disabled: <green>Internal webserver is disabled
+progress:
+  eta:
+    unknown: Unknown
+error:
+  must-specify-player: <red>You must specify the player
+  no-such-player: <red>No such player <grey><player>
+  must-specify-renderer: <red>You must specify the renderer
+  no-such-renderer: <red>No such renderer <grey><renderer>
+  must-specify-world: <red>You must specify the world
+  no-such-world: <red>No such world <grey><world>
+  world-disabled: <red>Pl3xMap is disabled for world <grey><world>
+  not-valid-zoom-level: <red>Not a valid zoom level
+  point-invalid-format: '''<point>'' is not a valid location. Required format is ''<x>
+    <z>'''
+ui:
+  layer:
+    players: プレイヤー
+    spawn: リスポーン
+    worldborder: ワールド境界
+  title: Pl3xMap
+  block-and-biome-lang-file: ja_jp.json
+  blockinfo:
+    label: ブロック情報
+    value: <block><br /><biome>
+    unknown:
+      block: Unknown block
+      biome: Unknown biome
+  coords:
+    label: 座標
+    value: <x>, <y>, <z>
+  link:
+    label: 共有リンク
+    value: ''
+  markers:
+    label: マーカー
+    value: マーカーが設定されていません
+  players:
+    label: プレイヤー (<online>/<max>)
+    value: オンラインのプレイヤーはいません
+  worlds:
+    label: ワールド
+    value: ワールドが設定されていません
+  layers:
+    label: レイヤー
+    value: レイヤーが設定されていません
