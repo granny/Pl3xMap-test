@@ -1,0 +1,132 @@
+prefix:
+  command: '<grey>[<gradient:#C028FF:#5B00FF>Pl3xMap</gradient>]</grey> '
+command:
+  base: マップを見る '<grey><click:open_url:'<web-address>'><web-address></click></grey>'
+  event:
+    click-for-help: クリックしてヘルプを見る
+    click-to-confirm: クリックして確認
+  argument:
+    optional-player: 指定しない場合、実行したプレイヤーがデフォルトになります (プレイヤーを指定する必要があります)
+    optional-center: 指定しない場合、デフォルトは (<white>0<gray>,</gray> 0</white>) です
+    optional-zoom: マップ縮尺
+    required-renderer: レンダラーを指定してください
+    required-world: ワールドを指定してください
+  confirm:
+    description: 保留中のコマンドを確認する
+    not-rendering: <red>確認が必要です、内容の確認には <grey>/map confirm <red>を使ってください
+    success: <red>保留中のコマンドはありません
+  fullrender:
+    description: ワールド全体をマップに描画する
+    starting: <green>ワールド全体のマップ描画を開始します、 <grey>/map status</grey> <green>で詳細を確認できます
+    no-region-files-found: <red><world> のリージョンファイルが見つかりません。 <u><click:open_url:'https://modrinth.com/plugin/chunky'>Chunky</click></u>
+      でワールドを事前生成するか ロードされたチャンクが保存されるのを待ってください
+  help:
+    description: Pl3xmap のコマンドのヘルプを表示する
+    argument:
+      query: Help Query
+  hide:
+    description: 指定したプレイヤーをマップで非表示にする
+    already-hidden: <grey><player> <red>はすでにマップで非表示です
+    success: <grey><player> <green>をマップで非表示にします
+  pause:
+    description: マップ描画を一時停止する
+    paused: <green>マップ描画が一時停止されました
+    already-paused: <grey>マップ描画はすでに一時停止されています
+  resume:
+    description: マップ描画を再開する
+    resumed: <green>マップ描画が再開されました
+    already-resumed: <grey>マップ描画はすでに実行中です
+  radiusrender:
+    description: 円形にマップ描画する
+    starting: <green>円形マップ描画を開始します、 <grey>/map status</grey> で詳細を確認できます
+  reload:
+    description: プラグインをリロードする
+    success: <green>Pl3xMap <grey>v<version></grey> がリロードされました
+  resetmap:
+    description: ワールドの既存マップ描画を削除する
+    begin: <grey><world></grey> の既存マップ描画を削除しました
+    success: <grey><world> <green>の既存マップ描画を削除しました
+    failed: <grey><world> <red>の既存マップ描画の削除ができませんでした
+  show:
+    description: 指定したプレイヤーをマップに表示する
+    not-hidden: <grey><player> <red>はすでにマップに表示されています
+    success: <grey><player> <green>をマップに表示します
+  status:
+    description: マップ描画の状態を表示する
+  stitch:
+    description: マップを画像で保存する
+    missing-directory: <red>指定した描画様式が見つかりませんでした
+    error-reading-directory: <red>保存先ディレクトリの読み込み中に問題が発生しました
+    empty-directory: <red>保存対象が見つかりませんでした
+    starting: |-
+      <green>保存を開始 <count> tiles..
+      <green><italic>(min: <min-x>,<min-z> max: <max-x>,<max-z> size: <size-x>,<size-z>)
+    finished: <green><count> tiles を <grey>/tiles/<world>/stitched/<filename> <green>に保存しました
+  version:
+    description: バージョンを表示
+    please-wait: <italic>バージョンをチェックしています…
+    still-checking: <italic>チェックしています…
+    error:
+      not-array: '<red>Error: response not an array'
+      corrupt-json: '<red>Error: response is corrupt json'
+      unknown-version: '<red>Error: response has unknown version'
+      unable-to-determine: '<red>Error: Unable to determine latest build'
+    success: Pl3xMap v3 <version> (<italic><platform></italic>) git-<commit>
+    snapshot: <yellow><italic>スナップショットバージョンを実行しています
+    latest-build-is: <yellow><italic>最新バージョンは <build> です
+    running-latest-build: <green><italic>最新バージョンを実行しています
+    builds-behind: <yellow><italic><number> ビルド遅れています
+    download: '<yellow><italic>新しいバージョンをダウンロードできます: <gold><link>'
+    time-traveler: <yellow><italic>タイムマシンをお持ちですか？
+httpd:
+  started:
+    success: <green>内部ウェブサーバーが起動しています <yellow><bind></yellow>:<yellow><port></yellow>
+    error: <red>内部ウェブサーバーの起動に失敗しました
+  stopped:
+    success: <green>内部ウェブサーバーを停止しました
+    error: <red>内部ウェブサーバーの停止中に問題が起こりました
+  disabled: <green>内部ウェブサーバーが無効化されました
+progress:
+  eta:
+    unknown: 不明
+error:
+  must-specify-player: <red>プレイヤーを指定する必要があります
+  no-such-player: <red>指定したプレイヤー <grey><player> <red>が見つかりません
+  must-specify-renderer: <red>描画様式を指定する必要があります
+  no-such-renderer: <red>指定した描画様式 <grey><renderer> <red>は存在しません
+  must-specify-world: <red>ワールドを指定する必要があります
+  no-such-world: <red>指定したワールド <grey><world> <red>が見つかりません
+  world-disabled: <red>ワールド <grey><world> <red>ではPl3xMapが無効化されています
+  not-valid-zoom-level: <red>指定した縮尺が無効です
+  point-invalid-format: 指定した '''<point>'' は無効です、''<x> <z>''' の形式で指定してください
+ui:
+  layer:
+    players: プレイヤー
+    spawn: リスポーン
+    worldborder: ワールド境界
+  title: Pl3xMap
+  block-and-biome-lang-file: ja_jp.json
+  blockinfo:
+    label: ブロック情報
+    value: <block><br /><biome>
+    unknown:
+      block: Unknown block
+      biome: Unknown biome
+  coords:
+    label: 座標
+    value: <x>, <y>, <z>
+  link:
+    label: 共有リンク
+    value: ''
+  markers:
+    label: マーカー
+    value: マーカーが設定されていません
+  players:
+    label: プレイヤー (<online>/<max>)
+    value: オンラインのプレイヤーはいません
+  worlds:
+    label: ワールド
+    value: ワールドが設定されていません
+  layers:
+    label: レイヤー
+    value: レイヤーが設定されていません
